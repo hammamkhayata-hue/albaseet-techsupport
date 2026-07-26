@@ -51,6 +51,9 @@ window.fbLogout = async ()=>{
 window._user = { displayName: 'بدون سيرفر', role: 'admin' };
 </script>
 <link rel="manifest" href="data:application/json,{%22name%22:%22%D8%A7%D9%84%D8%A8%D8%B3%D9%8A%D8%B7%22,%22short_name%22:%22%D8%A7%D9%84%D8%A8%D8%B3%D9%8A%D8%B7%22,%22display%22:%22standalone%22,%22background_color%22:%22%23EEF1FA%22,%22theme_color%22:%22%231A2356%22}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -489,6 +492,58 @@ tbody tr:hover td{background:var(--brand-pale)}
   
   /* header buttons row */
   div.brow[style*="flex-wrap:wrap"]{flex-wrap:nowrap}
+
+  /* ══════════════════════════════════════════════════════
+     Android / Material feel — mobile only, desktop untouched
+     ══════════════════════════════════════════════════════ */
+
+  /* 1) native Android font (Cairo ≈ Roboto for Arabic) instead of serif,
+     except inputs deliberately set to monospace (config / mnemonic boxes) */
+  *:not([style*="monospace"]){
+    font-family:'Cairo','Segoe UI',Roboto,system-ui,-apple-system,sans-serif!important;
+  }
+
+  /* 2) bottom nav — Material 3 style active "pill" indicator */
+  .nb{position:relative;transition:color .2s}
+  .nb.on::before{
+    content:'';position:absolute;top:2px;left:50%;transform:translateX(-50%);
+    width:46px;height:26px;border-radius:14px;
+    background:rgba(255,255,255,.18);z-index:-1;
+  }
+  .nb.on{color:#fff}
+  .nb:not(.on){color:rgba(186,200,255,.68)}
+
+  /* 3) simple ripple-style tap feedback (radial flash) for common tappables */
+  .btn,.nb,.dd-item,.ibtn{
+    -webkit-tap-highlight-color:transparent;
+    position:relative;overflow:hidden;
+  }
+  .chat-fab{-webkit-tap-highlight-color:transparent}
+  .btn:active::after,.nb:active::after,.dd-item:active::after,.ibtn:active::after{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle,rgba(0,0,0,.10) 0%,transparent 70%);
+    animation:tapFlash .35s ease-out;pointer-events:none;
+  }
+  .nb.on:active::after,.chat-row.me .chat-bub:active::after{
+    background:radial-gradient(circle,rgba(255,255,255,.22) 0%,transparent 70%);
+  }
+  @keyframes tapFlash{from{opacity:1}to{opacity:0}}
+
+  /* 4) bottom-sheet modals — add a drag handle like native Android sheets */
+  .mhdr{padding-top:20px}
+  .mhdr::before{
+    content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);
+    width:36px;height:4px;border-radius:3px;background:rgba(120,126,150,.45);
+  }
+
+  /* 5) comfortable touch targets (Android min ~44-48px) */
+  .btn{min-height:44px}
+  .dd-item{min-height:46px}
+  .nb{min-height:52px}
+
+  /* 6) flatter Material-style buttons on mobile (less "bordered web button") */
+  .btn{border-width:1px}
+  .btn:active{transform:scale(.97)}
 }
 
 /* ── Very small: ≤380px ── */
