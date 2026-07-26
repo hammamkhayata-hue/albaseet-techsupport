@@ -2598,6 +2598,8 @@ function renderT(){
       <div class="exp-item"><div class="exp-lbl">وقت البداية</div><div class="exp-val">${t.startTime?new Date(t.startTime).toLocaleString('ar'):'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">وقت الحل</div><div class="exp-val">${t.endTime?new Date(t.endTime).toLocaleString('ar'):'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">مدة المعالجة</div><div class="exp-val">${d||'لم تُحل بعد'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">تواصل معه</div><div class="exp-val">${t.contactedBy||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">حلّه</div><div class="exp-val">${t.resolvedBy||'—'}</div></div>
     </div></td>`;
     tbody.appendChild(ex);
   });
@@ -2613,9 +2615,23 @@ function chPage(p){
   if(p<1||p>tp)return;curPage=p;renderT();
 }
 function clearF(){document.getElementById('ts').value='';document.getElementById('tf').value='';document.getElementById('tpf').value='';document.getElementById('tdf').value='';curPage=1;renderT();}
-function resolve(ri){tickets[ri].status='done';tickets[ri].endTime=Date.now();save();beep();toast('✓ تم الحل — '+dur(tickets[ri]));renderStats();renderT();}
-function reopen(ri){tickets[ri].status='open';tickets[ri].endTime=null;save();toast('↺ أُعيد فتح التيكت','warn');renderStats();renderT();}
-function setCon(ri){tickets[ri].status='contacted';save();toast('💬 تم التواصل');renderStats();renderT();}
+function setCon(ri){
+  tickets[ri].status='contacted';
+  tickets[ri].contactedBy=_fbCurrentUser?(_fbCurrentUser.name||_fbCurrentUser.email):(window._user?window._user.displayName:'');
+  save();toast('💬 تم التواصل');renderStats();renderT();
+  logActivity('تم التواصل', `${tickets[ri].name} — ${(tickets[ri].problem||'').slice(0,40)}`);
+}
+function resolve(ri){
+  tickets[ri].status='done';tickets[ri].endTime=Date.now();
+  tickets[ri].resolvedBy=_fbCurrentUser?(_fbCurrentUser.name||_fbCurrentUser.email):(window._user?window._user.displayName:'');
+  save();beep();toast('✓ تم الحل — '+dur(tickets[ri]));renderStats();renderT();
+  logActivity('تم الحل', `${tickets[ri].name} — ${(tickets[ri].problem||'').slice(0,40)}`);
+}
+function reopen(ri){
+  tickets[ri].status='open';tickets[ri].endTime=null;
+  save();toast('↺ أُعيد فتح التيكت','warn');renderStats();renderT();
+  logActivity('أعاد فتح تيكت', `${tickets[ri].name} — ${(tickets[ri].problem||'').slice(0,40)}`);
+}
 
 /* ══ DELETE ════════════════════════════════════════════ */
 function askDel(ri){if(!requireAdmin())return;_delIdx=ri;const t=tickets[ri];document.getElementById('del-name').textContent=t.name;document.getElementById('del-id').textContent=t.id;document.getElementById('del-ov').style.display='flex';}
@@ -3596,6 +3612,7 @@ function loadActivityLog(){
     if(!logs.length){ list.innerHTML='<div style="color:var(--ink3);font-size:13px;text-align:center;padding:20px">لا يوجد نشاط بعد</div>'; return; }
     const actionIcon = {
       'أضاف تيكت':'🟢','حذف تيكت':'🔴','عدّل تيكت':'🟡',
+      'تم التواصل':'💬','تم الحل':'✅','أعاد فتح تيكت':'↺',
       'أضاف عميل':'🟢','حذف عميل':'🔴','عدّل عميل':'🟡',
       'أضاف صيانة':'🟢','حذف صيانة':'🔴','عدّل صيانة':'🟡',
       'دخل':'🔵','خرج':'⚪',
