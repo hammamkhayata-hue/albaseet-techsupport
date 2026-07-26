@@ -373,11 +373,6 @@ tbody tr:hover td{background:var(--brand-pale)}
 /* ── Mobile: ≤720px ── */
 @media(max-width:720px){
   :root{--r:10px;--r-sm:7px}
-
-  /* never let the page shift/scroll sideways */
-  html,body{overflow-x:hidden;max-width:100vw}
-  #app-root{overflow-x:hidden;max-width:100vw}
-  .pg{overflow-x:hidden}
   
   /* topbar */
   .bar{padding:0 10px;height:56px;gap:6px}
@@ -698,7 +693,14 @@ button, label, .nb, .btn, .stt, .card {
 .chat-row.other .chat-bub{border-bottom-left-radius:5px}
 .chat-row.me .chat-bub{border-bottom-right-radius:5px}
 .chat-row.mentioned-me .chat-bub{border:1.5px solid var(--brand-border);box-shadow:0 0 0 4px rgba(59,91,219,.10),0 4px 14px rgba(59,91,219,.1)}
-.chat-meta{font-size:10px;color:var(--ink3);margin-top:4px;display:flex;gap:6px;padding:0 3px}
+.chat-meta{font-size:10px;color:var(--ink3);margin-top:4px;display:flex;align-items:center;gap:6px;padding:0 3px}
+.chat-del-btn{
+  display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;
+  border:none;background:transparent;color:var(--ink3);cursor:pointer;padding:0;opacity:0;transition:opacity .15s,background .15s,color .15s;
+}
+.chat-row:hover .chat-del-btn{opacity:1}
+.chat-del-btn:hover{background:var(--red-bg);color:var(--red)}
+@media(hover:none){.chat-del-btn{opacity:.55}}
 .chat-row.me .chat-meta{justify-content:flex-end}
 .chat-name{font-size:11.5px;font-weight:700;color:var(--brand2);margin-bottom:3px;padding:0 3px}
 .chat-row.me .chat-name{display:none}
@@ -3951,7 +3953,7 @@ function openPrivateChat(uid){
   _privateMsgRef = fbDB.ref('privateChats/'+chatId+'/messages').orderByChild('ts').limitToLast(300);
   _privateMsgRef.on('value', snap=>{
     const v = snap.val() || {};
-    _privateMessages = Object.values(v).sort((a,b)=>(a.ts||0)-(b.ts||0));
+    _privateMessages = Object.entries(v).map(([key,msg])=>({...msg,_fbKey:key})).sort((a,b)=>(a.ts||0)-(b.ts||0));
     if(_chatTarget && _chatTarget.uid===uid){ renderChat(); markPmSeen(uid); }
   });
 }
@@ -3968,7 +3970,7 @@ function renderChat(){
   const me = chatMe();
   let lastDay = '';
   let html = '';
-  list.forEach(m=>{
+  list.forEach((m,i)=>{
     const d = new Date(m.ts);
     const dayKey = d.toDateString();
     if(dayKey !== lastDay){
@@ -3982,17 +3984,47 @@ function renderChat(){
     const online = onlineUsers[m.uid]?.online;
     const dotHtml = fbDB ? `<span class="chat-dot ${online?'on':''}"></span>` : '';
     const avPhoto = m.photo || _chatUsersCache.find(u=>u.uid===m.uid)?.photo || '';
+    const canDelete = isMe || me.role==='admin';
+    const delBtn = canDelete ? `<button class="chat-del-btn" onclick="deleteChatMsg(${i})" title="حذف الرسالة">
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+    </button>` : '';
     html += `<div class="chat-row ${isMe?'me':'other'}${mentioned?' mentioned-me':''}">
       <div class="chat-av" title="${(m.name||'؟')}">${avatarInner(m.name,avPhoto)}${dotHtml}</div>
       <div>
         ${!isMe?`<div class="chat-name">${m.name||'مستخدم'}${m.role==='admin'?' 👑':''}${mentioned?' <span style="color:var(--brand2)">• ذكرك</span>':''}</div>`:''}
         <div class="chat-bub">${safeText}</div>
-        <div class="chat-meta">${time}</div>
+        <div class="chat-meta">${time}${delBtn}</div>
       </div>
     </div>`;
   });
   body.innerHTML = html;
   body.scrollTop = body.scrollHeight;
+}
+
+function deleteChatMsg(i){
+  const list = _chatTarget ? _privateMessages : chatMessages;
+  const m = list[i];
+  if(!m) return;
+  if(!confirm('حذف هذه الرسالة؟')) return;
+
+  if(fbDB && m._fbKey){
+    if(_chatTarget){
+      const me = chatMe();
+      const chatId = pmChatId(me.uid, _chatTarget.uid);
+      fbDB.ref('privateChats/'+chatId+'/messages/'+m._fbKey).remove();
+    } else {
+      fbDB.ref('chatMessages/'+m._fbKey).remove();
+    }
+    // الشاشة بتنعدّل تلقائياً عبر مستمع value بعد الحذف من فايربيس
+  } else {
+    const idx = chatMessages.findIndex(x=>x._localId && x._localId===m._localId);
+    if(idx>-1) chatMessages.splice(idx,1);
+    else list.splice(i,1);
+    saveChatLocal();
+    renderChat();
+    updateChatBadge();
+  }
+  toast('🗑 تم حذف الرسالة');
 }
 
 function sendChatMsg(){
@@ -4013,6 +4045,7 @@ function sendChatMsg(){
   if(fbDB){
     fbDB.ref('chatMessages').push(msg);
   } else {
+    msg._localId = 'l_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
     chatMessages.push(msg);
     saveChatLocal();
     renderChat();
@@ -4040,7 +4073,7 @@ function setupChatSync(){
   if(!fbDB) return;
   fbDB.ref('chatMessages').orderByChild('ts').limitToLast(300).on('value', snap=>{
     const v = snap.val() || {};
-    const arr = Object.values(v).sort((a,b)=>(a.ts||0)-(b.ts||0));
+    const arr = Object.entries(v).map(([key,msg])=>({...msg,_fbKey:key})).sort((a,b)=>(a.ts||0)-(b.ts||0));
     chatMessages.length = 0;
     chatMessages.push(...arr);
     saveChatLocal();
