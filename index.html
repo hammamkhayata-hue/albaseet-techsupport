@@ -482,6 +482,17 @@ tbody tr:hover td{background:var(--brand-pale)}
   
   /* header buttons row */
   div.brow[style*="flex-wrap:wrap"]{flex-wrap:nowrap}
+
+  /* tickets table -> single-column stacked cards on mobile */
+  .twrap{overflow-x:visible;border:none;box-shadow:none;background:transparent}
+  .twrap table{display:block}
+  .twrap thead{display:none}
+  .twrap tbody{display:block}
+  .twrap tr{display:block;background:var(--white);border:1px solid var(--border);border-radius:var(--r-sm);margin-bottom:10px;padding:10px 12px;box-shadow:var(--shadow-xs)}
+  .twrap tr.exp-row{background:transparent;border:none;box-shadow:none;padding:0;margin-top:-8px}
+  .twrap td{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;border:none;text-align:left;max-width:none!important}
+  .twrap td[data-label]::before{content:attr(data-label);font-size:11px;font-weight:700;color:var(--ink3);flex-shrink:0}
+  .twrap td.td-actions{justify-content:flex-start;padding-top:10px;border-top:1px solid var(--border);margin-top:6px}
 }
 
 /* ── Very small: ≤380px ── */
@@ -954,7 +965,7 @@ button, label, .nb, .btn, .stt, .card {
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:24px">
     <div>
       <h1 style="font-size:22px;font-weight:800;color:var(--ink)">مرحباً — شركة البسيط 👋</h1>
-      <p style="font-size:19px;color:var(--ink2);margin-top:3px"></p>
+      <p style="font-size:13px;color:var(--ink2);margin-top:3px">افتح تيكت جديد أو راجع التيكتات المفتوحة</p>
     </div>
     <div class="brow">
       <button class="btn bp" onclick="goPage(2)">
@@ -2552,20 +2563,20 @@ function renderT(){
     const ds=t.date?new Date(t.date).toLocaleDateString('ar',{year:'numeric',month:'short',day:'numeric'}):'—';
     const tr=document.createElement('tr');tr.id='r'+ri;
     tr.innerHTML=`
-      <td style="text-align:center">${priBadge(t.priority)}</td>
-      <td><span style="color:var(--brand2);font-weight:700;font-size:12px;cursor:pointer" onclick="copyNum('${t.id}')" title="نسخ">${t.id} 📋</span></td>
-      <td style="font-weight:600">${t.name}</td>
-      <td dir="ltr" style="text-align:right;font-size:12px">
+      <td data-label="الأولوية" style="text-align:center">${priBadge(t.priority)}</td>
+      <td data-label="رقم التيكت"><span style="color:var(--brand2);font-weight:700;font-size:12px;cursor:pointer" onclick="copyNum('${t.id}')" title="نسخ">${t.id} 📋</span></td>
+      <td data-label="الاسم" style="font-weight:600">${t.name}</td>
+      <td data-label="الهاتف" dir="ltr" style="text-align:right;font-size:12px">
         <div style="display:inline-flex;align-items:center;gap:5px">
           <a href="#" onclick="openWaN('${t.phone}');return false" style="display:inline-flex;align-items:center;gap:3px;color:#25D366;font-weight:700;text-decoration:none">${WA} ${t.phone}</a>
           <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif" title="رسالة متابعة">📨</button>
         </div>
       </td>
-      <td style="font-size:12px;color:var(--ink2)">${ds}</td>
-      <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${t.problem}">${t.problem}</td>
-      <td id="bs${ri}">${badge(t.status)}</td>
-      <td>${d?`<span class="chip">⏱ ${d}</span>`:'<span style="color:var(--ink3)">—</span>'}</td>
-      <td><div class="brow" style="gap:3px;flex-wrap:nowrap">
+      <td data-label="التاريخ" style="font-size:12px;color:var(--ink2)">${ds}</td>
+      <td data-label="المشكلة" style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${t.problem}">${t.problem}</td>
+      <td data-label="الحالة" id="bs${ri}">${badge(t.status)}</td>
+      <td data-label="المدة">${d?`<span class="chip">⏱ ${d}</span>`:'<span style="color:var(--ink3)">—</span>'}</td>
+      <td class="td-actions"><div class="brow" style="gap:3px;flex-wrap:nowrap">
         <button class="btn sm" onclick="toggleExp(${ri})" title="تفاصيل">👁</button>
         <button class="btn sm bo" onclick="openEdit(${ri})" title="تعديل">✏️</button>
         ${t.status==='open'
