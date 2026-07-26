@@ -196,9 +196,6 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.65}
 .btn:hover::after{opacity:1}
 .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm)}
 .btn:active{transform:translateY(0)}
-/* Material-style tap ripple */
-.mripple{position:absolute;border-radius:50%;transform:scale(0);animation:mripple-anim .55s ease-out;pointer-events:none;z-index:5}
-@keyframes mripple-anim{to{transform:scale(2.4);opacity:0}}
 .btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .bp{background:linear-gradient(135deg,var(--brand2),var(--brand3));color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(59,91,219,.3)}
 .bp:hover{background:linear-gradient(135deg,#3451CF,var(--brand2));box-shadow:0 6px 20px rgba(59,91,219,.38)}
@@ -486,17 +483,6 @@ tbody tr:hover td{background:var(--brand-pale)}
   
   /* header buttons row */
   div.brow[style*="flex-wrap:wrap"]{flex-wrap:nowrap}
-
-  /* modals as bottom sheets, Android-style */
-  .ov{align-items:flex-end;padding:0}
-  .modal{width:100%;max-width:100%;border-radius:20px 20px 0 0;max-height:88vh;animation:sheet-rise .25s cubic-bezier(.22,1,.36,1)}
-  .modal::before{content:'';display:block;width:36px;height:4px;background:var(--border);border-radius:4px;margin:9px auto 0}
-  .mhdr{border-radius:0}
-
-  /* toast as a bottom snackbar, Android-style */
-  #toast{top:auto;bottom:calc(72px + env(safe-area-inset-bottom,0));border-radius:8px}
-}
-@keyframes sheet-rise{from{transform:translateY(100%)}to{transform:translateY(0)}
 }
 
 /* ── Very small: ≤380px ── */
@@ -4977,46 +4963,7 @@ function closeScanModal() {
   document.getElementById('scan-fill-btn').style.display = 'none';
   _scanData = null;
 }
-/* Material-style tap ripple: works for every current and future button/card without touching each one */
-(function(){
-  function luminance(rgbStr){
-    const m = (rgbStr||'').match(/\d+(\.\d+)?/g);
-    if(!m || m.length<3) return null;
-    const [r,g,b] = m.map(Number);
-    return 0.299*r+0.587*g+0.114*b;
-  }
-  function bgLuminance(el){
-    let node = el;
-    while(node && node!==document.body){
-      const bg = getComputedStyle(node).backgroundColor;
-      if(bg && bg!=='rgba(0, 0, 0, 0)' && bg!=='transparent'){
-        const lum = luminance(bg);
-        if(lum!==null) return lum;
-      }
-      node = node.parentElement;
-    }
-    return 200; // assume light if undetermined
-  }
-  document.addEventListener('pointerdown', function(e){
-    if(e.button!==undefined && e.button!==0) return;
-    const el = e.target.closest('button, .btn, .nb, .dd-item, .ibtn, .tgl-wrap, .user-badge, .ac-item');
-    if(!el || el.classList.contains('no-ripple')) return;
-    const cs = getComputedStyle(el);
-    if(cs.position==='static') el.style.position='relative';
-    if(cs.overflow!=='hidden') el.style.overflow='hidden';
-    const rect = el.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height) * 1.4;
-    const dark = bgLuminance(el) < 140;
-    const span = document.createElement('span');
-    span.className = 'mripple';
-    span.style.background = dark ? 'rgba(255,255,255,.35)' : 'rgba(59,91,219,.22)';
-    span.style.width = span.style.height = size+'px';
-    span.style.left = (e.clientX - rect.left - size/2)+'px';
-    span.style.top = (e.clientY - rect.top - size/2)+'px';
-    el.appendChild(span);
-    span.addEventListener('animationend', ()=>span.remove());
-  }, {passive:true});
-})();
+
 </script>
 </div><!-- /app-root -->
 </body>
