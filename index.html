@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -397,10 +397,14 @@ tbody tr:hover td{background:var(--brand-pale)}
   }
   .nb svg{width:20px;height:20px}
   
-  /* hide heavy bar-end items */
-  .tgl-wrap,.pill,.ibtn,.user-nm,.user-badge span{display:none!important}
+  /* hide heavy bar-end items — keep the menu button (.ibtn) visible so the
+     side menu (العملاء/التقارير/استيراد Excel...) stays reachable on mobile */
+  .tgl-wrap,.pill,.user-nm,.user-badge span{display:none!important}
   .user-badge{padding:4px 6px}
   .bar-end{gap:4px}
+  .bar{justify-content:space-between}
+  .ibtn{padding:6px 9px;font-size:11px;gap:4px}
+  .ibtn svg{width:14px;height:14px}
   #fb-status{padding:4px 8px;font-size:10px}
   #fb-lbl{display:none}
   
@@ -472,8 +476,14 @@ tbody tr:hover td{background:var(--brand-pale)}
   .lbox{padding:24px 18px;width:100%}
   
   /* dropdown */
-  #dropdown{left:auto!important;right:0}
-  .user-menu{left:auto!important;right:0}
+  #dropdown{
+    left:auto!important;right:0;
+    z-index:600;
+    max-height:calc(100vh - 140px);
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .user-menu{left:auto!important;right:0;z-index:600}
   
   /* header buttons row */
   div.brow[style*="flex-wrap:wrap"]{flex-wrap:nowrap}
