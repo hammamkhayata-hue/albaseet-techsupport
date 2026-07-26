@@ -373,6 +373,11 @@ tbody tr:hover td{background:var(--brand-pale)}
 /* ── Mobile: ≤720px ── */
 @media(max-width:720px){
   :root{--r:10px;--r-sm:7px}
+
+  /* never let the page shift/scroll sideways */
+  html,body{overflow-x:hidden;max-width:100vw}
+  #app-root{overflow-x:hidden;max-width:100vw}
+  .pg{overflow-x:hidden}
   
   /* topbar */
   .bar{padding:0 10px;height:56px;gap:6px}
@@ -445,10 +450,11 @@ tbody tr:hover td{background:var(--brand-pale)}
   .mfoot{padding:10px 14px calc(14px + env(safe-area-inset-bottom,0));flex-wrap:wrap;gap:8px}
   .mfoot .btn{flex:1;justify-content:center}
   
-  /* dashboard right/left panels — stack */
-  #pg1 > div > div[style*="grid-template-columns:1fr 1.2fr"]{
-    grid-template-columns:1fr!important
-  }
+  /* dashboard right/left panels — stack (fixed selector: the grid div is a
+     DIRECT child of #pg1, not a grandchild — the old selector never matched,
+     which is why "التيكتات حسب الأولوية" stayed side-by-side and squeezed
+     the page, causing horizontal overflow/shifting) */
+  .dash-grid{grid-template-columns:1fr!important}
   
   /* search row */
   .srow{flex-direction:column;gap:8px}
@@ -475,8 +481,8 @@ tbody tr:hover td{background:var(--brand-pale)}
   /* auth box */
   .auth-box{padding:24px 18px}
   
-  /* lock box */
-  .lbox{padding:24px 18px;width:100%}
+  /* lock box — keep it a small floating popup card, not full-width */
+  .lbox{padding:26px 20px;width:88vw;max-width:340px}
   
   /* dropdown — the menu button sits near the LEFT edge on mobile (RTL bar-end),
      so the dropdown must expand to the RIGHT (left:0), not anchor right:0
