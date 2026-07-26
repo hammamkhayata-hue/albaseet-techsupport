@@ -475,15 +475,17 @@ tbody tr:hover td{background:var(--brand-pale)}
   /* lock box */
   .lbox{padding:24px 18px;width:100%}
   
-  /* dropdown */
+  /* dropdown — the menu button sits near the LEFT edge on mobile (RTL bar-end),
+     so the dropdown must expand to the RIGHT (left:0), not anchor right:0
+     (which was pushing it off-screen to the left, making it invisible) */
   #dropdown{
-    left:auto!important;right:0;
+    left:0!important;right:auto!important;
     z-index:600;
     max-height:calc(100vh - 140px);
     overflow-y:auto;
     -webkit-overflow-scrolling:touch;
   }
-  .user-menu{left:auto!important;right:0;z-index:600}
+  .user-menu{left:0!important;right:auto!important;z-index:600}
   
   /* header buttons row */
   div.brow[style*="flex-wrap:wrap"]{flex-wrap:nowrap}
