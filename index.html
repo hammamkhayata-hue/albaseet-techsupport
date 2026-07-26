@@ -1374,6 +1374,9 @@ button, label, .nb, .btn, .stt, .card {
         <div class="chat-hero-sub" id="chat-hero-sub"></div>
       </div>
       <div class="chat-header-actions">
+        <button class="chat-notif-btn admin-only-el" onclick="clearChatMessages()" title="مسح كل رسائل هذه المحادثة">
+          🗑️ مسح الرسائل
+        </button>
         <button class="chat-notif-btn" id="chat-notif-btn" onclick="toggleChatNotif()" title="تفعيل/إيقاف إشعارات الرسائل">
           🔕 تفعيل التنبيهات
         </button>
@@ -2449,6 +2452,7 @@ function sendFollowUp(name,phone,idx){
   window.open('https://wa.me/'+fmtWa(phone)+'?text='+encodeURIComponent(msg),'_blank');
   if(idx!==undefined && clients[idx]){
     clients[idx].lastFollowUp = Date.now();
+    clients[idx].lastFollowUpBy = chatMe().name;
     saveC();
     renderFollowUpPage();
     if(document.getElementById('fu-section')) renderFollowUp();
@@ -2871,7 +2875,7 @@ function renderFollowUp(){
         <span class="fu-days ${a.diffDays>=30?'fu-days-late':'fu-days-warn'}">${a.diffDays} يوم</span>
         <div style="display:flex;gap:5px;flex-shrink:0">
           ${a.client.phone?`
-          <button onclick="sendFollowUp('${a.client.name}','${a.client.phone}')"
+          <button onclick="sendFollowUp('${a.client.name}','${a.client.phone}',${clients.indexOf(a.client)})"
             style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Times New Roman',serif;display:flex;align-items:center;gap:5px"
             title="إرسال رسالة متابعة">
             ${WA_ICO} متابعة
@@ -2946,6 +2950,7 @@ function renderFollowUpPage(){
     else if(diffDays>=Math.floor(days*0.6)) badge=`<span class="fu-days fu-days-warn">${diffDays} يوم</span>`;
     else badge=`<span class="fu-days fu-days-ok">${diffDays} يوم</span>`;
     const lastFuTxt = lastFu ? new Date(lastFu).toLocaleDateString('ar',{day:'numeric',month:'short',year:'numeric'}) : 'لا توجد متابعة مسجّلة';
+    const lastFuByTxt = (lastFu && c.lastFollowUpBy) ? ` — بواسطة <b style="color:var(--brand2)">${c.lastFollowUpBy}</b>` : '';
     return `<div class="cc">
       <div class="cc-av">${c.name[0]}</div>
       <div style="flex:1;min-width:0">
@@ -2955,7 +2960,7 @@ function renderFollowUpPage(){
         </div>
         ${c.company?`<div class="cc-co">🏢 ${c.company}</div>`:''}
         ${c.phone?`<div class="cc-ph">📞 ${c.phone}</div>`:''}
-        <div style="font-size:11px;color:var(--ink3);margin-top:4px">🕓 آخر متابعة: ${lastFuTxt}</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:4px">🕓 آخر متابعة: ${lastFuTxt}${lastFuByTxt}</div>
       </div>
       <div class="cc-acts" style="align-items:stretch">
         ${c.phone?`<button class="btn sm bw" onclick="sendFollowUp('${(c.name||'').replace(/'/g,"\\'")}','${c.phone}',${idx})" style="justify-content:center;font-size:11px" title="إرسال رسالة متابعة واتساب">💬 واتساب</button>`:'<span style="font-size:11px;color:var(--ink3);text-align:center">لا يوجد هاتف</span>'}
@@ -4025,6 +4030,30 @@ function deleteChatMsg(i){
     updateChatBadge();
   }
   toast('🗑 تم حذف الرسالة');
+}
+
+function clearChatMessages(){
+  const isPrivate = !!_chatTarget;
+  const list = isPrivate ? _privateMessages : chatMessages;
+  if(!list.length){ toast('لا توجد رسائل لمسحها'); return; }
+  if(!confirm(isPrivate ? `مسح كل رسائل المحادثة مع ${_chatTarget.name}؟ لا يمكن التراجع.` : 'مسح كل رسائل الدردشة الجماعية؟ لا يمكن التراجع.')) return;
+
+  if(fbDB){
+    if(isPrivate){
+      const me = chatMe();
+      const chatId = pmChatId(me.uid, _chatTarget.uid);
+      fbDB.ref('privateChats/'+chatId+'/messages').remove();
+    } else {
+      fbDB.ref('chatMessages').remove();
+    }
+    // الشاشة بتنعدّل تلقائياً عبر مستمع value بعد الحذف من فايربيس
+  } else {
+    chatMessages.length = 0;
+    saveChatLocal();
+    renderChat();
+    updateChatBadge();
+  }
+  toast('🗑 تم مسح الرسائل');
 }
 
 function sendChatMsg(){
