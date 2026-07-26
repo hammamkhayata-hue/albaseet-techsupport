@@ -50,12 +50,8 @@ window.fbLogout = async ()=>{
 };
 window._user = { displayName: 'بدون سيرفر', role: 'admin' };
 </script>
-<link rel="manifest" href="data:application/json,{%22name%22:%22%D8%A7%D9%84%D8%A8%D8%B3%D9%8A%D8%B7%22,%22short_name%22:%22%D8%A7%D9%84%D8%A8%D8%B3%D9%8A%D8%B7%22,%22display%22:%22standalone%22,%22background_color%22:%22%23EEF1FA%22,%22theme_color%22:%22%231A2356%22}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root{
   --ink:#1A1F2E;--ink2:#52576A;--ink3:#9EA4B8;
   --paper:#EEF1FA;--white:#FFFFFF;
@@ -79,7 +75,12 @@ window._user = { displayName: 'بدون سيرفر', role: 'admin' };
   --brand-pale:#1E293B;--brand-border:#3B4A6B;
   --border:#2D3748;
 }
-body{font-family:'Times New Roman',serif;background:var(--paper);color:var(--ink);min-height:100vh;min-height:-webkit-fill-available;-webkit-tap-highlight-color:transparent}
+/* Native <select> dropdown popups don't reliably inherit CSS variables on Android,
+   so option colors are set explicitly per theme to avoid invisible text. */
+option{background:#FFFFFF;color:#1A1F2E}
+[data-theme="dark"] option{background:#1E293B;color:#E2E8F0}
+body{font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;min-height:-webkit-fill-available;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+html{overscroll-behavior-y:none}
 
 /* ── TOPBAR ── */
 .bar{
@@ -94,14 +95,14 @@ body{font-family:'Times New Roman',serif;background:var(--paper);color:var(--ink
 .logo-ar{font-size:18px;font-weight:800;color:#fff;line-height:1.1}
 .logo-en{font-size:9px;color:rgba(186,200,255,.65);letter-spacing:1.4px;text-transform:uppercase}
 .nav{display:flex;gap:3px;margin:0 auto}
-.nb{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;font-family:'Times New Roman',serif;color:rgba(186,200,255,.75);background:transparent;border:none;cursor:pointer;transition:all .18s;white-space:nowrap;position:relative;overflow:hidden}
+.nb{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:rgba(186,200,255,.75);background:transparent;border:none;cursor:pointer;transition:all .18s;white-space:nowrap;position:relative;overflow:hidden}
 .nb::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.18),transparent 70%);opacity:0;transition:opacity .25s;pointer-events:none;border-radius:8px}
 .nb:hover{color:#fff;background:rgba(255,255,255,.1)}
 .nb:hover::after{opacity:1}
 .nb.on{color:#fff;background:rgba(255,255,255,.17);box-shadow:0 0 0 1px rgba(255,255,255,.2)}
 .nb svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .bar-end{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:5px 14px;display:flex;align-items:center;gap:7px;font-size:12px;font-family:'Times New Roman',serif}
+.pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:5px 14px;display:flex;align-items:center;gap:7px;font-size:12px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif}
 .pill-label{color:rgba(186,200,255,.55)}
 .pill-val{color:#BAC8FF;font-weight:800;font-size:13px}
 .tgl-wrap{display:flex;align-items:center;gap:6px;cursor:pointer}
@@ -110,7 +111,7 @@ body{font-family:'Times New Roman',serif;background:var(--paper);color:var(--ink
 .tgl-track.on{background:linear-gradient(135deg,#4C6EF5,#748FFC)}
 .tgl-thumb{position:absolute;top:3px;right:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:all .3s;box-shadow:0 1px 4px rgba(0,0,0,.25);font-size:8px;display:flex;align-items:center;justify-content:center}
 .tgl-track.on .tgl-thumb{right:calc(100% - 17px)}
-.ibtn{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:12px;font-weight:700;font-family:'Times New Roman',serif;color:rgba(186,200,255,.8);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:all .18s;white-space:nowrap}
+.ibtn{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:12px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:rgba(186,200,255,.8);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:all .18s;white-space:nowrap}
 .ibtn:hover{background:rgba(255,255,255,.14);color:#fff}
 .ibtn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
@@ -139,7 +140,7 @@ body{font-family:'Times New Roman',serif;background:var(--paper);color:var(--ink
 .fld{display:flex;flex-direction:column;gap:5px}
 .fld label{font-size:12px;font-weight:700;color:var(--ink2)}
 .ast{color:#DC2626}
-.inp{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'Times New Roman',serif;color:var(--ink);background:rgba(255,255,255,.5);outline:none;transition:all .15s;direction:rtl;width:100%;box-shadow:var(--shadow-xs)}
+.inp{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:rgba(255,255,255,.5);outline:none;transition:all .15s;direction:rtl;width:100%;box-shadow:var(--shadow-xs)}
 .inp:focus{border-color:var(--brand2);box-shadow:0 0 0 3px rgba(59,91,219,.13),0 0 10px rgba(59,91,219,.1);background:rgba(255,255,255,.75)}
 .inp:not(:placeholder-shown):not(select){border-color:#6741D9;background:rgba(250,248,255,.65)}
 [data-theme="dark"] .inp{background:rgba(30,41,59,.5);color:var(--ink)}
@@ -150,7 +151,7 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.65}
 .ph-wrap{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);overflow:hidden;background:rgba(255,255,255,.5);transition:all .15s;box-shadow:var(--shadow-xs)}
 .ph-wrap:focus-within{border-color:var(--brand2);box-shadow:0 0 0 3px rgba(59,91,219,.13)}
 .ph-flag{padding:0 10px;border-left:1.5px solid var(--border);background:rgba(240,242,249,.5);font-size:13px;font-weight:700;color:var(--ink2);white-space:nowrap;flex-shrink:0;align-self:stretch;display:flex;align-items:center}
-.ph-inp{border:none;outline:none;padding:10px 10px;font-size:13px;font-family:'Times New Roman',serif;color:var(--ink);background:transparent;width:100%;direction:ltr;text-align:right}
+.ph-inp{border:none;outline:none;padding:10px 10px;font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:transparent;width:100%;direction:ltr;text-align:right}
 
 /* ── AUTOCOMPLETE ── */
 .ac-wrap{position:relative}
@@ -166,19 +167,19 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.65}
 .ac-nm{font-size:13px;font-weight:700;color:var(--ink)}
 .ac-sb{font-size:11px;color:var(--ink2);margin-top:1px}
 .ac-ph{font-size:11px;color:var(--green);font-weight:600;flex-shrink:0;direction:ltr}
-.ac-new{display:flex;align-items:center;gap:8px;padding:11px 14px;cursor:pointer;color:var(--brand2);font-size:13px;font-weight:700;font-family:'Times New Roman',serif;transition:background .1s;background:var(--white)}
+.ac-new{display:flex;align-items:center;gap:8px;padding:11px 14px;cursor:pointer;color:var(--brand2);font-size:13px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;transition:background .1s;background:var(--white)}
 [data-theme="dark"] .ac-new{background:#1E293B}
 .ac-new:hover{background:var(--brand-pale) !important}
 
 /* ── SERVICES ── */
 .svcs{display:flex;flex-wrap:wrap;gap:7px}
-.sc{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid var(--border);border-radius:18px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Times New Roman',serif;color:var(--ink2);background:rgba(240,242,249,.6);transition:all .15s;user-select:none}
+.sc{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid var(--border);border-radius:18px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink2);background:rgba(240,242,249,.6);transition:all .15s;user-select:none}
 .sc input[type=checkbox]{width:13px;height:13px;accent-color:var(--brand2);flex-shrink:0}
 .sc:has(input:checked){background:var(--brand-pale);border-color:var(--brand2);color:var(--brand2)}
 
 /* ── PRIORITY ── */
 .pri-sel{display:flex;gap:8px;flex-wrap:wrap}
-.pri-opt{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;font-family:'Times New Roman',serif;cursor:pointer;border:2px solid transparent;transition:all .18s;user-select:none}
+.pri-opt{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;border:2px solid transparent;transition:all .18s;user-select:none}
 .pri-opt input[type=radio]{display:none}
 .pri-urgent{background:var(--red-bg);color:var(--red);border-color:rgba(201,42,42,.2)}
 .pri-urgent.on{border-color:var(--red);box-shadow:0 0 0 3px rgba(201,42,42,.15)}
@@ -190,11 +191,14 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.65}
 .pri-normal.on{border-color:var(--ink2);box-shadow:0 0 0 3px rgba(82,87,106,.1)}
 
 /* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:var(--r-sm);font-size:13px;font-weight:700;font-family:'Times New Roman',serif;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--ink);transition:all .18s;white-space:nowrap;position:relative;overflow:hidden}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:var(--r-sm);font-size:13px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--ink);transition:all .18s;white-space:nowrap;position:relative;overflow:hidden}
 .btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.28),transparent 65%);opacity:0;transition:opacity .3s;pointer-events:none}
 .btn:hover::after{opacity:1}
 .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm)}
 .btn:active{transform:translateY(0)}
+/* Material-style tap ripple */
+.mripple{position:absolute;border-radius:50%;transform:scale(0);animation:mripple-anim .55s ease-out;pointer-events:none;z-index:5}
+@keyframes mripple-anim{to{transform:scale(2.4);opacity:0}}
 .btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .bp{background:linear-gradient(135deg,var(--brand2),var(--brand3));color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(59,91,219,.3)}
 .bp:hover{background:linear-gradient(135deg,#3451CF,var(--brand2));box-shadow:0 6px 20px rgba(59,91,219,.38)}
@@ -225,7 +229,7 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.65}
 .twrap{overflow-x:auto;border-radius:var(--r-sm);border:1px solid var(--border);box-shadow:var(--shadow-sm)}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:680px}
 thead tr{background:linear-gradient(135deg,#1A2356,#2C3E8C)}
-th{padding:11px 13px;text-align:right;font-weight:700;color:#fff;font-size:12px;white-space:nowrap;font-family:'Times New Roman',serif}
+th{padding:11px 13px;text-align:right;font-weight:700;color:#fff;font-size:12px;white-space:nowrap;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif}
 td{padding:11px 13px;border-bottom:1px solid var(--border);color:var(--ink);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:var(--brand-pale)}
@@ -253,10 +257,10 @@ tbody tr:hover td{background:var(--brand-pale)}
 
 /* ── SEARCH ── */
 .srow{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.sinp{flex:1;min-width:200px;padding:9px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'Times New Roman',serif;color:var(--ink);background:rgba(255,255,255,.6);outline:none;direction:rtl}
+.sinp{flex:1;min-width:200px;padding:9px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:rgba(255,255,255,.6);outline:none;direction:rtl}
 .sinp:focus{border-color:var(--brand2);box-shadow:0 0 0 3px rgba(59,91,219,.12)}
 .sinp::placeholder{color:#B8BFDA}
-.fsel{padding:9px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'Times New Roman',serif;color:var(--ink);background:rgba(255,255,255,.6);direction:rtl;cursor:pointer;outline:none}
+.fsel{padding:9px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:rgba(255,255,255,.6);direction:rtl;cursor:pointer;outline:none}
 .fsel:focus{border-color:var(--brand2)}
 
 /* ── CLIENTS GRID ── */
@@ -274,7 +278,7 @@ tbody tr:hover td{background:var(--brand-pale)}
 
 /* ── PAGINATION ── */
 .pag{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:13px;flex-wrap:wrap}
-.pag button{min-width:30px;height:30px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:600;font-family:'Times New Roman',serif;border:1.5px solid var(--border);background:var(--white);color:var(--ink);cursor:pointer;transition:all .15s}
+.pag button{min-width:30px;height:30px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:600;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;border:1.5px solid var(--border);background:var(--white);color:var(--ink);cursor:pointer;transition:all .15s}
 .pag button:hover{background:var(--brand-pale);border-color:var(--brand-border)}
 .pag button.cur{background:var(--brand2);color:#fff;border-color:var(--brand2)}
 .pag button:disabled{opacity:.35;cursor:not-allowed}
@@ -301,24 +305,24 @@ tbody tr:hover td{background:var(--brand-pale)}
 .fu-days-ok{background:var(--green-bg);color:var(--green)}
 .fu-days-never{background:rgba(154,111,15,.13);color:#8A6D1D}
 .fu-setting{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink2);margin-top:12px;padding-top:10px;border-top:1px solid rgba(230,119,0,.15)}
-.fu-setting input[type=number]{width:60px;padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;font-family:'Times New Roman',serif;color:var(--ink);background:var(--white);outline:none;text-align:center;direction:ltr}
+.fu-setting input[type=number]{width:60px;padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:var(--white);outline:none;text-align:center;direction:ltr}
 .fu-setting input[type=number]:focus{border-color:var(--brand2)}
 
 /* AUTH SCREEN */
-#auth-screen{position:fixed;inset:0;background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 50%,#0F172A 100%);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:'Times New Roman',serif}
+#auth-screen{position:fixed;inset:0;background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 50%,#0F172A 100%);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif}
 .auth-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:22px;padding:38px;width:400px;max-width:92vw;backdrop-filter:blur(24px);box-shadow:0 24px 64px rgba(0,0,0,.45)}
 .auth-logo{width:62px;height:62px;background:linear-gradient(135deg,#1E3A8A,#3B5BDB);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 24px rgba(59,91,219,.4)}
 .auth-title{font-size:21px;font-weight:800;color:#fff;text-align:center;margin-bottom:3px}
 .auth-sub{font-size:12px;color:rgba(186,200,255,.6);text-align:center;margin-bottom:26px}
 .auth-tabs{display:flex;background:rgba(255,255,255,.08);border-radius:10px;padding:3px;margin-bottom:22px;gap:3px}
-.auth-tab{flex:1;padding:8px;border-radius:8px;border:none;font-size:13px;font-weight:700;font-family:'Times New Roman',serif;cursor:pointer;transition:all .2s;color:rgba(186,200,255,.7);background:transparent}
+.auth-tab{flex:1;padding:8px;border-radius:8px;border:none;font-size:13px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;transition:all .2s;color:rgba(186,200,255,.7);background:transparent}
 .auth-tab.on{background:rgba(255,255,255,.15);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .auth-fld{margin-bottom:14px}
 .auth-fld label{display:block;font-size:12px;font-weight:700;color:rgba(186,200,255,.7);margin-bottom:6px}
-.auth-inp{width:100%;padding:11px 14px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.14);border-radius:9px;font-size:13px;font-family:'Times New Roman',serif;color:#fff;outline:none;transition:all .2s;direction:rtl}
+.auth-inp{width:100%;padding:11px 14px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.14);border-radius:9px;font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:#fff;outline:none;transition:all .2s;direction:rtl}
 .auth-inp:focus{border-color:#4C6EF5;box-shadow:0 0 0 3px rgba(76,110,245,.2);background:rgba(255,255,255,.12)}
 .auth-inp::placeholder{color:rgba(255,255,255,.25)}
-.auth-btn{width:100%;padding:12px;background:linear-gradient(135deg,#3B5BDB,#4C6EF5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Times New Roman',serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(59,91,219,.4);margin-top:6px}
+.auth-btn{width:100%;padding:12px;background:linear-gradient(135deg,#3B5BDB,#4C6EF5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(59,91,219,.4);margin-top:6px}
 .auth-btn:hover{background:linear-gradient(135deg,#2F4FD0,#3B5BDB);transform:translateY(-1px)}
 .auth-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .auth-err{background:rgba(201,42,42,.2);border:1px solid rgba(201,42,42,.3);border-radius:8px;padding:9px 12px;font-size:12px;color:#FCA5A5;margin-top:10px;display:none}
@@ -332,14 +336,14 @@ tbody tr:hover td{background:var(--brand-pale)}
 .user-menu{position:absolute;top:calc(100% + 8px);left:0;background:var(--white);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-lg);min-width:180px;overflow:hidden;z-index:300;display:none;animation:rise .15s ease}
 .user-menu.open{display:block}
 [data-theme="dark"] .user-menu{background:#1E293B;border-color:#2D3748}
-.dd-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 16px;font-size:13px;font-weight:600;font-family:'Times New Roman',serif;color:var(--ink);background:transparent;border:none;cursor:pointer;transition:background .12s;text-align:right;direction:rtl}
+.dd-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 16px;font-size:13px;font-weight:600;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:transparent;border:none;cursor:pointer;transition:background .12s;text-align:right;direction:rtl}
 .dd-item:hover{background:var(--brand-pale)}
 [data-theme="dark"] .dd-item:hover{background:#1e2d4a}
 [data-theme="dark"] #dropdown{background:#1E293B;border-color:#2D3748}
 .empty-ico{font-size:40px;display:block;margin-bottom:12px;opacity:.25}
 
 /* ── TOAST ── */
-#toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-12px);background:linear-gradient(135deg,#1A2356,#2C3E8C);color:#fff;padding:10px 24px;border-radius:28px;font-size:13px;font-weight:700;font-family:'Times New Roman',serif;z-index:9999;opacity:0;pointer-events:none;transition:all .27s cubic-bezier(.22,1,.36,1);box-shadow:0 8px 28px rgba(44,62,140,.35);white-space:nowrap;border:1px solid rgba(255,255,255,.15)}
+#toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-12px);background:linear-gradient(135deg,#1A2356,#2C3E8C);color:#fff;padding:10px 24px;border-radius:28px;font-size:13px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;z-index:9999;opacity:0;pointer-events:none;transition:all .27s cubic-bezier(.22,1,.36,1);box-shadow:0 8px 28px rgba(44,62,140,.35);white-space:nowrap;border:1px solid rgba(255,255,255,.15)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ── MODAL ── */
@@ -353,15 +357,15 @@ tbody tr:hover td{background:var(--brand-pale)}
 .mfoot{padding:13px 22px 18px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--border)}
 
 /* ── LOCK ── */
-#lock{position:fixed;inset:0;background:linear-gradient(135deg,#0F172A,#1E3A8A 50%,#0F172A);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:'Times New Roman',serif}
+#lock{position:fixed;inset:0;background:linear-gradient(135deg,#0F172A,#1E3A8A 50%,#0F172A);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif}
 .lbox{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:38px;width:360px;max-width:90vw;text-align:center;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .llogo{width:64px;height:64px;background:linear-gradient(135deg,#1E3A8A,#3B5BDB);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 24px rgba(59,91,219,.4)}
 .ltitle{font-size:21px;font-weight:800;color:#fff;margin-bottom:3px}
 .lsub{font-size:12px;color:rgba(186,200,255,.65);margin-bottom:26px}
-.linp{width:100%;padding:12px 16px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;font-size:15px;font-family:'Times New Roman',serif;color:#fff;outline:none;text-align:center;letter-spacing:3px;transition:all .2s;direction:ltr}
+.linp{width:100%;padding:12px 16px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;font-size:15px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:#fff;outline:none;text-align:center;letter-spacing:3px;transition:all .2s;direction:ltr}
 .linp:focus{border-color:#4C6EF5;box-shadow:0 0 0 3px rgba(76,110,245,.2)}
 .linp::placeholder{letter-spacing:0;color:rgba(255,255,255,.3);font-size:13px}
-.lbtn{width:100%;margin-top:13px;padding:12px;background:linear-gradient(135deg,#3B5BDB,#4C6EF5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Times New Roman',serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(59,91,219,.4)}
+.lbtn{width:100%;margin-top:13px;padding:12px;background:linear-gradient(135deg,#3B5BDB,#4C6EF5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(59,91,219,.4)}
 .lbtn:hover{background:linear-gradient(135deg,#2F4FD0,#3B5BDB);transform:translateY(-1px)}
 .lerr{color:#FC8181;font-size:13px;margin-top:9px;min-height:18px}
 .lhint{font-size:11px;color:rgba(186,200,255,.4);margin-top:16px}
@@ -400,14 +404,12 @@ tbody tr:hover td{background:var(--brand-pale)}
   }
   .nb svg{width:20px;height:20px}
   
-  /* hide heavy bar-end items — keep the menu button (.ibtn) visible so the
-     side menu (العملاء/التقارير/استيراد Excel...) stays reachable on mobile */
+  /* hide heavy bar-end items */
   .tgl-wrap,.pill,.user-nm,.user-badge span{display:none!important}
+  .ibtn{padding:8px;min-width:34px;justify-content:center}
+  .ibtn-lbl{display:none}
   .user-badge{padding:4px 6px}
   .bar-end{gap:4px}
-  .bar{justify-content:space-between}
-  .ibtn{padding:6px 9px;font-size:11px;gap:4px}
-  .ibtn svg{width:14px;height:14px}
   #fb-status{padding:4px 8px;font-size:10px}
   #fb-lbl{display:none}
   
@@ -445,11 +447,10 @@ tbody tr:hover td{background:var(--brand-pale)}
   .mfoot{padding:10px 14px calc(14px + env(safe-area-inset-bottom,0));flex-wrap:wrap;gap:8px}
   .mfoot .btn{flex:1;justify-content:center}
   
-  /* dashboard right/left panels — stack (fixed selector: the grid div is a
-     DIRECT child of #pg1, not a grandchild — the old selector never matched,
-     which is why "التيكتات حسب الأولوية" stayed side-by-side and squeezed
-     the page, causing horizontal overflow/shifting) */
-  .dash-grid{grid-template-columns:1fr!important}
+  /* dashboard right/left panels — stack */
+  #pg1 > div > div[style*="grid-template-columns:1fr 1.2fr"]{
+    grid-template-columns:1fr!important
+  }
   
   /* search row */
   .srow{flex-direction:column;gap:8px}
@@ -476,75 +477,26 @@ tbody tr:hover td{background:var(--brand-pale)}
   /* auth box */
   .auth-box{padding:24px 18px}
   
-  /* lock box — keep it a small floating popup card, not full-width */
-  .lbox{padding:26px 20px;width:88vw;max-width:340px}
+  /* lock box */
+  .lbox{padding:24px 18px;width:100%}
   
-  /* dropdown — the menu button sits near the LEFT edge on mobile (RTL bar-end),
-     so the dropdown must expand to the RIGHT (left:0), not anchor right:0
-     (which was pushing it off-screen to the left, making it invisible) */
-  #dropdown{
-    left:0!important;right:auto!important;
-    z-index:600;
-    max-height:calc(100vh - 140px);
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-  }
-  .user-menu{left:0!important;right:auto!important;z-index:600}
+  /* dropdown */
+  #dropdown{left:auto!important;right:0}
+  .user-menu{left:auto!important;right:0}
   
   /* header buttons row */
   div.brow[style*="flex-wrap:wrap"]{flex-wrap:nowrap}
 
-  /* ══════════════════════════════════════════════════════
-     Android / Material feel — mobile only, desktop untouched
-     ══════════════════════════════════════════════════════ */
+  /* modals as bottom sheets, Android-style */
+  .ov{align-items:flex-end;padding:0}
+  .modal{width:100%;max-width:100%;border-radius:20px 20px 0 0;max-height:88vh;animation:sheet-rise .25s cubic-bezier(.22,1,.36,1)}
+  .modal::before{content:'';display:block;width:36px;height:4px;background:var(--border);border-radius:4px;margin:9px auto 0}
+  .mhdr{border-radius:0}
 
-  /* 1) native Android font (Cairo ≈ Roboto for Arabic) instead of serif,
-     except inputs deliberately set to monospace (config / mnemonic boxes) */
-  *:not([style*="monospace"]){
-    font-family:'Cairo','Segoe UI',Roboto,system-ui,-apple-system,sans-serif!important;
-  }
-
-  /* 2) bottom nav — Material 3 style active "pill" indicator */
-  .nb{position:relative;transition:color .2s}
-  .nb.on::before{
-    content:'';position:absolute;top:2px;left:50%;transform:translateX(-50%);
-    width:46px;height:26px;border-radius:14px;
-    background:rgba(255,255,255,.18);z-index:-1;
-  }
-  .nb.on{color:#fff}
-  .nb:not(.on){color:rgba(186,200,255,.68)}
-
-  /* 3) simple ripple-style tap feedback (radial flash) for common tappables */
-  .btn,.nb,.dd-item,.ibtn{
-    -webkit-tap-highlight-color:transparent;
-    position:relative;overflow:hidden;
-  }
-  .chat-fab{-webkit-tap-highlight-color:transparent}
-  .btn:active::after,.nb:active::after,.dd-item:active::after,.ibtn:active::after{
-    content:'';position:absolute;inset:0;
-    background:radial-gradient(circle,rgba(0,0,0,.10) 0%,transparent 70%);
-    animation:tapFlash .35s ease-out;pointer-events:none;
-  }
-  .nb.on:active::after,.chat-row.me .chat-bub:active::after{
-    background:radial-gradient(circle,rgba(255,255,255,.22) 0%,transparent 70%);
-  }
-  @keyframes tapFlash{from{opacity:1}to{opacity:0}}
-
-  /* 4) bottom-sheet modals — add a drag handle like native Android sheets */
-  .mhdr{padding-top:20px}
-  .mhdr::before{
-    content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);
-    width:36px;height:4px;border-radius:3px;background:rgba(120,126,150,.45);
-  }
-
-  /* 5) comfortable touch targets (Android min ~44-48px) */
-  .btn{min-height:44px}
-  .dd-item{min-height:46px}
-  .nb{min-height:52px}
-
-  /* 6) flatter Material-style buttons on mobile (less "bordered web button") */
-  .btn{border-width:1px}
-  .btn:active{transform:scale(.97)}
+  /* toast as a bottom snackbar, Android-style */
+  #toast{top:auto;bottom:calc(72px + env(safe-area-inset-bottom,0));border-radius:8px}
+}
+@keyframes sheet-rise{from{transform:translateY(100%)}to{transform:translateY(0)}
 }
 
 /* ── Very small: ≤380px ── */
@@ -611,7 +563,7 @@ button, label, .nb, .btn, .stt, .card {
 
 .chat-notif-btn{
   display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:11.5px;font-weight:700;
-  font-family:'Times New Roman',serif;cursor:pointer;border:1px solid rgba(255,255,255,.22);
+  font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;border:1px solid rgba(255,255,255,.22);
   background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);transition:all .18s;white-space:nowrap;backdrop-filter:blur(6px)
 }
 .chat-notif-btn:hover{background:rgba(255,255,255,.16)}
@@ -693,14 +645,7 @@ button, label, .nb, .btn, .stt, .card {
 .chat-row.other .chat-bub{border-bottom-left-radius:5px}
 .chat-row.me .chat-bub{border-bottom-right-radius:5px}
 .chat-row.mentioned-me .chat-bub{border:1.5px solid var(--brand-border);box-shadow:0 0 0 4px rgba(59,91,219,.10),0 4px 14px rgba(59,91,219,.1)}
-.chat-meta{font-size:10px;color:var(--ink3);margin-top:4px;display:flex;align-items:center;gap:6px;padding:0 3px}
-.chat-del-btn{
-  display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;
-  border:none;background:transparent;color:var(--ink3);cursor:pointer;padding:0;opacity:0;transition:opacity .15s,background .15s,color .15s;
-}
-.chat-row:hover .chat-del-btn{opacity:1}
-.chat-del-btn:hover{background:var(--red-bg);color:var(--red)}
-@media(hover:none){.chat-del-btn{opacity:.55}}
+.chat-meta{font-size:10px;color:var(--ink3);margin-top:4px;display:flex;gap:6px;padding:0 3px}
 .chat-row.me .chat-meta{justify-content:flex-end}
 .chat-name{font-size:11.5px;font-weight:700;color:var(--brand2);margin-bottom:3px;padding:0 3px}
 .chat-row.me .chat-name{display:none}
@@ -722,7 +667,7 @@ button, label, .nb, .btn, .stt, .card {
 .chat-mention-wrap{position:relative;flex:1}
 .chat-ta{
   width:100%;resize:none;min-height:46px;max-height:120px;padding:12px 16px;border:1.5px solid var(--border);
-  border-radius:22px;font-size:13.5px;font-family:'Times New Roman',serif;color:var(--ink);background:var(--white);
+  border-radius:22px;font-size:13.5px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:var(--white);
   outline:none;transition:all .15s;direction:rtl;line-height:1.5;box-shadow:inset 0 1px 2px rgba(0,0,0,.02);
 }
 .chat-ta:focus{border-color:var(--brand2);box-shadow:0 0 0 4px rgba(59,91,219,.12)}
@@ -841,7 +786,7 @@ button, label, .nb, .btn, .stt, .card {
 <!-- PWA install banner -->
 <div id="pwa-banner" style="display:none;position:fixed;bottom:70px;right:12px;left:12px;background:linear-gradient(135deg,#1A2356,#2C3E8C);color:#fff;padding:12px 16px;border-radius:14px;z-index:600;box-shadow:0 4px 24px rgba(0,0,0,.35);display:none;align-items:center;gap:12px">
   <div style="flex:1;font-size:13px;font-weight:600;line-height:1.4">📲 ثبّت التطبيق على الهاتف للوصول السريع</div>
-  <button onclick="doPwaInstall()" style="background:#fff;color:#1A2356;border:none;border-radius:8px;padding:8px 14px;font-family:'Times New Roman',serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">تثبيت</button>
+  <button onclick="doPwaInstall()" style="background:#fff;color:#1A2356;border:none;border-radius:8px;padding:8px 14px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">تثبيت</button>
   <button onclick="document.getElementById('pwa-banner').style.display='none'" style="background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:8px;padding:8px 10px;cursor:pointer;font-size:14px">✕</button>
 </div>
 <div id="app-root" style="display:block">
@@ -938,7 +883,7 @@ button, label, .nb, .btn, .stt, .card {
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <div id="fb-status" title="اضغط لإعدادات السيرفر والمستخدمين" onclick="openFbModal()"
-      style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;font-family:'Times New Roman',serif;padding:5px 11px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(186,200,255,.7);white-space:nowrap;cursor:pointer">
+      style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;padding:5px 11px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(186,200,255,.7);white-space:nowrap;cursor:pointer">
       <span id="fb-dot" style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;transition:background .4s"></span>
       <span id="fb-lbl">السيرفر المحلي</span>
     </div>
@@ -947,7 +892,7 @@ button, label, .nb, .btn, .stt, .card {
     <div style="position:relative" id="menu-wrap">
       <button class="ibtn" id="menu-btn" onclick="toggleMenu()">
         <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        القائمة
+        <span class="ibtn-lbl">القائمة</span>
       </button>
       <div id="dropdown" style="display:none;position:absolute;top:calc(100% + 8px);left:0;background:var(--white);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-lg);min-width:200px;overflow:hidden;z-index:300;animation:rise .15s ease">
         <div style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)">الإجراءات</div>
@@ -1233,7 +1178,7 @@ button, label, .nb, .btn, .stt, .card {
       <input class="sinp" id="fup-search" placeholder="ابحث بالاسم أو الهاتف أو الشركة…" oninput="renderFollowUpPage()" style="flex:1;min-width:200px">
       <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink2);white-space:nowrap">
         <span>تنبيه المتابعة كل</span>
-        <input type="number" id="fup-days-inp" value="14" min="1" max="365" onchange="changeFuDaysFromPage(this.value)" style="width:56px;padding:5px 7px;border:1px solid var(--border);border-radius:7px;font-size:12px;text-align:center;font-family:'Times New Roman',serif">
+        <input type="number" id="fup-days-inp" value="14" min="1" max="365" onchange="changeFuDaysFromPage(this.value)" style="width:56px;padding:5px 7px;border:1px solid var(--border);border-radius:7px;font-size:12px;text-align:center;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif">
         <span>يوم</span>
       </div>
     </div>
@@ -1374,9 +1319,6 @@ button, label, .nb, .btn, .stt, .card {
         <div class="chat-hero-sub" id="chat-hero-sub"></div>
       </div>
       <div class="chat-header-actions">
-        <button class="chat-notif-btn admin-only-el" onclick="clearChatMessages()" title="مسح كل رسائل هذه المحادثة">
-          🗑️ مسح الرسائل
-        </button>
         <button class="chat-notif-btn" id="chat-notif-btn" onclick="toggleChatNotif()" title="تفعيل/إيقاف إشعارات الرسائل">
           🔕 تفعيل التنبيهات
         </button>
@@ -2452,7 +2394,6 @@ function sendFollowUp(name,phone,idx){
   window.open('https://wa.me/'+fmtWa(phone)+'?text='+encodeURIComponent(msg),'_blank');
   if(idx!==undefined && clients[idx]){
     clients[idx].lastFollowUp = Date.now();
-    clients[idx].lastFollowUpBy = chatMe().name;
     saveC();
     renderFollowUpPage();
     if(document.getElementById('fu-section')) renderFollowUp();
@@ -2596,7 +2537,7 @@ function renderT(){
 
   const wrap=document.getElementById('tbl-wrap');
   const isF=list.length!==tickets.length;
-  const fi=isF?`<div class="fi">🔍 عرض <b>${list.length}</b> من <b>${tickets.length}</b> تيكت <button onclick="clearF()" style="margin-right:10px;font-size:11px;color:var(--red);background:none;border:none;cursor:pointer;font-family:'Times New Roman',serif;font-weight:700">✕ مسح</button></div>`:'';
+  const fi=isF?`<div class="fi">🔍 عرض <b>${list.length}</b> من <b>${tickets.length}</b> تيكت <button onclick="clearF()" style="margin-right:10px;font-size:11px;color:var(--red);background:none;border:none;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;font-weight:700">✕ مسح</button></div>`:'';
 
   if(!list.length){wrap.innerHTML=fi+`<div class="empty"><span class="empty-ico">📭</span>لا توجد تيكتات مطابقة</div>`;return;}
 
@@ -2627,7 +2568,7 @@ function renderT(){
       <td dir="ltr" style="text-align:right;font-size:12px">
         <div style="display:inline-flex;align-items:center;gap:5px">
           <a href="#" onclick="openWaN('${t.phone}');return false" style="display:inline-flex;align-items:center;gap:3px;color:#25D366;font-weight:700;text-decoration:none">${WA} ${t.phone}</a>
-          <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Times New Roman',serif" title="رسالة متابعة">📨</button>
+          <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif" title="رسالة متابعة">📨</button>
         </div>
       </td>
       <td style="font-size:12px;color:var(--ink2)">${ds}</td>
@@ -2875,13 +2816,13 @@ function renderFollowUp(){
         <span class="fu-days ${a.diffDays>=30?'fu-days-late':'fu-days-warn'}">${a.diffDays} يوم</span>
         <div style="display:flex;gap:5px;flex-shrink:0">
           ${a.client.phone?`
-          <button onclick="sendFollowUp('${a.client.name}','${a.client.phone}',${clients.indexOf(a.client)})"
-            style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Times New Roman',serif;display:flex;align-items:center;gap:5px"
+          <button onclick="sendFollowUp('${a.client.name}','${a.client.phone}')"
+            style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;display:flex;align-items:center;gap:5px"
             title="إرسال رسالة متابعة">
             ${WA_ICO} متابعة
           </button>
           <button onclick="fillFromClientByPhone('${a.client.phone}')"
-            style="background:linear-gradient(135deg,var(--brand2),var(--brand3));border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Times New Roman',serif"
+            style="background:linear-gradient(135deg,var(--brand2),var(--brand3));border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif"
             title="فتح تيكت جديد">🎫</button>
           `:'<span style="font-size:11px;color:var(--ink3)">لا يوجد هاتف</span>'}
         </div>
@@ -2893,7 +2834,7 @@ function renderFollowUp(){
       <span>فترة المتابعة:</span>
       <input type="number" id="fu-days-inp" value="${days}" min="1" max="365" onchange="changeFuDays(this.value)">
       <span>يوم</span>
-      <button onclick="renderFollowUp()" style="padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--white);font-size:11px;font-weight:700;font-family:'Times New Roman',serif;cursor:pointer;color:var(--brand2)">تحديث</button>
+      <button onclick="renderFollowUp()" style="padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--white);font-size:11px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;color:var(--brand2)">تحديث</button>
     </div>
   </div>`;
 }
@@ -2950,7 +2891,6 @@ function renderFollowUpPage(){
     else if(diffDays>=Math.floor(days*0.6)) badge=`<span class="fu-days fu-days-warn">${diffDays} يوم</span>`;
     else badge=`<span class="fu-days fu-days-ok">${diffDays} يوم</span>`;
     const lastFuTxt = lastFu ? new Date(lastFu).toLocaleDateString('ar',{day:'numeric',month:'short',year:'numeric'}) : 'لا توجد متابعة مسجّلة';
-    const lastFuByTxt = (lastFu && c.lastFollowUpBy) ? ` — بواسطة <b style="color:var(--brand2)">${c.lastFollowUpBy}</b>` : '';
     return `<div class="cc">
       <div class="cc-av">${c.name[0]}</div>
       <div style="flex:1;min-width:0">
@@ -2960,7 +2900,7 @@ function renderFollowUpPage(){
         </div>
         ${c.company?`<div class="cc-co">🏢 ${c.company}</div>`:''}
         ${c.phone?`<div class="cc-ph">📞 ${c.phone}</div>`:''}
-        <div style="font-size:11px;color:var(--ink3);margin-top:4px">🕓 آخر متابعة: ${lastFuTxt}${lastFuByTxt}</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:4px">🕓 آخر متابعة: ${lastFuTxt}</div>
       </div>
       <div class="cc-acts" style="align-items:stretch">
         ${c.phone?`<button class="btn sm bw" onclick="sendFollowUp('${(c.name||'').replace(/'/g,"\\'")}','${c.phone}',${idx})" style="justify-content:center;font-size:11px" title="إرسال رسالة متابعة واتساب">💬 واتساب</button>`:'<span style="font-size:11px;color:var(--ink3);text-align:center">لا يوجد هاتف</span>'}
@@ -3023,7 +2963,7 @@ function renderDashboard(){
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         ${badge(t.status)}
         <a href="#" onclick="openWaN('${t.phone}');return false" style="display:inline-flex;align-items:center;gap:3px;color:#25D366;font-size:11px;font-weight:700;text-decoration:none">${WA_S}${t.phone}</a>
-        <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Times New Roman',serif">📨</button>
+        <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif">📨</button>
         <div style="margin-right:auto;display:flex;gap:4px">
           ${t.status==='open'?`<button class="btn sm bg" onclick="resolveDash(${ri})" style="font-size:10px;padding:3px 9px">✔</button>`:''}
           <button class="btn sm bo" onclick="openEdit(${ri});goPage(2)" style="font-size:10px;padding:3px 9px">✏️</button>
@@ -3958,7 +3898,7 @@ function openPrivateChat(uid){
   _privateMsgRef = fbDB.ref('privateChats/'+chatId+'/messages').orderByChild('ts').limitToLast(300);
   _privateMsgRef.on('value', snap=>{
     const v = snap.val() || {};
-    _privateMessages = Object.entries(v).map(([key,msg])=>({...msg,_fbKey:key})).sort((a,b)=>(a.ts||0)-(b.ts||0));
+    _privateMessages = Object.values(v).sort((a,b)=>(a.ts||0)-(b.ts||0));
     if(_chatTarget && _chatTarget.uid===uid){ renderChat(); markPmSeen(uid); }
   });
 }
@@ -3975,7 +3915,7 @@ function renderChat(){
   const me = chatMe();
   let lastDay = '';
   let html = '';
-  list.forEach((m,i)=>{
+  list.forEach(m=>{
     const d = new Date(m.ts);
     const dayKey = d.toDateString();
     if(dayKey !== lastDay){
@@ -3989,71 +3929,17 @@ function renderChat(){
     const online = onlineUsers[m.uid]?.online;
     const dotHtml = fbDB ? `<span class="chat-dot ${online?'on':''}"></span>` : '';
     const avPhoto = m.photo || _chatUsersCache.find(u=>u.uid===m.uid)?.photo || '';
-    const canDelete = isMe || me.role==='admin';
-    const delBtn = canDelete ? `<button class="chat-del-btn" onclick="deleteChatMsg(${i})" title="حذف الرسالة">
-      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-    </button>` : '';
     html += `<div class="chat-row ${isMe?'me':'other'}${mentioned?' mentioned-me':''}">
       <div class="chat-av" title="${(m.name||'؟')}">${avatarInner(m.name,avPhoto)}${dotHtml}</div>
       <div>
         ${!isMe?`<div class="chat-name">${m.name||'مستخدم'}${m.role==='admin'?' 👑':''}${mentioned?' <span style="color:var(--brand2)">• ذكرك</span>':''}</div>`:''}
         <div class="chat-bub">${safeText}</div>
-        <div class="chat-meta">${time}${delBtn}</div>
+        <div class="chat-meta">${time}</div>
       </div>
     </div>`;
   });
   body.innerHTML = html;
   body.scrollTop = body.scrollHeight;
-}
-
-function deleteChatMsg(i){
-  const list = _chatTarget ? _privateMessages : chatMessages;
-  const m = list[i];
-  if(!m) return;
-  if(!confirm('حذف هذه الرسالة؟')) return;
-
-  if(fbDB && m._fbKey){
-    if(_chatTarget){
-      const me = chatMe();
-      const chatId = pmChatId(me.uid, _chatTarget.uid);
-      fbDB.ref('privateChats/'+chatId+'/messages/'+m._fbKey).remove();
-    } else {
-      fbDB.ref('chatMessages/'+m._fbKey).remove();
-    }
-    // الشاشة بتنعدّل تلقائياً عبر مستمع value بعد الحذف من فايربيس
-  } else {
-    const idx = chatMessages.findIndex(x=>x._localId && x._localId===m._localId);
-    if(idx>-1) chatMessages.splice(idx,1);
-    else list.splice(i,1);
-    saveChatLocal();
-    renderChat();
-    updateChatBadge();
-  }
-  toast('🗑 تم حذف الرسالة');
-}
-
-function clearChatMessages(){
-  const isPrivate = !!_chatTarget;
-  const list = isPrivate ? _privateMessages : chatMessages;
-  if(!list.length){ toast('لا توجد رسائل لمسحها'); return; }
-  if(!confirm(isPrivate ? `مسح كل رسائل المحادثة مع ${_chatTarget.name}؟ لا يمكن التراجع.` : 'مسح كل رسائل الدردشة الجماعية؟ لا يمكن التراجع.')) return;
-
-  if(fbDB){
-    if(isPrivate){
-      const me = chatMe();
-      const chatId = pmChatId(me.uid, _chatTarget.uid);
-      fbDB.ref('privateChats/'+chatId+'/messages').remove();
-    } else {
-      fbDB.ref('chatMessages').remove();
-    }
-    // الشاشة بتنعدّل تلقائياً عبر مستمع value بعد الحذف من فايربيس
-  } else {
-    chatMessages.length = 0;
-    saveChatLocal();
-    renderChat();
-    updateChatBadge();
-  }
-  toast('🗑 تم مسح الرسائل');
 }
 
 function sendChatMsg(){
@@ -4074,7 +3960,6 @@ function sendChatMsg(){
   if(fbDB){
     fbDB.ref('chatMessages').push(msg);
   } else {
-    msg._localId = 'l_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
     chatMessages.push(msg);
     saveChatLocal();
     renderChat();
@@ -4102,7 +3987,7 @@ function setupChatSync(){
   if(!fbDB) return;
   fbDB.ref('chatMessages').orderByChild('ts').limitToLast(300).on('value', snap=>{
     const v = snap.val() || {};
-    const arr = Object.entries(v).map(([key,msg])=>({...msg,_fbKey:key})).sort((a,b)=>(a.ts||0)-(b.ts||0));
+    const arr = Object.values(v).sort((a,b)=>(a.ts||0)-(b.ts||0));
     chatMessages.length = 0;
     chatMessages.push(...arr);
     saveChatLocal();
@@ -5092,7 +4977,46 @@ function closeScanModal() {
   document.getElementById('scan-fill-btn').style.display = 'none';
   _scanData = null;
 }
-
+/* Material-style tap ripple: works for every current and future button/card without touching each one */
+(function(){
+  function luminance(rgbStr){
+    const m = (rgbStr||'').match(/\d+(\.\d+)?/g);
+    if(!m || m.length<3) return null;
+    const [r,g,b] = m.map(Number);
+    return 0.299*r+0.587*g+0.114*b;
+  }
+  function bgLuminance(el){
+    let node = el;
+    while(node && node!==document.body){
+      const bg = getComputedStyle(node).backgroundColor;
+      if(bg && bg!=='rgba(0, 0, 0, 0)' && bg!=='transparent'){
+        const lum = luminance(bg);
+        if(lum!==null) return lum;
+      }
+      node = node.parentElement;
+    }
+    return 200; // assume light if undetermined
+  }
+  document.addEventListener('pointerdown', function(e){
+    if(e.button!==undefined && e.button!==0) return;
+    const el = e.target.closest('button, .btn, .nb, .dd-item, .ibtn, .tgl-wrap, .user-badge, .ac-item');
+    if(!el || el.classList.contains('no-ripple')) return;
+    const cs = getComputedStyle(el);
+    if(cs.position==='static') el.style.position='relative';
+    if(cs.overflow!=='hidden') el.style.overflow='hidden';
+    const rect = el.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 1.4;
+    const dark = bgLuminance(el) < 140;
+    const span = document.createElement('span');
+    span.className = 'mripple';
+    span.style.background = dark ? 'rgba(255,255,255,.35)' : 'rgba(59,91,219,.22)';
+    span.style.width = span.style.height = size+'px';
+    span.style.left = (e.clientX - rect.left - size/2)+'px';
+    span.style.top = (e.clientY - rect.top - size/2)+'px';
+    el.appendChild(span);
+    span.addEventListener('animationend', ()=>span.remove());
+  }, {passive:true});
+})();
 </script>
 </div><!-- /app-root -->
 </body>
