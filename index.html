@@ -13,7 +13,9 @@ const manifest = {
   name: "البسيط — دعم فني",
   short_name: "البسيط",
   description: "نظام دعم فني متكامل",
-  start_url: "./",
+  start_url: location.origin + location.pathname,
+  id: location.origin + location.pathname,
+  scope: location.origin + location.pathname,
   display: "standalone",
   orientation: "portrait",
   background_color: "#EEF1FA",
@@ -21,14 +23,19 @@ const manifest = {
   lang: "ar",
   dir: "rtl",
   icons: [
-    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%231A2356'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle' fill='white'%3E🛠%3C/text%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml" },
-    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%231A2356'/%3E%3Ctext x='256' y='340' font-size='280' text-anchor='middle' fill='white'%3E🛠%3C/text%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml" }
+    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%231A2356'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle' fill='white'%3E🛠%3C/text%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml", purpose: "any" },
+    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%231A2356'/%3E%3Ctext x='256' y='340' font-size='280' text-anchor='middle' fill='white'%3E🛠%3C/text%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml", purpose: "any" },
+    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%231A2356'/%3E%3Ctext x='96' y='122' font-size='80' text-anchor='middle' fill='white'%3E🛠%3C/text%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml", purpose: "maskable" },
+    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%231A2356'/%3E%3Ctext x='256' y='325' font-size='220' text-anchor='middle' fill='white'%3E🛠%3C/text%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml", purpose: "maskable" }
   ]
 };
 const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
 document.getElementById('pwa-manifest').href = URL.createObjectURL(blob);
 </script>
 <title>البسيط — نظام الدعم الفني</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -53,6 +60,8 @@ window._user = { displayName: 'بدون سيرفر', role: 'admin' };
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root{
+  --font-body:'Tajawal','IBM Plex Sans Arabic','Segoe UI',system-ui,-apple-system,sans-serif;
+  --font-head:'IBM Plex Sans Arabic','Tajawal','Segoe UI',system-ui,-apple-system,sans-serif;
   --ink:#1A1F2E;--ink2:#52576A;--ink3:#9EA4B8;
   --paper:#EEF1FA;--white:#FFFFFF;
   --brand:#2C3E8C;--brand2:#3B5BDB;--brand3:#4C6EF5;
@@ -79,7 +88,12 @@ window._user = { displayName: 'بدون سيرفر', role: 'admin' };
    so option colors are set explicitly per theme to avoid invisible text. */
 option{background:#FFFFFF;color:#1A1F2E}
 [data-theme="dark"] option{background:#1E293B;color:#E2E8F0}
-body{font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;min-height:-webkit-fill-available;-webkit-tap-highlight-color:transparent}
+html{overscroll-behavior-y:contain}
+body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;min-height:-webkit-fill-available;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overscroll-behavior-y:contain}
+h1,.logo-ar,.auth-title,.ltitle,.chat-hero-title,.ch-title,.stt-n,.ac-nm,.cc-name{font-family:var(--font-head)}
+h1{letter-spacing:-.2px}
+.logo-ar,.auth-title,.ltitle{letter-spacing:-.1px}
+.stt-n{letter-spacing:-.4px}
 
 /* ── TOPBAR ── */
 .bar{
@@ -94,14 +108,14 @@ body{font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',
 .logo-ar{font-size:18px;font-weight:800;color:#fff;line-height:1.1}
 .logo-en{font-size:9px;color:rgba(186,200,255,.65);letter-spacing:1.4px;text-transform:uppercase}
 .nav{display:flex;gap:3px;margin:0 auto}
-.nb{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:rgba(186,200,255,.75);background:transparent;border:none;cursor:pointer;transition:all .18s;white-space:nowrap;position:relative;overflow:hidden}
+.nb{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;font-family:var(--font-body);color:rgba(186,200,255,.75);background:transparent;border:none;cursor:pointer;transition:all .18s;white-space:nowrap;position:relative;overflow:hidden}
 .nb::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.18),transparent 70%);opacity:0;transition:opacity .25s;pointer-events:none;border-radius:8px}
 .nb:hover{color:#fff;background:rgba(255,255,255,.1)}
 .nb:hover::after{opacity:1}
 .nb.on{color:#fff;background:rgba(255,255,255,.17);box-shadow:0 0 0 1px rgba(255,255,255,.2)}
 .nb svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .bar-end{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:5px 14px;display:flex;align-items:center;gap:7px;font-size:12px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif}
+.pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:5px 14px;display:flex;align-items:center;gap:7px;font-size:12px;font-family:var(--font-body)}
 .pill-label{color:rgba(186,200,255,.55)}
 .pill-val{color:#BAC8FF;font-weight:800;font-size:13px}
 .tgl-wrap{display:flex;align-items:center;gap:6px;cursor:pointer}
@@ -110,7 +124,7 @@ body{font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',
 .tgl-track.on{background:linear-gradient(135deg,#4C6EF5,#748FFC)}
 .tgl-thumb{position:absolute;top:3px;right:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:all .3s;box-shadow:0 1px 4px rgba(0,0,0,.25);font-size:8px;display:flex;align-items:center;justify-content:center}
 .tgl-track.on .tgl-thumb{right:calc(100% - 17px)}
-.ibtn{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:12px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:rgba(186,200,255,.8);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:all .18s;white-space:nowrap}
+.ibtn{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:12px;font-weight:700;font-family:var(--font-body);color:rgba(186,200,255,.8);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:all .18s;white-space:nowrap}
 .ibtn:hover{background:rgba(255,255,255,.14);color:#fff}
 .ibtn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
@@ -139,7 +153,7 @@ body{font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',
 .fld{display:flex;flex-direction:column;gap:5px}
 .fld label{font-size:12px;font-weight:700;color:var(--ink2)}
 .ast{color:#DC2626}
-.inp{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:rgba(255,255,255,.5);outline:none;transition:all .15s;direction:rtl;width:100%;box-shadow:var(--shadow-xs)}
+.inp{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:var(--font-body);color:var(--ink);background:rgba(255,255,255,.5);outline:none;transition:all .15s;direction:rtl;width:100%;box-shadow:var(--shadow-xs)}
 .inp:focus{border-color:var(--brand2);box-shadow:0 0 0 3px rgba(59,91,219,.13),0 0 10px rgba(59,91,219,.1);background:rgba(255,255,255,.75)}
 .inp:not(:placeholder-shown):not(select){border-color:#6741D9;background:rgba(250,248,255,.65)}
 [data-theme="dark"] .inp{background:rgba(30,41,59,.5);color:var(--ink)}
@@ -150,7 +164,7 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.65}
 .ph-wrap{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--r-sm);overflow:hidden;background:rgba(255,255,255,.5);transition:all .15s;box-shadow:var(--shadow-xs)}
 .ph-wrap:focus-within{border-color:var(--brand2);box-shadow:0 0 0 3px rgba(59,91,219,.13)}
 .ph-flag{padding:0 10px;border-left:1.5px solid var(--border);background:rgba(240,242,249,.5);font-size:13px;font-weight:700;color:var(--ink2);white-space:nowrap;flex-shrink:0;align-self:stretch;display:flex;align-items:center}
-.ph-inp{border:none;outline:none;padding:10px 10px;font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:transparent;width:100%;direction:ltr;text-align:right}
+.ph-inp{border:none;outline:none;padding:10px 10px;font-size:13px;font-family:var(--font-body);color:var(--ink);background:transparent;width:100%;direction:ltr;text-align:right}
 
 /* ── AUTOCOMPLETE ── */
 .ac-wrap{position:relative}
@@ -166,19 +180,19 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.65}
 .ac-nm{font-size:13px;font-weight:700;color:var(--ink)}
 .ac-sb{font-size:11px;color:var(--ink2);margin-top:1px}
 .ac-ph{font-size:11px;color:var(--green);font-weight:600;flex-shrink:0;direction:ltr}
-.ac-new{display:flex;align-items:center;gap:8px;padding:11px 14px;cursor:pointer;color:var(--brand2);font-size:13px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;transition:background .1s;background:var(--white)}
+.ac-new{display:flex;align-items:center;gap:8px;padding:11px 14px;cursor:pointer;color:var(--brand2);font-size:13px;font-weight:700;font-family:var(--font-body);transition:background .1s;background:var(--white)}
 [data-theme="dark"] .ac-new{background:#1E293B}
 .ac-new:hover{background:var(--brand-pale) !important}
 
 /* ── SERVICES ── */
 .svcs{display:flex;flex-wrap:wrap;gap:7px}
-.sc{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid var(--border);border-radius:18px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink2);background:rgba(240,242,249,.6);transition:all .15s;user-select:none}
+.sc{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid var(--border);border-radius:18px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-body);color:var(--ink2);background:rgba(240,242,249,.6);transition:all .15s;user-select:none}
 .sc input[type=checkbox]{width:13px;height:13px;accent-color:var(--brand2);flex-shrink:0}
 .sc:has(input:checked){background:var(--brand-pale);border-color:var(--brand2);color:var(--brand2)}
 
 /* ── PRIORITY ── */
 .pri-sel{display:flex;gap:8px;flex-wrap:wrap}
-.pri-opt{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;border:2px solid transparent;transition:all .18s;user-select:none}
+.pri-opt{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;font-family:var(--font-body);cursor:pointer;border:2px solid transparent;transition:all .18s;user-select:none}
 .pri-opt input[type=radio]{display:none}
 .pri-urgent{background:var(--red-bg);color:var(--red);border-color:rgba(201,42,42,.2)}
 .pri-urgent.on{border-color:var(--red);box-shadow:0 0 0 3px rgba(201,42,42,.15)}
@@ -190,7 +204,7 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.65}
 .pri-normal.on{border-color:var(--ink2);box-shadow:0 0 0 3px rgba(82,87,106,.1)}
 
 /* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:var(--r-sm);font-size:13px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--ink);transition:all .18s;white-space:nowrap;position:relative;overflow:hidden}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:var(--r-sm);font-size:13px;font-weight:700;font-family:var(--font-body);cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--ink);transition:all .18s;white-space:nowrap;position:relative;overflow:hidden}
 .btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.28),transparent 65%);opacity:0;transition:opacity .3s;pointer-events:none}
 .btn:hover::after{opacity:1}
 .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm)}
@@ -225,7 +239,7 @@ textarea.inp{resize:vertical;min-height:80px;line-height:1.65}
 .twrap{overflow-x:auto;border-radius:var(--r-sm);border:1px solid var(--border);box-shadow:var(--shadow-sm)}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:680px}
 thead tr{background:linear-gradient(135deg,#1A2356,#2C3E8C)}
-th{padding:11px 13px;text-align:right;font-weight:700;color:#fff;font-size:12px;white-space:nowrap;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif}
+th{padding:11px 13px;text-align:right;font-weight:700;color:#fff;font-size:12px;white-space:nowrap;font-family:var(--font-body)}
 td{padding:11px 13px;border-bottom:1px solid var(--border);color:var(--ink);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:var(--brand-pale)}
@@ -253,10 +267,10 @@ tbody tr:hover td{background:var(--brand-pale)}
 
 /* ── SEARCH ── */
 .srow{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.sinp{flex:1;min-width:200px;padding:9px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:rgba(255,255,255,.6);outline:none;direction:rtl}
+.sinp{flex:1;min-width:200px;padding:9px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:var(--font-body);color:var(--ink);background:rgba(255,255,255,.6);outline:none;direction:rtl}
 .sinp:focus{border-color:var(--brand2);box-shadow:0 0 0 3px rgba(59,91,219,.12)}
 .sinp::placeholder{color:#B8BFDA}
-.fsel{padding:9px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:rgba(255,255,255,.6);direction:rtl;cursor:pointer;outline:none}
+.fsel{padding:9px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:var(--font-body);color:var(--ink);background:rgba(255,255,255,.6);direction:rtl;cursor:pointer;outline:none}
 .fsel:focus{border-color:var(--brand2)}
 
 /* ── CLIENTS GRID ── */
@@ -274,7 +288,7 @@ tbody tr:hover td{background:var(--brand-pale)}
 
 /* ── PAGINATION ── */
 .pag{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:13px;flex-wrap:wrap}
-.pag button{min-width:30px;height:30px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:600;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;border:1.5px solid var(--border);background:var(--white);color:var(--ink);cursor:pointer;transition:all .15s}
+.pag button{min-width:30px;height:30px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:600;font-family:var(--font-body);border:1.5px solid var(--border);background:var(--white);color:var(--ink);cursor:pointer;transition:all .15s}
 .pag button:hover{background:var(--brand-pale);border-color:var(--brand-border)}
 .pag button.cur{background:var(--brand2);color:#fff;border-color:var(--brand2)}
 .pag button:disabled{opacity:.35;cursor:not-allowed}
@@ -301,24 +315,27 @@ tbody tr:hover td{background:var(--brand-pale)}
 .fu-days-ok{background:var(--green-bg);color:var(--green)}
 .fu-days-never{background:rgba(154,111,15,.13);color:#8A6D1D}
 .fu-setting{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink2);margin-top:12px;padding-top:10px;border-top:1px solid rgba(230,119,0,.15)}
-.fu-setting input[type=number]{width:60px;padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:var(--white);outline:none;text-align:center;direction:ltr}
+.fu-setting input[type=number]{width:60px;padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;font-family:var(--font-body);color:var(--ink);background:var(--white);outline:none;text-align:center;direction:ltr}
 .fu-setting input[type=number]:focus{border-color:var(--brand2)}
 
 /* AUTH SCREEN */
-#auth-screen{position:fixed;inset:0;background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 50%,#0F172A 100%);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif}
+#auth-screen{position:fixed;inset:0;background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 50%,#0F172A 100%);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:var(--font-body)}
 .auth-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:22px;padding:38px;width:400px;max-width:92vw;backdrop-filter:blur(24px);box-shadow:0 24px 64px rgba(0,0,0,.45)}
 .auth-logo{width:62px;height:62px;background:linear-gradient(135deg,#1E3A8A,#3B5BDB);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 24px rgba(59,91,219,.4)}
 .auth-title{font-size:21px;font-weight:800;color:#fff;text-align:center;margin-bottom:3px}
 .auth-sub{font-size:12px;color:rgba(186,200,255,.6);text-align:center;margin-bottom:26px}
 .auth-tabs{display:flex;background:rgba(255,255,255,.08);border-radius:10px;padding:3px;margin-bottom:22px;gap:3px}
-.auth-tab{flex:1;padding:8px;border-radius:8px;border:none;font-size:13px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;transition:all .2s;color:rgba(186,200,255,.7);background:transparent}
+.auth-spin{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.18);border-top-color:#93C5FD;margin:6px auto 18px;animation:auth-spin-rot .8s linear infinite}
+@keyframes auth-spin-rot{to{transform:rotate(360deg)}}
+.auth-loading-txt{font-size:12.5px;color:rgba(186,200,255,.75);text-align:center}
+.auth-tab{flex:1;padding:8px;border-radius:8px;border:none;font-size:13px;font-weight:700;font-family:var(--font-body);cursor:pointer;transition:all .2s;color:rgba(186,200,255,.7);background:transparent}
 .auth-tab.on{background:rgba(255,255,255,.15);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .auth-fld{margin-bottom:14px}
 .auth-fld label{display:block;font-size:12px;font-weight:700;color:rgba(186,200,255,.7);margin-bottom:6px}
-.auth-inp{width:100%;padding:11px 14px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.14);border-radius:9px;font-size:13px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:#fff;outline:none;transition:all .2s;direction:rtl}
+.auth-inp{width:100%;padding:11px 14px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.14);border-radius:9px;font-size:13px;font-family:var(--font-body);color:#fff;outline:none;transition:all .2s;direction:rtl}
 .auth-inp:focus{border-color:#4C6EF5;box-shadow:0 0 0 3px rgba(76,110,245,.2);background:rgba(255,255,255,.12)}
 .auth-inp::placeholder{color:rgba(255,255,255,.25)}
-.auth-btn{width:100%;padding:12px;background:linear-gradient(135deg,#3B5BDB,#4C6EF5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(59,91,219,.4);margin-top:6px}
+.auth-btn{width:100%;padding:12px;background:linear-gradient(135deg,#3B5BDB,#4C6EF5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:var(--font-body);cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(59,91,219,.4);margin-top:6px}
 .auth-btn:hover{background:linear-gradient(135deg,#2F4FD0,#3B5BDB);transform:translateY(-1px)}
 .auth-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .auth-err{background:rgba(201,42,42,.2);border:1px solid rgba(201,42,42,.3);border-radius:8px;padding:9px 12px;font-size:12px;color:#FCA5A5;margin-top:10px;display:none}
@@ -332,14 +349,14 @@ tbody tr:hover td{background:var(--brand-pale)}
 .user-menu{position:absolute;top:calc(100% + 8px);left:0;background:var(--white);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-lg);min-width:180px;overflow:hidden;z-index:300;display:none;animation:rise .15s ease}
 .user-menu.open{display:block}
 [data-theme="dark"] .user-menu{background:#1E293B;border-color:#2D3748}
-.dd-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 16px;font-size:13px;font-weight:600;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:transparent;border:none;cursor:pointer;transition:background .12s;text-align:right;direction:rtl}
+.dd-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 16px;font-size:13px;font-weight:600;font-family:var(--font-body);color:var(--ink);background:transparent;border:none;cursor:pointer;transition:background .12s;text-align:right;direction:rtl}
 .dd-item:hover{background:var(--brand-pale)}
 [data-theme="dark"] .dd-item:hover{background:#1e2d4a}
 [data-theme="dark"] #dropdown{background:#1E293B;border-color:#2D3748}
 .empty-ico{font-size:40px;display:block;margin-bottom:12px;opacity:.25}
 
 /* ── TOAST ── */
-#toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-12px);background:linear-gradient(135deg,#1A2356,#2C3E8C);color:#fff;padding:10px 24px;border-radius:28px;font-size:13px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;z-index:9999;opacity:0;pointer-events:none;transition:all .27s cubic-bezier(.22,1,.36,1);box-shadow:0 8px 28px rgba(44,62,140,.35);white-space:nowrap;border:1px solid rgba(255,255,255,.15)}
+#toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-12px);background:linear-gradient(135deg,#1A2356,#2C3E8C);color:#fff;padding:10px 24px;border-radius:28px;font-size:13px;font-weight:700;font-family:var(--font-body);z-index:9999;opacity:0;pointer-events:none;transition:all .27s cubic-bezier(.22,1,.36,1);box-shadow:0 8px 28px rgba(44,62,140,.35);white-space:nowrap;border:1px solid rgba(255,255,255,.15)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ── MODAL ── */
@@ -353,15 +370,15 @@ tbody tr:hover td{background:var(--brand-pale)}
 .mfoot{padding:13px 22px 18px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--border)}
 
 /* ── LOCK ── */
-#lock{position:fixed;inset:0;background:linear-gradient(135deg,#0F172A,#1E3A8A 50%,#0F172A);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif}
+#lock{position:fixed;inset:0;background:linear-gradient(135deg,#0F172A,#1E3A8A 50%,#0F172A);z-index:9999;display:flex;align-items:center;justify-content:center;font-family:var(--font-body)}
 .lbox{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:38px;width:360px;max-width:90vw;text-align:center;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .llogo{width:64px;height:64px;background:linear-gradient(135deg,#1E3A8A,#3B5BDB);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 24px rgba(59,91,219,.4)}
 .ltitle{font-size:21px;font-weight:800;color:#fff;margin-bottom:3px}
 .lsub{font-size:12px;color:rgba(186,200,255,.65);margin-bottom:26px}
-.linp{width:100%;padding:12px 16px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;font-size:15px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:#fff;outline:none;text-align:center;letter-spacing:3px;transition:all .2s;direction:ltr}
+.linp{width:100%;padding:12px 16px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;font-size:15px;font-family:var(--font-body);color:#fff;outline:none;text-align:center;letter-spacing:3px;transition:all .2s;direction:ltr}
 .linp:focus{border-color:#4C6EF5;box-shadow:0 0 0 3px rgba(76,110,245,.2)}
 .linp::placeholder{letter-spacing:0;color:rgba(255,255,255,.3);font-size:13px}
-.lbtn{width:100%;margin-top:13px;padding:12px;background:linear-gradient(135deg,#3B5BDB,#4C6EF5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(59,91,219,.4)}
+.lbtn{width:100%;margin-top:13px;padding:12px;background:linear-gradient(135deg,#3B5BDB,#4C6EF5);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:var(--font-body);cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(59,91,219,.4)}
 .lbtn:hover{background:linear-gradient(135deg,#2F4FD0,#3B5BDB);transform:translateY(-1px)}
 .lerr{color:#FC8181;font-size:13px;margin-top:9px;min-height:18px}
 .lhint{font-size:11px;color:rgba(186,200,255,.4);margin-top:16px}
@@ -559,7 +576,7 @@ button, label, .nb, .btn, .stt, .card {
 
 .chat-notif-btn{
   display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:11.5px;font-weight:700;
-  font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;border:1px solid rgba(255,255,255,.22);
+  font-family:var(--font-body);cursor:pointer;border:1px solid rgba(255,255,255,.22);
   background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);transition:all .18s;white-space:nowrap;backdrop-filter:blur(6px)
 }
 .chat-notif-btn:hover{background:rgba(255,255,255,.16)}
@@ -663,7 +680,7 @@ button, label, .nb, .btn, .stt, .card {
 .chat-mention-wrap{position:relative;flex:1}
 .chat-ta{
   width:100%;resize:none;min-height:46px;max-height:120px;padding:12px 16px;border:1.5px solid var(--border);
-  border-radius:22px;font-size:13.5px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;color:var(--ink);background:var(--white);
+  border-radius:22px;font-size:13.5px;font-family:var(--font-body);color:var(--ink);background:var(--white);
   outline:none;transition:all .15s;direction:rtl;line-height:1.5;box-shadow:inset 0 1px 2px rgba(0,0,0,.02);
 }
 .chat-ta:focus{border-color:var(--brand2);box-shadow:0 0 0 4px rgba(59,91,219,.12)}
@@ -750,8 +767,14 @@ button, label, .nb, .btn, .stt, .card {
     <div class="auth-title">البسيط</div>
     <div class="auth-sub">نظام الدعم الفني — فرع حلب</div>
 
+    <!-- Silent session check (shown briefly on refresh while we try the saved login) -->
+    <div id="auth-checking" style="display:none">
+      <div class="auth-spin"></div>
+      <div class="auth-loading-txt">جارٍ التحقق من الجلسة…</div>
+    </div>
+
     <!-- Tabs -->
-    <div class="auth-tabs">
+    <div class="auth-tabs" id="auth-tabs-wrap">
       <button class="auth-tab on" id="tab-login" onclick="switchAuthTab('login')">تسجيل الدخول</button>
       <button class="auth-tab" id="tab-reg" onclick="switchAuthTab('register')">حساب جديد</button>
     </div>
@@ -782,7 +805,7 @@ button, label, .nb, .btn, .stt, .card {
 <!-- PWA install banner -->
 <div id="pwa-banner" style="display:none;position:fixed;bottom:70px;right:12px;left:12px;background:linear-gradient(135deg,#1A2356,#2C3E8C);color:#fff;padding:12px 16px;border-radius:14px;z-index:600;box-shadow:0 4px 24px rgba(0,0,0,.35);display:none;align-items:center;gap:12px">
   <div style="flex:1;font-size:13px;font-weight:600;line-height:1.4">📲 ثبّت التطبيق على الهاتف للوصول السريع</div>
-  <button onclick="doPwaInstall()" style="background:#fff;color:#1A2356;border:none;border-radius:8px;padding:8px 14px;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">تثبيت</button>
+  <button onclick="doPwaInstall()" style="background:#fff;color:#1A2356;border:none;border-radius:8px;padding:8px 14px;font-family:var(--font-body);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">تثبيت</button>
   <button onclick="document.getElementById('pwa-banner').style.display='none'" style="background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:8px;padding:8px 10px;cursor:pointer;font-size:14px">✕</button>
 </div>
 <div id="app-root" style="display:block">
@@ -884,7 +907,7 @@ button, label, .nb, .btn, .stt, .card {
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <div id="fb-status" title="اضغط لإعدادات السيرفر والمستخدمين" onclick="openFbModal()"
-      style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;padding:5px 11px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(186,200,255,.7);white-space:nowrap;cursor:pointer">
+      style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;font-family:var(--font-body);padding:5px 11px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(186,200,255,.7);white-space:nowrap;cursor:pointer">
       <span id="fb-dot" style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;transition:background .4s"></span>
       <span id="fb-lbl">السيرفر المحلي</span>
     </div>
@@ -1179,7 +1202,7 @@ button, label, .nb, .btn, .stt, .card {
       <input class="sinp" id="fup-search" placeholder="ابحث بالاسم أو الهاتف أو الشركة…" oninput="renderFollowUpPage()" style="flex:1;min-width:200px">
       <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink2);white-space:nowrap">
         <span>تنبيه المتابعة كل</span>
-        <input type="number" id="fup-days-inp" value="14" min="1" max="365" onchange="changeFuDaysFromPage(this.value)" style="width:56px;padding:5px 7px;border:1px solid var(--border);border-radius:7px;font-size:12px;text-align:center;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif">
+        <input type="number" id="fup-days-inp" value="14" min="1" max="365" onchange="changeFuDaysFromPage(this.value)" style="width:56px;padding:5px 7px;border:1px solid var(--border);border-radius:7px;font-size:12px;text-align:center;font-family:var(--font-body)">
         <span>يوم</span>
       </div>
     </div>
@@ -1972,12 +1995,23 @@ function saveCurrency(){localStorage.setItem('ab_currency',JSON.stringify(priceC
     // Server-linked mode: the real login screen is the gate, not the local PIN
     document.getElementById('lock').style.display='none';
     const authEl=document.getElementById('auth-screen');
-    if(authEl){ authEl.removeAttribute('hidden'); authEl.style.display='flex'; }
-    try{ if(!firebase.apps.length) firebase.initializeApp(_fbCfg); }catch(err){ console.error(err); }
     const savedCreds = JSON.parse(localStorage.getItem('ab_fb_creds')||'null');
+    if(authEl){
+      authEl.removeAttribute('hidden'); authEl.style.display='flex';
+      if(savedCreds){
+        // We have a saved session — check it silently instead of flashing the login form
+        document.getElementById('auth-checking').style.display='block';
+        document.getElementById('auth-tabs-wrap').style.display='none';
+        document.getElementById('login-form').style.display='none';
+      }
+    }
+    try{ if(!firebase.apps.length) firebase.initializeApp(_fbCfg); }catch(err){ console.error(err); }
     if(savedCreds){
       fbDoRealLogin(savedCreds.email, savedCreds.pass).then(ok=>{
         if(!ok){
+          document.getElementById('auth-checking').style.display='none';
+          document.getElementById('auth-tabs-wrap').style.display='flex';
+          document.getElementById('login-form').style.display='block';
           document.getElementById('li-email').value = savedCreds.email;
           const e=document.getElementById('li-err');
           e.textContent='انتهت صلاحية الجلسة — سجّل الدخول مجدداً';
@@ -2025,8 +2059,46 @@ function toast(msg,type){
   el.classList.add('show'); clearTimeout(_tt);
   _tt=setTimeout(()=>el.classList.remove('show'),3200);
 }
+/* Shared AudioContext — created once and resumed on the user's first tap/click,
+   since browsers (Chrome/Android especially) block audio until a user gesture
+   has happened on the page at least once. Without this, a beep triggered by an
+   incoming chat message before any interaction would silently fail. */
+let _audioCtx=null;
+function _getAudioCtx(){
+  if(!_audioCtx){ try{ _audioCtx=new(window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; } }
+  if(_audioCtx.state==='suspended'){ _audioCtx.resume().catch(()=>{}); }
+  return _audioCtx;
+}
+['click','touchstart','keydown'].forEach(ev=>document.addEventListener(ev,()=>_getAudioCtx(),{once:true,passive:true}));
+
 function beep(){
-  try{const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;o.type='sine';g.gain.setValueAtTime(0.2,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.2);o.start(c.currentTime);o.stop(c.currentTime+0.2);}catch(e){}
+  try{
+    const c=_getAudioCtx(); if(!c) return;
+    const o=c.createOscillator(),g=c.createGain();
+    o.connect(g);g.connect(c.destination);
+    o.frequency.value=880;o.type='sine';
+    g.gain.setValueAtTime(0.2,c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.2);
+    o.start(c.currentTime);o.stop(c.currentTime+0.2);
+  }catch(e){}
+}
+/* Distinct, louder two-note chime for chat/message notifications, so it's not
+   confused with the short single-blip beep() used for ticket save/resolve. */
+function chatBeep(){
+  try{
+    const c=_getAudioCtx(); if(!c) return;
+    const notes=[[659.25,0],[987.77,0.11]];
+    notes.forEach(([freq,delay])=>{
+      const t=c.currentTime+delay;
+      const o=c.createOscillator(),g=c.createGain();
+      o.connect(g);g.connect(c.destination);
+      o.frequency.value=freq;o.type='sine';
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(0.32,t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+0.26);
+      o.start(t);o.stop(t+0.28);
+    });
+  }catch(e){}
 }
 
 /* ══ NAVIGATION ════════════════════════════════════════ */
@@ -2538,7 +2610,7 @@ function renderT(){
 
   const wrap=document.getElementById('tbl-wrap');
   const isF=list.length!==tickets.length;
-  const fi=isF?`<div class="fi">🔍 عرض <b>${list.length}</b> من <b>${tickets.length}</b> تيكت <button onclick="clearF()" style="margin-right:10px;font-size:11px;color:var(--red);background:none;border:none;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;font-weight:700">✕ مسح</button></div>`:'';
+  const fi=isF?`<div class="fi">🔍 عرض <b>${list.length}</b> من <b>${tickets.length}</b> تيكت <button onclick="clearF()" style="margin-right:10px;font-size:11px;color:var(--red);background:none;border:none;cursor:pointer;font-family:var(--font-body);font-weight:700">✕ مسح</button></div>`:'';
 
   if(!list.length){wrap.innerHTML=fi+`<div class="empty"><span class="empty-ico">📭</span>لا توجد تيكتات مطابقة</div>`;return;}
 
@@ -2569,7 +2641,7 @@ function renderT(){
       <td data-label="الهاتف" dir="ltr" style="text-align:right;font-size:12px">
         <div style="display:inline-flex;align-items:center;gap:5px">
           <a href="#" onclick="openWaN('${t.phone}');return false" style="display:inline-flex;align-items:center;gap:3px;color:#25D366;font-weight:700;text-decoration:none">${WA} ${t.phone}</a>
-          <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif" title="رسالة متابعة">📨</button>
+          <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--font-body)" title="رسالة متابعة">📨</button>
         </div>
       </td>
       <td data-label="التاريخ" style="font-size:12px;color:var(--ink2)">${ds}</td>
@@ -2834,12 +2906,12 @@ function renderFollowUp(){
         <div style="display:flex;gap:5px;flex-shrink:0">
           ${a.client.phone?`
           <button onclick="sendFollowUp('${a.client.name}','${a.client.phone}')"
-            style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;display:flex;align-items:center;gap:5px"
+            style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;gap:5px"
             title="إرسال رسالة متابعة">
             ${WA_ICO} متابعة
           </button>
           <button onclick="fillFromClientByPhone('${a.client.phone}')"
-            style="background:linear-gradient(135deg,var(--brand2),var(--brand3));border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif"
+            style="background:linear-gradient(135deg,var(--brand2),var(--brand3));border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body)"
             title="فتح تيكت جديد">🎫</button>
           `:'<span style="font-size:11px;color:var(--ink3)">لا يوجد هاتف</span>'}
         </div>
@@ -2851,7 +2923,7 @@ function renderFollowUp(){
       <span>فترة المتابعة:</span>
       <input type="number" id="fu-days-inp" value="${days}" min="1" max="365" onchange="changeFuDays(this.value)">
       <span>يوم</span>
-      <button onclick="renderFollowUp()" style="padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--white);font-size:11px;font-weight:700;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif;cursor:pointer;color:var(--brand2)">تحديث</button>
+      <button onclick="renderFollowUp()" style="padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--white);font-size:11px;font-weight:700;font-family:var(--font-body);cursor:pointer;color:var(--brand2)">تحديث</button>
     </div>
   </div>`;
 }
@@ -2980,7 +3052,7 @@ function renderDashboard(){
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         ${badge(t.status)}
         <a href="#" onclick="openWaN('${t.phone}');return false" style="display:inline-flex;align-items:center;gap:3px;color:#25D366;font-size:11px;font-weight:700;text-decoration:none">${WA_S}${t.phone}</a>
-        <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Roboto','Segoe UI',system-ui,-apple-system,'Noto Sans Arabic',sans-serif">📨</button>
+        <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--font-body)">📨</button>
         <div style="margin-right:auto;display:flex;gap:4px">
           ${t.status==='open'?`<button class="btn sm bg" onclick="resolveDash(${ri})" style="font-size:10px;padding:3px 9px">✔</button>`:''}
           <button class="btn sm bo" onclick="openEdit(${ri});goPage(2)" style="font-size:10px;padding:3px 9px">✏️</button>
@@ -4071,7 +4143,7 @@ function setupPmMetaSync(){
 }
 
 function notifyPrivateMessage(name, text){
-  beep();
+  chatBeep();
   if(localStorage.getItem('ab_chat_notif')!=='1') return;
   if(!('Notification' in window) || Notification.permission!=='granted') return;
   try{
@@ -4154,7 +4226,7 @@ function setChatNotifBtnUI(on){
 }
 
 function notifyNewMessage(msg){
-  beep();
+  chatBeep();
   const onChatPage = document.getElementById('pg8')?.classList.contains('on');
   const tabVisible = document.visibilityState==='visible';
   if(onChatPage && tabVisible) return;
