@@ -1275,7 +1275,7 @@ button, label, .nb, .btn, .stt, .card {
 <!-- ══ PAGE 7: الصيانة ══ -->
 <main class="pg" id="pg7">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:22px">
-    <div><h1 style="font-size:21px;font-weight:800;color:var(--ink)">الصيانة</h1><p style="font-size:13px;color:var(--ink2);margin-top:3px">تذاكر صيانة الأجهزة — بيانات العميل، الخدمات، والتكلفة</p></div>
+    <div><h1 style="font-size:21px;font-weight:800;color:var(--ink)">الصيانة</h1><p style="font-size:13px;color:var(--ink2);margin-top:3px">تذاكر صيانة الأجهزة — بيانات العميل والتكلفة والتسليم</p></div>
     <button class="btn bo" onclick="openMaintSvcModal()">
       <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       إدارة الخدمات والأسعار
@@ -1285,12 +1285,12 @@ button, label, .nb, .btn, .stt, .card {
   <div class="card">
     <div class="ch"><div class="ch-ico"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><div class="ch-title" id="maint-form-title">تذكرة صيانة جديدة</div></div>
     <div class="fg">
-      <div class="fld"><label>اسم العميل <span class="ast">*</span></label><input class="inp" id="m-name" type="text" placeholder="اسم العميل"></div>
+      <div class="fld"><label>اسم الزبون <span class="ast">*</span></label><input class="inp" id="m-name" type="text" placeholder="اسم الزبون"></div>
       <div class="fld">
-        <label>الهاتف <span class="ast">*</span></label>
+        <label>رقم الهاتف <span class="ast">*</span></label>
         <div class="ph-wrap"><span class="ph-flag">🇸🇾 +963</span><input class="ph-inp" id="m-phone" type="tel" inputmode="tel" placeholder="9xxxxxxxx"></div>
       </div>
-      <div class="fld"><label>التاريخ <span class="ast">*</span></label><input class="inp" id="m-date" type="datetime-local" inputmode="none"></div>
+      <div class="fld"><label>نوع الجهاز <span class="ast">*</span></label><input class="inp" id="m-device" type="text" placeholder="مثال: لابتوب Dell، طابعة HP…"></div>
       <div class="fld">
         <label>الحالة</label>
         <select class="inp" id="m-status">
@@ -1298,22 +1298,27 @@ button, label, .nb, .btn, .stt, .card {
           <option value="done">تم التسليم</option>
         </select>
       </div>
-      <div class="fld full"><label>وصف المشكلة <span class="ast">*</span></label><textarea class="inp" id="m-problem" placeholder="اشرح عطل/مشكلة الجهاز…"></textarea></div>
-      <div class="fld full"><label>الملحقات المرفقة مع الجهاز</label><textarea class="inp" id="m-accessories" style="min-height:52px" placeholder="مثال: شاحن، حقيبة، ماوس، طقم كابلات…"></textarea></div>
+      <div class="fld full"><label>العطل <span class="ast">*</span></label><textarea class="inp" id="m-problem" placeholder="اشرح عطل/مشكلة الجهاز…"></textarea></div>
       <div class="fld full">
-        <label>خدمات الصيانة <small style="font-weight:400;color:var(--ink3)">(اختر ما يلزم — الأسعار قابلة للتعديل من «إدارة الخدمات والأسعار»)</small></label>
+        <label>خدمات الصيانة <small style="font-weight:400;color:var(--ink3)">(اختياري — تعبّي «أجور الصيانة» تلقائياً، الأسعار تتعدّل من «إدارة الخدمات والأسعار»)</small></label>
         <div class="svcs" id="m-svcs-wrap"></div>
       </div>
-      <div class="fld"><label>تكلفة إضافية / قطع غيار</label><input class="inp" id="m-extra" type="number" min="0" step="any" value="0" oninput="calcMaintTotal()"></div>
+      <div class="fld"><label>تاريخ الاستلام <span class="ast">*</span></label><input class="inp" id="m-date-in" type="datetime-local" inputmode="none"></div>
+      <div class="fld"><label>تاريخ التسليم</label><input class="inp" id="m-date-out" type="datetime-local" inputmode="none"></div>
       <div class="fld">
-        <label>عملة القبض</label>
+        <label>عملة المبالغ</label>
         <div class="brow" style="gap:6px">
           <button type="button" class="btn sm bo" id="m-cur-usd" onclick="setMaintPayCur('usd')">$ دولار</button>
           <button type="button" class="btn sm bo" id="m-cur-syp" onclick="setMaintPayCur('syp')">ل.س سوري</button>
         </div>
       </div>
-      <div class="fld"><label>التكلفة الإجمالية (القبض)</label><input class="inp" id="m-total" type="text" value="0" readonly style="font-weight:800;color:var(--brand2);background:var(--brand-pale)"></div>
-      <div class="fld full"><label>ملاحظات</label><textarea class="inp" id="m-notes" style="min-height:56px" placeholder="ملاحظات إضافية…"></textarea></div>
+      <div class="fld"><label>أجور الصيانة</label><input class="inp" id="m-fee" type="number" min="0" step="any" value="0" oninput="calcMaintRemaining()"></div>
+      <div class="fld"><label>دفعة</label><input class="inp" id="m-deposit" type="number" min="0" step="any" value="0" oninput="calcMaintRemaining()"></div>
+      <div class="fld"><label>المبلغ المتبقي</label><input class="inp" id="m-remaining" type="text" value="0" readonly style="font-weight:800;color:var(--brand2);background:var(--brand-pale)"></div>
+      <div class="fld"><label>اسم المستلم</label><input class="inp" id="m-receiver" type="text" placeholder="اسم من استلم الجهاز عند التسليم"></div>
+      <div class="fld"><label>حساب المركز</label><input class="inp" id="m-center-account" type="number" min="0" step="any" value="0"></div>
+      <div class="fld"><label>لصالح مركز</label><input class="inp" id="m-for-center" type="text" placeholder="اسم المركز المستفيد (إن وجد)"></div>
+      <div class="fld full"><label>ملاحظة</label><textarea class="inp" id="m-notes" style="min-height:56px" placeholder="ملاحظات إضافية…"></textarea></div>
     </div>
     <div class="brow" style="margin-top:14px">
       <button class="btn bp" id="m-save-btn" onclick="saveMaintTicket()">
@@ -1506,6 +1511,38 @@ button, label, .nb, .btn, .stt, .card {
       <button class="btn bp" onclick="printMaintLabel()">
         <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
         طباعة
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRINT RECEIPT MODAL ══ -->
+<div class="ov" id="mreceipt-ov" onclick="if(event.target===this)closeReceiptModal()">
+  <div class="modal" style="width:420px">
+    <div class="mhdr" style="background:linear-gradient(135deg,#1A2356,#2C3E8C)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="mhdr-ico"><svg viewBox="0 0 24 24" width="16" height="16" stroke="white" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><polyline points="15 2 15 7 20 7"/></svg></div>
+        <div style="font-size:15px;font-weight:800;color:#fff">طباعة وصل الصيانة</div>
+      </div>
+      <button class="mclose" onclick="closeReceiptModal()">✕</button>
+    </div>
+    <div class="mbody">
+      <label style="font-size:12px;font-weight:700;color:var(--ink);display:block;margin-bottom:8px">صورة/شعار يظهر أعلى الوصل <small style="font-weight:400;color:var(--ink3)">(اختياري — يبقى محفوظاً لكل الوصولات القادمة)</small></label>
+      <div id="rcpt-logo-preview" style="display:none;align-items:center;gap:10px;margin-bottom:10px;padding:8px;border:1px solid var(--border);border-radius:10px;background:var(--paper)">
+        <img id="rcpt-logo-img" style="width:44px;height:44px;object-fit:contain;border-radius:8px;background:#fff;border:1px solid var(--border)">
+        <span style="font-size:12px;color:var(--ink2);flex:1">تم تعيين الصورة</span>
+        <button class="btn sm bd" onclick="removeReceiptLogo()">إزالة</button>
+      </div>
+      <input type="file" accept="image/*" id="rcpt-logo-input" class="inp" onchange="handleReceiptLogoUpload(event)">
+      <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:12px">
+        <label class="sc" style="width:100%"><input type="checkbox" id="rcpt-sig" checked> إظهار خانتَي توقيع (العميل / الفني)</label>
+      </div>
+    </div>
+    <div class="mfoot">
+      <button class="btn bo" onclick="closeReceiptModal()">إلغاء</button>
+      <button class="btn bp" onclick="printMaintReceipt()">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        طباعة الوصل
       </button>
     </div>
   </div>
@@ -1982,9 +2019,9 @@ function saveCurrency(){localStorage.setItem('ab_currency',JSON.stringify(priceC
   refreshNum();
   document.getElementById('f-date').value = new Date().toISOString().slice(0,16);
   setTimeout(renderDashboard, 100);
-  document.getElementById('m-date').value = new Date().toISOString().slice(0,16);
-  renderMaintSvcsChecklist();
+  document.getElementById('m-date-in').value = new Date().toISOString().slice(0,16);
   setMaintPayCur(_mPayCur);
+  renderMaintSvcsChecklist();
   renderTicketSvcsChecklist();
   setTicketPayCur(_tPayCur);
   syncCurrencyInputs();
@@ -2379,7 +2416,7 @@ function goPage(n){
 /* ══ KEYBOARD ══════════════════════════════════════════ */
 document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();if(document.getElementById('pg1').classList.contains('on'))saveTicket();}
-  if(e.key==='Escape'){closePaste();closeEdit();closeDel();closePwd();closeAddClient();closeMaintSvcModal();closeLabelModal();closeTicketSvcModal();closeFbModal();closeProfileModal();}
+  if(e.key==='Escape'){closePaste();closeEdit();closeDel();closePwd();closeAddClient();closeMaintSvcModal();closeLabelModal();closeReceiptModal();closeTicketSvcModal();closeFbModal();closeProfileModal();}
 });
 document.addEventListener('mousemove',e=>{
   const btn=e.target.closest('.btn');
@@ -3282,7 +3319,7 @@ function syncCurrencyInputs(){
   ['cur-rate-m','cur-rate-t'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=priceCurrency.rate||'';});
 }
 function refreshAllPricing(){
-  renderMaintSvcsChecklist();calcMaintTotal();
+  renderMaintSvcsChecklist();calcMaintRemaining();
   renderTicketSvcsChecklist();calcTicketTotal();
   if(document.getElementById('msvc-ov')?.style.display==='flex')renderMaintSvcList();
   if(document.getElementById('tsvc-ov')?.style.display==='flex')renderTicketSvcList();
@@ -3290,27 +3327,25 @@ function refreshAllPricing(){
 function setCurrencyUnit(v){if(!requireAdmin()){syncCurrencyInputs();return;}priceCurrency.unit=v;saveCurrency();syncCurrencyInputs();refreshAllPricing();}
 function setCurrencyRate(v){if(!requireAdmin()){syncCurrencyInputs();return;}priceCurrency.rate=Number(v)||0;saveCurrency();refreshAllPricing();}
 
-function renderMaintSvcsChecklist(){
-  const wrap=document.getElementById('m-svcs-wrap');
-  if(!wrap)return;
-  const checkedIds=[...wrap.querySelectorAll('input:checked')].map(x=>x.value);
-  wrap.innerHTML=maintSvcs.map(s=>`<label class="sc"><input type="checkbox" value="${s.id}" data-price="${s.price}" onchange="calcMaintTotal()" ${checkedIds.includes(s.id)?'checked':''}> ${s.name} <small style="opacity:.7">(${fmtMoney(s.price)})</small></label>`).join('')
-    || `<div style="font-size:12px;color:var(--ink3)">لا توجد خدمات بعد — أضِفها من «إدارة الخدمات والأسعار»</div>`;
-}
-function calcMaintTotal(){
-  const wrap=document.getElementById('m-svcs-wrap');
-  let sum=0;
-  if(wrap)wrap.querySelectorAll('input:checked').forEach(c=>sum+=Number(c.dataset.price)||0);
-  const extra=Number(document.getElementById('m-extra').value)||0;
-  const base=sum+extra;
-  document.getElementById('m-total').value=fmtCur(convertAmt(base,priceCurrency.unit,_mPayCur),_mPayCur);
-  return base;
+function calcMaintRemaining(){
+  const fee=Number(document.getElementById('m-fee').value)||0;
+  const deposit=Number(document.getElementById('m-deposit').value)||0;
+  const remaining=fee-deposit;
+  document.getElementById('m-remaining').value=fmtCur(remaining,_mPayCur);
+  return remaining;
 }
 function setMaintPayCur(u){
   _mPayCur=u;localStorage.setItem('ab_pay_cur_maint',u);
   document.getElementById('m-cur-usd').className='btn sm '+(u==='usd'?'bp':'bo');
   document.getElementById('m-cur-syp').className='btn sm '+(u==='syp'?'bp':'bo');
-  calcMaintTotal();
+  calcMaintRemaining();
+}
+function renderMaintSvcsChecklist(){
+  const wrap=document.getElementById('m-svcs-wrap');
+  if(!wrap)return;
+  const checkedIds=[...wrap.querySelectorAll('input:checked')].map(x=>x.value);
+  wrap.innerHTML=maintSvcs.map(s=>`<label class="sc"><input type="checkbox" value="${s.id}" data-price="${s.price}" onchange="applyMaintSvcsToFee()" ${checkedIds.includes(s.id)?'checked':''}> ${s.name} <small style="opacity:.7">(${fmtCur(convertAmt(s.price,priceCurrency.unit,_mPayCur),_mPayCur)})</small></label>`).join('')
+    || `<div style="font-size:12px;color:var(--ink3)">لا توجد خدمات بعد — أضِفها من «إدارة الخدمات والأسعار»</div>`;
 }
 function getCheckedMaintSvcs(){
   const wrap=document.getElementById('m-svcs-wrap');
@@ -3320,6 +3355,12 @@ function getCheckedMaintSvcs(){
     return s?{name:s.name,price:s.price}:null;
   }).filter(Boolean);
 }
+function applyMaintSvcsToFee(){
+  const services=getCheckedMaintSvcs();
+  const sum=services.reduce((a,s)=>a+s.price,0);
+  document.getElementById('m-fee').value=convertAmt(sum,priceCurrency.unit,_mPayCur).toFixed(2).replace(/\.00$/,'');
+  calcMaintRemaining();
+}
 function genMaintNum(){
   const d=new Date(),p=n=>String(n).padStart(2,'0');
   return `MT-${String(d.getFullYear()).slice(-2)}${p(d.getMonth()+1)}${p(d.getDate())}-${String(maintTickets.length+1).padStart(4,'0')}`;
@@ -3327,27 +3368,31 @@ function genMaintNum(){
 function saveMaintTicket(){
   const name=document.getElementById('m-name').value.trim();
   const phone=document.getElementById('m-phone').value.trim();
+  const device=document.getElementById('m-device').value.trim();
   const problem=document.getElementById('m-problem').value.trim();
-  const date=document.getElementById('m-date').value;
-  if(!name||!phone||!problem||!date){toast('يرجى ملء الاسم والهاتف والمشكلة والتاريخ','err');return;}
+  const dateIn=document.getElementById('m-date-in').value;
+  const dateOut=document.getElementById('m-date-out').value;
+  if(!name||!phone||!device||!problem||!dateIn){toast('يرجى ملء الاسم والهاتف ونوع الجهاز والعطل وتاريخ الاستلام','err');return;}
   const services=getCheckedMaintSvcs();
-  const extra=Number(document.getElementById('m-extra').value)||0;
-  const total=services.reduce((a,s)=>a+s.price,0)+extra;
+  const fee=Number(document.getElementById('m-fee').value)||0;
+  const deposit=Number(document.getElementById('m-deposit').value)||0;
+  const remaining=fee-deposit;
   const payCurrency=_mPayCur;
-  const payTotal=convertAmt(total,priceCurrency.unit,payCurrency);
+  const receiver=document.getElementById('m-receiver').value.trim();
+  const centerAccount=Number(document.getElementById('m-center-account').value)||0;
+  const forCenter=document.getElementById('m-for-center').value.trim();
   const notes=document.getElementById('m-notes').value.trim();
-  const accessories=document.getElementById('m-accessories').value.trim();
   const status=document.getElementById('m-status').value;
   if(_maintEditIdx!==null){
     const t=maintTickets[_maintEditIdx];
-    Object.assign(t,{name,phone,problem,date,services,extra,total,payCurrency,payTotal,notes,accessories,status});
+    Object.assign(t,{name,phone,device,problem,dateIn,dateOut,services,fee,deposit,remaining,payCurrency,receiver,centerAccount,forCenter,notes,status});
     logActivity('عدّل صيانة', `${name} — ${problem.slice(0,40)}`);
     toast('✓ تم تحديث التذكرة');
     _maintEditIdx=null;
     document.getElementById('maint-form-title').textContent='تذكرة صيانة جديدة';
     document.getElementById('m-save-btn').innerHTML='<svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>حفظ التذكرة';
   }else{
-    maintTickets.push({id:genMaintNum(),name,phone,problem,date,services,extra,total,payCurrency,payTotal,notes,accessories,status,createdAt:Date.now()});
+    maintTickets.push({id:genMaintNum(),name,phone,device,problem,dateIn,dateOut,services,fee,deposit,remaining,payCurrency,receiver,centerAccount,forCenter,notes,status,createdAt:Date.now()});
     logActivity('أضاف صيانة', `${name} — ${problem.slice(0,40)}`);
     toast('✓ تم حفظ تذكرة الصيانة');
   }
@@ -3358,29 +3403,39 @@ function saveMaintTicket(){
 function clearMaintForm(){
   document.getElementById('m-name').value='';
   document.getElementById('m-phone').value='';
+  document.getElementById('m-device').value='';
   document.getElementById('m-problem').value='';
-  document.getElementById('m-date').value=new Date().toISOString().slice(0,16);
-  document.getElementById('m-extra').value=0;
+  document.getElementById('m-date-in').value=new Date().toISOString().slice(0,16);
+  document.getElementById('m-date-out').value='';
+  document.getElementById('m-fee').value=0;
+  document.getElementById('m-deposit').value=0;
+  document.getElementById('m-receiver').value='';
+  document.getElementById('m-center-account').value=0;
+  document.getElementById('m-for-center').value='';
   document.getElementById('m-notes').value='';
-  document.getElementById('m-accessories').value='';
   document.getElementById('m-status').value='progress';
   _maintEditIdx=null;
   document.getElementById('maint-form-title').textContent='تذكرة صيانة جديدة';
   document.getElementById('m-save-btn').innerHTML='<svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>حفظ التذكرة';
   setMaintPayCur(_mPayCur);
   renderMaintSvcsChecklist();
-  calcMaintTotal();
+  calcMaintRemaining();
 }
 function editMaintTicket(ri){
   const t=maintTickets[ri];if(!t)return;
   _maintEditIdx=ri;
   document.getElementById('m-name').value=t.name;
   document.getElementById('m-phone').value=t.phone;
+  document.getElementById('m-device').value=t.device||'';
   document.getElementById('m-problem').value=t.problem;
-  document.getElementById('m-date').value=t.date;
-  document.getElementById('m-extra').value=t.extra||0;
+  document.getElementById('m-date-in').value=t.dateIn||t.date||'';
+  document.getElementById('m-date-out').value=t.dateOut||'';
+  document.getElementById('m-fee').value=t.fee||0;
+  document.getElementById('m-deposit').value=t.deposit||0;
+  document.getElementById('m-receiver').value=t.receiver||'';
+  document.getElementById('m-center-account').value=t.centerAccount||0;
+  document.getElementById('m-for-center').value=t.forCenter||'';
   document.getElementById('m-notes').value=t.notes||'';
-  document.getElementById('m-accessories').value=t.accessories||'';
   document.getElementById('m-status').value=t.status||'progress';
   renderMaintSvcsChecklist();
   const wrap=document.getElementById('m-svcs-wrap');
@@ -3389,13 +3444,14 @@ function editMaintTicket(ri){
     const s=maintSvcs.find(x=>x.id===c.value);
     c.checked=s&&names.includes(s.name);
   });
-  calcMaintTotal();
+  setMaintPayCur(t.payCurrency||_mPayCur);
+  calcMaintRemaining();
   document.getElementById('maint-form-title').textContent='تعديل التذكرة '+t.id;
   document.getElementById('m-save-btn').innerHTML='✓ حفظ التعديل';
-  setMaintPayCur(t.payCurrency||priceCurrency.unit);
   window.scrollTo({top:0,behavior:'smooth'});
 }
-function maintTotalStr(t){return t.payCurrency?fmtCur(t.payTotal,t.payCurrency):fmtMoney(t.total);}
+function maintTotalStr(t){return fmtCur(t.fee||0,t.payCurrency||_mPayCur);}
+function maintRemainingStr(t){return fmtCur(t.remaining??((t.fee||0)-(t.deposit||0)),t.payCurrency||_mPayCur);}
 function ticketTotalStr(t){return t.payCurrency?fmtCur(t.payTotal,t.payCurrency):fmtMoney(t.cost||0);}
 function sendMaintReady(ri){
   const t=maintTickets[ri];if(!t)return;
@@ -3404,8 +3460,11 @@ function sendMaintReady(ri){
   let msg=`السلام عليكم أستاذ ${n} 🌟\n\n`;
   msg+=`يسعدنا إعلامكم بأن صيانة جهازكم قد اكتملت بنجاح ✅\n\n`;
   msg+=`🔧 رقم التذكرة: ${t.id}\n`;
+  if(t.device) msg+=`💻 الجهاز: ${t.device}\n`;
   if(svcNames) msg+=`🛠️ الخدمات المنجزة: ${svcNames}\n`;
-  msg+=`💰 التكلفة الإجمالية: ${maintTotalStr(t)}\n\n`;
+  msg+=`💰 أجور الصيانة: ${maintTotalStr(t)}\n`;
+  if((t.deposit||0)>0) msg+=`💵 الدفعة المسبقة: ${fmtCur(t.deposit,t.payCurrency||_mPayCur)}\n`;
+  msg+=`📌 المبلغ المتبقي: ${maintRemainingStr(t)}\n\n`;
   msg+=`بانتظار تشريفكم لاستلام الجهاز في أقرب وقت يناسبكم 🙏\n`;
   msg+=`شركة البسيط — فرع حلب`;
   window.open('https://wa.me/'+fmtWa(t.phone)+'?text='+encodeURIComponent(msg),'_blank');
@@ -3427,35 +3486,40 @@ function renderMaintTable(){
   const list=maintTickets.filter(t=>!q||t.name.toLowerCase().includes(q)||t.phone.includes(q)||t.id.toLowerCase().includes(q))
     .map((t)=>({t,ri:maintTickets.indexOf(t)})).reverse();
   if(!list.length){wrap.innerHTML=`<div class="empty"><span class="empty-ico">🧰</span>لا توجد تذاكر صيانة بعد</div>`;return;}
-  let html=`<div class="twrap"><table><thead><tr><th>رقم التذكرة</th><th>الاسم</th><th>الهاتف</th><th>التاريخ</th><th>الخدمات</th><th>الملحقات</th><th>التكلفة</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody>`;
+  let html=`<div class="twrap"><table><thead><tr><th>رقم التذكرة</th><th>الزبون</th><th>الهاتف</th><th>الجهاز</th><th>الاستلام</th><th>التسليم</th><th>الأجور</th><th>المتبقي</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody>`;
   list.forEach(({t,ri})=>{
-    const ds=t.date?new Date(t.date).toLocaleDateString('ar',{year:'numeric',month:'short',day:'numeric'}):'—';
-    const svcNames=(t.services||[]).map(s=>s.name).join('، ')||'—';
+    const dsIn=t.dateIn?new Date(t.dateIn).toLocaleDateString('ar',{year:'numeric',month:'short',day:'numeric'}):'—';
+    const dsOut=t.dateOut?new Date(t.dateOut).toLocaleDateString('ar',{year:'numeric',month:'short',day:'numeric'}):'—';
+    const rem=t.remaining??((t.fee||0)-(t.deposit||0));
     html+=`<tr>
       <td><span style="color:var(--brand2);font-weight:700;font-size:12px">${t.id}</span></td>
       <td style="font-weight:600">${t.name}</td>
       <td dir="ltr" style="text-align:right;font-size:12px">${t.phone}</td>
-      <td style="font-size:12px;color:var(--ink2)">${ds}</td>
-      <td style="max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${svcNames}">${svcNames}</td>
-      <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:var(--ink2)" title="${t.accessories||''}">${t.accessories||'—'}</td>
+      <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:var(--ink2)" title="${t.device||''}">${t.device||'—'}</td>
+      <td style="font-size:12px;color:var(--ink2)">${dsIn}</td>
+      <td style="font-size:12px;color:var(--ink2)">${dsOut}</td>
       <td style="font-weight:700;font-size:12px;color:var(--brand2)">${maintTotalStr(t)}</td>
+      <td style="font-weight:700;font-size:12px;color:${rem>0?'#DC2626':'#16A34A'}">${maintRemainingStr(t)}</td>
       <td><span class="${t.status==='done'?'bd':'bo'}" style="padding:2px 9px;border-radius:11px;font-size:11px;font-weight:700">${t.status==='done'?'تم التسليم':'قيد الصيانة'}</span></td>
       <td><div class="brow" style="gap:3px;flex-wrap:nowrap">
         <button class="btn sm" onclick="toggleMaintExp(${ri})" title="عرض كل التفاصيل">👁</button>
         <button class="btn sm bo" onclick="editMaintTicket(${ri})" title="تعديل">✏️</button>
         <button class="btn sm" onclick="openLabelModal(${ri})" title="طباعة لصاقة">🏷️</button>
+        <button class="btn sm" onclick="openReceiptModal(${ri})" title="طباعة وصل">🧾</button>
         <button class="btn sm bw" onclick="sendMaintReady(${ri})" title="إعلام العميل عبر واتساب">${WA}</button>
         <button class="btn sm bd admin-only-el" onclick="deleteMaintTicket(${ri})" title="حذف">🗑</button>
       </div></td>
     </tr>`;
-    const svcDetail=(t.services||[]).map(s=>`${s.name} (${fmtMoney(s.price)})`).join('، ')||'—';
-    html+=`<tr id="mex${ri}" style="display:none"><td colspan="9"><div class="exp-grid">
-      <div class="exp-item"><div class="exp-lbl">وصف المشكلة</div><div class="exp-val">${t.problem||'—'}</div></div>
-      <div class="exp-item"><div class="exp-lbl">الخدمات المختارة</div><div class="exp-val">${svcDetail}</div></div>
-      <div class="exp-item"><div class="exp-lbl">الملحقات المرفقة</div><div class="exp-val">${t.accessories||'—'}</div></div>
-      <div class="exp-item"><div class="exp-lbl">تكلفة إضافية / قطع غيار</div><div class="exp-val">${fmtMoney(t.extra||0)}</div></div>
-      <div class="exp-item"><div class="exp-lbl">التكلفة الإجمالية</div><div class="exp-val">${maintTotalStr(t)}</div></div>
-      <div class="exp-item"><div class="exp-lbl">ملاحظات</div><div class="exp-val">${t.notes||'—'}</div></div>
+    html+=`<tr id="mex${ri}" style="display:none"><td colspan="10"><div class="exp-grid">
+      <div class="exp-item"><div class="exp-lbl">العطل</div><div class="exp-val">${t.problem||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">الخدمات</div><div class="exp-val">${(t.services||[]).map(s=>s.name).join('، ')||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">أجور الصيانة</div><div class="exp-val">${maintTotalStr(t)}</div></div>
+      <div class="exp-item"><div class="exp-lbl">الدفعة</div><div class="exp-val">${fmtCur(t.deposit||0,t.payCurrency||_mPayCur)}</div></div>
+      <div class="exp-item"><div class="exp-lbl">المبلغ المتبقي</div><div class="exp-val">${maintRemainingStr(t)}</div></div>
+      <div class="exp-item"><div class="exp-lbl">اسم المستلم</div><div class="exp-val">${t.receiver||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">حساب المركز</div><div class="exp-val">${fmtCur(t.centerAccount||0,t.payCurrency||_mPayCur)}</div></div>
+      <div class="exp-item"><div class="exp-lbl">لصالح مركز</div><div class="exp-val">${t.forCenter||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">ملاحظة</div><div class="exp-val">${t.notes||'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">تاريخ الإنشاء</div><div class="exp-val">${t.createdAt?new Date(t.createdAt).toLocaleString('ar'):'—'}</div></div>
     </div></td></tr>`;
   });
@@ -3825,7 +3889,7 @@ function setupFbSync(){
   fbDB.ref('maintSvcs').on('value',snap=>{
     const v=snap.val();
     if(v===null||v===undefined){fbDB.ref('maintSvcs').set(maintSvcs);}
-    else{const inc=fbToArr(v);maintSvcs.length=0;maintSvcs.push(...inc);localStorage.setItem('ab_maint_svcs',JSON.stringify(maintSvcs));renderMaintSvcsChecklist();calcMaintTotal();if(document.getElementById('msvc-ov')?.style.display==='flex')renderMaintSvcList();}
+    else{const inc=fbToArr(v);maintSvcs.length=0;maintSvcs.push(...inc);localStorage.setItem('ab_maint_svcs',JSON.stringify(maintSvcs));renderMaintSvcsChecklist();if(document.getElementById('msvc-ov')?.style.display==='flex')renderMaintSvcList();}
   });
   fbDB.ref('ticketSvcs').on('value',snap=>{
     const v=snap.val();
@@ -4479,14 +4543,17 @@ async function doFbEmailLogin(){
 /* ── طباعة لصاقة ── */
 const MLABEL_FIELDS=[
   {k:'id',lbl:'رقم التذكرة',def:true},
-  {k:'name',lbl:'اسم العميل',def:true},
+  {k:'name',lbl:'اسم الزبون',def:true},
   {k:'phone',lbl:'رقم الهاتف',def:true},
-  {k:'date',lbl:'التاريخ',def:false},
-  {k:'problem',lbl:'المشكلة',def:false},
+  {k:'device',lbl:'نوع الجهاز',def:true},
+  {k:'problem',lbl:'العطل',def:false},
   {k:'services',lbl:'الخدمات',def:false},
-  {k:'accessories',lbl:'الملحقات',def:true},
-  {k:'total',lbl:'التكلفة الإجمالية',def:true},
-  {k:'notes',lbl:'الملاحظات',def:false}
+  {k:'dateIn',lbl:'تاريخ الاستلام',def:false},
+  {k:'dateOut',lbl:'تاريخ التسليم',def:false},
+  {k:'fee',lbl:'أجور الصيانة',def:true},
+  {k:'deposit',lbl:'الدفعة',def:false},
+  {k:'remaining',lbl:'المبلغ المتبقي',def:true},
+  {k:'notes',lbl:'الملاحظة',def:false}
 ];
 function openLabelModal(ri){
   _labelIdx=ri;
@@ -4522,17 +4589,21 @@ function printMaintLabel(){
   const fs=Math.max(8,Math.min(11,9+(pageW-80)*0.03)).toFixed(1);
   const rows={
     id:['رقم التذكرة',t.id],
-    name:['العميل',t.name],
+    name:['الزبون',t.name],
     phone:['الهاتف',t.phone],
-    date:['التاريخ',t.date?new Date(t.date).toLocaleDateString('ar'):'—'],
-    problem:['المشكلة',t.problem],
+    device:['الجهاز',t.device||'—'],
+    problem:['العطل',t.problem||'—'],
     services:['الخدمات',(t.services||[]).map(s=>s.name).join('، ')||'—'],
-    accessories:['الملحقات',t.accessories||'—'],
-    total:['التكلفة',maintTotalStr(t)],
-    notes:['ملاحظات',t.notes||'—']
+    dateIn:['تاريخ الاستلام',t.dateIn?new Date(t.dateIn).toLocaleDateString('ar'):'—'],
+    dateOut:['تاريخ التسليم',t.dateOut?new Date(t.dateOut).toLocaleDateString('ar'):'—'],
+    fee:['أجور الصيانة',maintTotalStr(t)],
+    deposit:['الدفعة',fmtCur(t.deposit||0,t.payCurrency||_mPayCur)],
+    remaining:['المتبقي',maintRemainingStr(t)],
+    notes:['ملاحظة',t.notes||'—']
   };
   const body=chosen.map(k=>`<div class="lrow"><span class="lk">${rows[k][0]}</span><span class="lv">${rows[k][1]}</span></div>`).join('');
-  const logoSvg=`<svg width="22" height="22" viewBox="0 0 42 42" fill="none">
+  const customLogo=localStorage.getItem('ab_print_logo');
+  const logoSvg=customLogo?`<img src="${customLogo}" style="width:100%;height:100%;object-fit:contain">`:`<svg width="22" height="22" viewBox="0 0 42 42" fill="none">
     <path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#1E3A8A" stroke-width="2.2" stroke-linecap="round"/>
     <rect x="11" y="22" width="4" height="6" rx="2" fill="#3B5BDB"/>
     <rect x="27" y="22" width="4" height="6" rx="2" fill="#3B5BDB"/>
@@ -4559,6 +4630,120 @@ function printMaintLabel(){
   <scr'+'ipt>window.onload=()=>{window.print();setTimeout(()=>window.close(),2600)}<\/scr'+'ipt></body></html>`);
   w.document.close();
   closeLabelModal();
+}
+
+/* ── طباعة وصل الصيانة ── */
+let _receiptIdx=null;
+function openReceiptModal(ri){
+  _receiptIdx=ri;
+  const logo=localStorage.getItem('ab_print_logo');
+  const prev=document.getElementById('rcpt-logo-preview');
+  const img=document.getElementById('rcpt-logo-img');
+  if(logo){ img.src=logo; prev.style.display='flex'; } else { prev.style.display='none'; }
+  document.getElementById('rcpt-logo-input').value='';
+  document.getElementById('mreceipt-ov').style.display='flex';
+}
+function closeReceiptModal(){document.getElementById('mreceipt-ov').style.display='none';_receiptIdx=null;}
+function handleReceiptLogoUpload(ev){
+  const file=ev.target.files&&ev.target.files[0];
+  if(!file)return;
+  if(file.size>1.5*1024*1024){toast('حجم الصورة كبير — اختر صورة أصغر من 1.5MB','err');return;}
+  const reader=new FileReader();
+  reader.onload=()=>{
+    localStorage.setItem('ab_print_logo',reader.result);
+    document.getElementById('rcpt-logo-img').src=reader.result;
+    document.getElementById('rcpt-logo-preview').style.display='flex';
+    toast('✓ تم حفظ الصورة');
+  };
+  reader.readAsDataURL(file);
+}
+function removeReceiptLogo(){
+  localStorage.removeItem('ab_print_logo');
+  document.getElementById('rcpt-logo-preview').style.display='none';
+  document.getElementById('rcpt-logo-input').value='';
+}
+function printMaintReceipt(){
+  if(_receiptIdx===null)return;
+  const t=maintTickets[_receiptIdx];if(!t)return;
+  const logo=localStorage.getItem('ab_print_logo');
+  const showSig=document.getElementById('rcpt-sig').checked;
+  const cur=t.payCurrency||_mPayCur;
+  const svcNames=(t.services||[]).map(s=>s.name).join('، ')||'—';
+  const statusBadge=t.status==='done'
+    ?'<span style="background:#D1FAE5;color:#065F46;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700">تم التسليم</span>'
+    :'<span style="background:#FEF3C7;color:#92400E;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700">قيد الصيانة</span>';
+  const logoBlock = logo
+    ? `<img src="${logo}" style="width:52px;height:52px;object-fit:contain;border-radius:12px;background:#fff;padding:3px">`
+    : `<svg width="30" height="30" viewBox="0 0 42 42" fill="none"><path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#93C5FD" stroke-width="2.4" stroke-linecap="round"/><rect x="11" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><rect x="27" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><path d="M15 28C15 31 18 32 21 32" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="32.5" r="1.7" fill="#F59E0B"/></svg>`;
+  const row=(k,v)=>`<div class="ri"><span class="rk">${k}</span><span class="rv">${v}</span></div>`;
+  const body=`
+  <div class="hd">
+    <div class="hd-l">
+      <div class="hd-logo">${logoBlock}</div>
+      <div><div class="hd-name">البسيط</div><div class="hd-sub">للصيانة والدعم الفني — فرع حلب</div></div>
+    </div>
+    <div class="hd-r">
+      <div class="hd-id">${t.id}</div>
+      <div class="hd-date">${t.dateIn?new Date(t.dateIn).toLocaleDateString('ar'):''}</div>
+      ${statusBadge}
+    </div>
+  </div>
+  <div class="sec-title">بيانات الزبون والجهاز</div>
+  <div class="grid2">
+    ${row('اسم الزبون',t.name)}
+    ${row('رقم الهاتف',`<span dir="ltr">${t.phone}</span>`)}
+    ${row('نوع الجهاز',t.device||'—')}
+    ${row('تاريخ الاستلام',t.dateIn?new Date(t.dateIn).toLocaleString('ar'):'—')}
+    ${row('تاريخ التسليم',t.dateOut?new Date(t.dateOut).toLocaleString('ar'):'—')}
+    ${row('اسم المستلم',t.receiver||'—')}
+  </div>
+  <div class="sec-title">العطل والخدمات</div>
+  <div class="box">${t.problem||'—'}</div>
+  ${svcNames!=='—'?`<div class="box" style="margin-top:6px"><b>الخدمات:</b> ${svcNames}</div>`:''}
+  <div class="sec-title">التفاصيل المالية</div>
+  <table class="ftbl">
+    <tr><td>أجور الصيانة</td><td>${fmtCur(t.fee||0,cur)}</td></tr>
+    <tr><td>الدفعة</td><td>${fmtCur(t.deposit||0,cur)}</td></tr>
+    <tr class="rem"><td>المبلغ المتبقي</td><td>${maintRemainingStr(t)}</td></tr>
+  </table>
+  ${(t.forCenter||t.centerAccount)?`<div class="sec-title">بيانات المركز</div><div class="grid2">${t.forCenter?row('لصالح مركز',t.forCenter):''}${t.centerAccount?row('حساب المركز',fmtCur(t.centerAccount,cur)):''}</div>`:''}
+  ${t.notes?`<div class="sec-title">ملاحظة</div><div class="box">${t.notes}</div>`:''}
+  ${showSig?`<div class="sig-row"><div class="sig"><div class="sig-line"></div>توقيع الزبون</div><div class="sig"><div class="sig-line"></div>توقيع الفني</div></div>`:''}
+  `;
+  const w=window.open('','_blank','width=860,height=900');
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><title>وصل ${t.id}</title>
+  <style>
+  *{box-sizing:border-box}
+  body{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;color:#1A1F2E;margin:0;padding:30px;font-size:13px;background:#fff}
+  .hd{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:3px solid #1A2356;padding-bottom:16px;margin-bottom:18px}
+  .hd-l{display:flex;align-items:center;gap:12px}
+  .hd-logo{width:58px;height:58px;background:#1A2356;border-radius:14px;display:flex;align-items:center;justify-content:center}
+  .hd-name{font-size:22px;font-weight:800;color:#1A2356}
+  .hd-sub{font-size:11.5px;color:#64748B;margin-top:2px}
+  .hd-r{text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .hd-id{font-size:15px;font-weight:800;color:#3B5BDB}
+  .hd-date{font-size:11.5px;color:#64748B}
+  .sec-title{font-size:12.5px;font-weight:800;color:#3B5BDB;margin:18px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #DDE3F5}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
+  .ri{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted #E2E8F0}
+  .rk{color:#52576A;font-weight:700;white-space:nowrap}
+  .rv{text-align:left}
+  .box{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.6}
+  .ftbl{width:100%;border-collapse:collapse;margin-top:4px}
+  .ftbl td{padding:9px 12px;font-size:13px;border-bottom:1px solid #E2E8F0}
+  .ftbl td:first-child{color:#52576A;font-weight:700}
+  .ftbl td:last-child{text-align:left;font-weight:700}
+  .ftbl tr.rem td{background:#EDF2FF;color:#1A2356;font-size:15px;font-weight:800;border-radius:8px}
+  .sig-row{display:flex;justify-content:space-between;gap:40px;margin-top:46px}
+  .sig{flex:1;text-align:center;font-size:11.5px;color:#64748B}
+  .sig-line{border-top:1.5px solid #94A3B8;margin-bottom:8px;height:34px}
+  .ft{text-align:center;font-size:10.5px;color:#94A3B8;margin-top:26px;padding-top:10px;border-top:1px solid #E2E8F0}
+  @media print{body{padding:12px}}
+  </style></head><body>${body}
+  <div class="ft">شركة البسيط للدعم الفني — فرع حلب · ${new Date().toLocaleString('ar')}</div>
+  <scr'+'ipt>window.onload=()=>{window.print();setTimeout(()=>window.close(),2600)}<\/scr'+'ipt></body></html>`);
+  w.document.close();
+  closeReceiptModal();
 }
 
 function exportPDF(){
