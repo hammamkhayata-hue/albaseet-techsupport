@@ -3252,7 +3252,7 @@ function printW(html,title){
   .ft{text-align:center;font-size:11px;color:#94A3B8;margin-top:24px;padding-top:9px;border-top:1px solid #E2E8F0}
   @media print{body{padding:8px}}</style></head><body>
   ${html}<div class="ft">شركة البسيط للدعم الفني — فرع حلب · ${new Date().toLocaleString('ar')}</div>
-  <scr'+'ipt>window.onload=()=>{window.print();setTimeout(()=>window.close(),2600)}<\/scr'+'ipt></body></html>`);
+  <script>window.onload=()=>{window.print();setTimeout(()=>window.close(),2600)}${'<'+'/script>'}</body></html>`);
   w.document.close();
 }
 const bc=s=>s==='done'?'bd':s==='contacted'?'bc':'bo';
@@ -4674,10 +4674,10 @@ function printMaintReceipt(){
   }
   </style></head><body>${body}
   <div class="ft">شركة البسيط للدعم الفني — فرع حلب · ${new Date().toLocaleString('ar')}</div>
-  <scr'+'ipt>
+  <script>
   const _go=()=>{window.print();setTimeout(()=>window.close(),2600)};
   if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>setTimeout(_go,80));setTimeout(_go,1200);}else{window.onload=_go;}
-  <\/scr'+'ipt></body></html>`);
+  ${'<'+'/script>'}</body></html>`);
   w.document.close();
   closeReceiptModal();
 }
