@@ -1534,7 +1534,25 @@ button, label, .nb, .btn, .stt, .card {
         <button class="btn sm bd" onclick="removeReceiptLogo()">إزالة</button>
       </div>
       <input type="file" accept="image/*" id="rcpt-logo-input" class="inp" onchange="handleReceiptLogoUpload(event)">
-      <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:12px">
+      <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="fld" style="margin:0">
+          <label>حجم الخط</label>
+          <select class="inp" id="rcpt-fontsize">
+            <option value="md">عادي</option>
+            <option value="lg">كبير</option>
+            <option value="xl">كبير جداً</option>
+          </select>
+        </div>
+        <div class="fld" style="margin:0">
+          <label>غمق الخط</label>
+          <select class="inp" id="rcpt-fontweight">
+            <option value="normal">عادي</option>
+            <option value="bold">غامق</option>
+            <option value="xbold">غامق جداً</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:12px">
         <label class="sc" style="width:100%"><input type="checkbox" id="rcpt-sig" checked> إظهار خانتَي توقيع (العميل / الفني)</label>
       </div>
     </div>
@@ -4641,6 +4659,8 @@ function openReceiptModal(ri){
   const img=document.getElementById('rcpt-logo-img');
   if(logo){ img.src=logo; prev.style.display='flex'; } else { prev.style.display='none'; }
   document.getElementById('rcpt-logo-input').value='';
+  document.getElementById('rcpt-fontsize').value=localStorage.getItem('ab_rcpt_fontsize')||'lg';
+  document.getElementById('rcpt-fontweight').value=localStorage.getItem('ab_rcpt_fontweight')||'bold';
   document.getElementById('mreceipt-ov').style.display='flex';
 }
 function closeReceiptModal(){document.getElementById('mreceipt-ov').style.display='none';_receiptIdx=null;}
@@ -4667,6 +4687,14 @@ function printMaintReceipt(){
   const t=maintTickets[_receiptIdx];if(!t)return;
   const logo=localStorage.getItem('ab_print_logo');
   const showSig=document.getElementById('rcpt-sig').checked;
+  const fontSizeKey=document.getElementById('rcpt-fontsize').value;
+  const fontWeightKey=document.getElementById('rcpt-fontweight').value;
+  localStorage.setItem('ab_rcpt_fontsize',fontSizeKey);
+  localStorage.setItem('ab_rcpt_fontweight',fontWeightKey);
+  const scale={md:1,lg:1.16,xl:1.32}[fontSizeKey]||1.16;
+  const weight={normal:500,bold:700,xbold:800}[fontWeightKey]||700;
+  const titleWeight=Math.min(weight+100,900);
+  const px=n=>(Math.round(n*scale*10)/10)+'px';
   const cur=t.payCurrency||_mPayCur;
   const svcNames=(t.services||[]).map(s=>s.name).join('، ')||'—';
   const statusBadge=t.status==='done'
@@ -4712,36 +4740,42 @@ function printMaintReceipt(){
   `;
   const w=window.open('','_blank','width=860,height=900');
   w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><title>وصل ${t.id}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&display=swap">
   <style>
   *{box-sizing:border-box}
-  body{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;color:#1A1F2E;margin:0;padding:30px;font-size:13px;background:#fff}
+  body{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;color:#0F1420;margin:0;padding:30px;font-size:${px(13)};font-weight:${weight};background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .hd{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:3px solid #1A2356;padding-bottom:16px;margin-bottom:18px}
   .hd-l{display:flex;align-items:center;gap:12px}
-  .hd-logo{width:58px;height:58px;background:#1A2356;border-radius:14px;display:flex;align-items:center;justify-content:center}
-  .hd-name{font-size:22px;font-weight:800;color:#1A2356}
-  .hd-sub{font-size:11.5px;color:#64748B;margin-top:2px}
+  .hd-logo{width:${px(58)};height:${px(58)};background:#1A2356;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .hd-name{font-size:${px(23)};font-weight:${titleWeight};color:#1A2356}
+  .hd-sub{font-size:${px(12)};color:#475569;font-weight:${weight};margin-top:2px}
   .hd-r{text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
-  .hd-id{font-size:15px;font-weight:800;color:#3B5BDB}
-  .hd-date{font-size:11.5px;color:#64748B}
-  .sec-title{font-size:12.5px;font-weight:800;color:#3B5BDB;margin:18px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #DDE3F5}
+  .hd-id{font-size:${px(16)};font-weight:${titleWeight};color:#2C3E8C}
+  .hd-date{font-size:${px(12)};color:#475569;font-weight:${weight}}
+  .sec-title{font-size:${px(13.5)};font-weight:${titleWeight};color:#2C3E8C;margin:18px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #C7D2E8}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
-  .ri{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted #E2E8F0}
-  .rk{color:#52576A;font-weight:700;white-space:nowrap}
-  .rv{text-align:left}
-  .box{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.6}
+  .ri{display:flex;justify-content:space-between;gap:10px;font-size:${px(13.5)};padding:5px 0;border-bottom:1px dotted #CBD5E1}
+  .rk{color:#334155;font-weight:${titleWeight};white-space:nowrap}
+  .rv{text-align:left;font-weight:${weight}}
+  .box{background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;padding:10px 12px;font-size:${px(13.5)};font-weight:${weight};line-height:1.7}
   .ftbl{width:100%;border-collapse:collapse;margin-top:4px}
-  .ftbl td{padding:9px 12px;font-size:13px;border-bottom:1px solid #E2E8F0}
-  .ftbl td:first-child{color:#52576A;font-weight:700}
-  .ftbl td:last-child{text-align:left;font-weight:700}
-  .ftbl tr.rem td{background:#EDF2FF;color:#1A2356;font-size:15px;font-weight:800;border-radius:8px}
+  .ftbl td{padding:9px 12px;font-size:${px(14)};font-weight:${weight};border-bottom:1px solid #CBD5E1}
+  .ftbl td:first-child{color:#334155;font-weight:${titleWeight}}
+  .ftbl td:last-child{text-align:left;font-weight:${titleWeight}}
+  .ftbl tr.rem td{background:#EDF2FF;color:#1A2356;font-size:${px(16)};font-weight:900;border-radius:8px}
   .sig-row{display:flex;justify-content:space-between;gap:40px;margin-top:46px}
-  .sig{flex:1;text-align:center;font-size:11.5px;color:#64748B}
-  .sig-line{border-top:1.5px solid #94A3B8;margin-bottom:8px;height:34px}
-  .ft{text-align:center;font-size:10.5px;color:#94A3B8;margin-top:26px;padding-top:10px;border-top:1px solid #E2E8F0}
+  .sig{flex:1;text-align:center;font-size:${px(12)};font-weight:${weight};color:#475569}
+  .sig-line{border-top:1.5px solid #64748B;margin-bottom:8px;height:34px}
+  .ft{text-align:center;font-size:${px(11)};font-weight:${weight};color:#64748B;margin-top:26px;padding-top:10px;border-top:1px solid #CBD5E1}
   @media print{body{padding:12px}}
   </style></head><body>${body}
   <div class="ft">شركة البسيط للدعم الفني — فرع حلب · ${new Date().toLocaleString('ar')}</div>
-  <scr'+'ipt>window.onload=()=>{window.print();setTimeout(()=>window.close(),2600)}<\/scr'+'ipt></body></html>`);
+  <scr'+'ipt>
+  const _go=()=>{window.print();setTimeout(()=>window.close(),2600)};
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>setTimeout(_go,80));setTimeout(_go,1200);}else{window.onload=_go;}
+  <\/scr'+'ipt></body></html>`);
   w.document.close();
   closeReceiptModal();
 }
