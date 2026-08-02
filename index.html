@@ -1472,50 +1472,6 @@ button, label, .nb, .btn, .stt, .card {
   </div>
 </div>
 
-<!-- ══ PRINT LABEL MODAL ══ -->
-<div class="ov" id="mlabel-ov" onclick="if(event.target===this)closeLabelModal()">
-  <div class="modal" style="width:420px">
-    <div class="mhdr" style="background:linear-gradient(135deg,#1A2356,#2C3E8C)">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="mhdr-ico"><svg viewBox="0 0 24 24" width="16" height="16" stroke="white" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>
-        <div style="font-size:15px;font-weight:800;color:#fff">طباعة لصاقة</div>
-      </div>
-      <button class="mclose" onclick="closeLabelModal()">✕</button>
-    </div>
-    <div class="mbody">
-      <div style="font-size:12px;color:var(--ink2);margin-bottom:10px">اختر البيانات التي تريد طباعتها على اللصاقة:</div>
-      <div id="mlabel-fields" style="display:flex;flex-direction:column;gap:9px"></div>
-      <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:14px">
-        <label style="font-size:12px;font-weight:700;color:var(--ink);display:block;margin-bottom:8px">أبعاد اللصاقة (مم) <small style="font-weight:400;color:var(--ink3)">— اضبطها حسب طابعتك لتفادي انقطاع الطباعة</small></label>
-        <div style="display:flex;gap:10px">
-          <div class="fld" style="flex:1"><label>العرض</label><input class="inp" id="mlabel-w" type="number" min="20" max="300" step="1" value="80"></div>
-          <div class="fld" style="flex:1"><label>الارتفاع</label><input class="inp" id="mlabel-h" type="number" min="15" max="300" step="1" value="50"></div>
-        </div>
-        <div class="fld" style="margin-top:10px">
-          <label>اتجاه الطباعة</label>
-          <select class="inp" id="mlabel-orient">
-            <option value="portrait">عمودي (طولي) ↕️</option>
-            <option value="landscape">أفقي (عرضي) ↔️</option>
-          </select>
-        </div>
-        <div class="brow" style="margin-top:8px">
-          <button class="btn bo sm" onclick="setLabelSize(80,50)">80×50</button>
-          <button class="btn bo sm" onclick="setLabelSize(60,40)">60×40</button>
-          <button class="btn bo sm" onclick="setLabelSize(50,30)">50×30</button>
-          <button class="btn bo sm" onclick="setLabelSize(100,150)">100×150</button>
-        </div>
-      </div>
-    </div>
-    <div class="mfoot">
-      <button class="btn bo" onclick="closeLabelModal()">إلغاء</button>
-      <button class="btn bp" onclick="printMaintLabel()">
-        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-        طباعة
-      </button>
-    </div>
-  </div>
-</div>
-
 <!-- ══ PRINT RECEIPT MODAL ══ -->
 <div class="ov" id="mreceipt-ov" onclick="if(event.target===this)closeReceiptModal()">
   <div class="modal" style="width:420px">
@@ -1534,14 +1490,24 @@ button, label, .nb, .btn, .stt, .card {
         <button class="btn sm bd" onclick="removeReceiptLogo()">إزالة</button>
       </div>
       <input type="file" accept="image/*" id="rcpt-logo-input" class="inp" onchange="handleReceiptLogoUpload(event)">
+
+      <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:12px">
+        <label style="font-size:12px;font-weight:700;color:var(--ink);display:block;margin-bottom:8px">نوع الطابعة / عرض الورق</label>
+        <div class="brow" style="gap:6px">
+          <button type="button" class="btn bo sm" onclick="setRcptWidth(80)">حراري POS80</button>
+          <button type="button" class="btn bo sm" onclick="setRcptWidth(58)">حراري 58مم</button>
+          <button type="button" class="btn bo sm" onclick="setRcptWidth(210)">A4 عادي</button>
+        </div>
+        <div class="fld" style="margin-top:10px">
+          <label>عرض الورق يدوياً (مم)</label>
+          <input class="inp" id="rcpt-width" type="number" min="40" max="220" step="1" value="80">
+        </div>
+      </div>
+
       <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <div class="fld" style="margin:0">
-          <label>حجم الخط</label>
-          <select class="inp" id="rcpt-fontsize">
-            <option value="md">عادي</option>
-            <option value="lg">كبير</option>
-            <option value="xl">كبير جداً</option>
-          </select>
+          <label>حجم الخط (نقطة) — يدوي</label>
+          <input class="inp" id="rcpt-fontsize" type="number" min="8" max="40" step="0.5" value="13">
         </div>
         <div class="fld" style="margin:0">
           <label>غمق الخط</label>
@@ -1552,6 +1518,7 @@ button, label, .nb, .btn, .stt, .card {
           </select>
         </div>
       </div>
+
       <div style="margin-top:12px">
         <label class="sc" style="width:100%"><input type="checkbox" id="rcpt-sig" checked> إظهار خانتَي توقيع (العميل / الفني)</label>
       </div>
@@ -1998,7 +1965,7 @@ let maintSvcs = JSON.parse(localStorage.getItem('ab_maint_svcs')||'null') || [
   {id:'ms8',name:'تغيير شاشة',price:25000}
 ];
 let maintTickets = JSON.parse(localStorage.getItem('ab_maint_tickets')||'[]');
-let _maintEditIdx = null, _labelIdx = null;
+let _maintEditIdx = null;
 let ticketSvcs = JSON.parse(localStorage.getItem('ab_ticket_svcs')||'null') || [
   {id:'ts1',name:'اشتراك',price:0},
   {id:'ts2',name:'تجديد اشتراك',price:0},
@@ -2434,7 +2401,7 @@ function goPage(n){
 /* ══ KEYBOARD ══════════════════════════════════════════ */
 document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();if(document.getElementById('pg1').classList.contains('on'))saveTicket();}
-  if(e.key==='Escape'){closePaste();closeEdit();closeDel();closePwd();closeAddClient();closeMaintSvcModal();closeLabelModal();closeReceiptModal();closeTicketSvcModal();closeFbModal();closeProfileModal();}
+  if(e.key==='Escape'){closePaste();closeEdit();closeDel();closePwd();closeAddClient();closeMaintSvcModal();closeReceiptModal();closeTicketSvcModal();closeFbModal();closeProfileModal();}
 });
 document.addEventListener('mousemove',e=>{
   const btn=e.target.closest('.btn');
@@ -3522,7 +3489,6 @@ function renderMaintTable(){
       <td><div class="brow" style="gap:3px;flex-wrap:nowrap">
         <button class="btn sm" onclick="toggleMaintExp(${ri})" title="عرض كل التفاصيل">👁</button>
         <button class="btn sm bo" onclick="editMaintTicket(${ri})" title="تعديل">✏️</button>
-        <button class="btn sm" onclick="openLabelModal(${ri})" title="طباعة لصاقة">🏷️</button>
         <button class="btn sm" onclick="openReceiptModal(${ri})" title="طباعة وصل">🧾</button>
         <button class="btn sm bw" onclick="sendMaintReady(${ri})" title="إعلام العميل عبر واتساب">${WA}</button>
         <button class="btn sm bd admin-only-el" onclick="deleteMaintTicket(${ri})" title="حذف">🗑</button>
@@ -4558,98 +4524,6 @@ async function doFbEmailLogin(){
   }
 }
 
-/* ── طباعة لصاقة ── */
-const MLABEL_FIELDS=[
-  {k:'id',lbl:'رقم التذكرة',def:true},
-  {k:'name',lbl:'اسم الزبون',def:true},
-  {k:'phone',lbl:'رقم الهاتف',def:true},
-  {k:'device',lbl:'نوع الجهاز',def:true},
-  {k:'problem',lbl:'العطل',def:false},
-  {k:'services',lbl:'الخدمات',def:false},
-  {k:'dateIn',lbl:'تاريخ الاستلام',def:false},
-  {k:'dateOut',lbl:'تاريخ التسليم',def:false},
-  {k:'fee',lbl:'أجور الصيانة',def:true},
-  {k:'deposit',lbl:'الدفعة',def:false},
-  {k:'remaining',lbl:'المبلغ المتبقي',def:true},
-  {k:'notes',lbl:'الملاحظة',def:false}
-];
-function openLabelModal(ri){
-  _labelIdx=ri;
-  document.getElementById('mlabel-fields').innerHTML=MLABEL_FIELDS.map(f=>
-    `<label class="sc" style="width:100%"><input type="checkbox" value="${f.k}" ${f.def?'checked':''}> ${f.lbl}</label>`).join('');
-  const dims=JSON.parse(localStorage.getItem('ab_label_dims')||'null')||{w:80,h:50,orient:'portrait'};
-  document.getElementById('mlabel-w').value=dims.w;
-  document.getElementById('mlabel-h').value=dims.h;
-  document.getElementById('mlabel-orient').value=dims.orient||'portrait';
-  document.getElementById('mlabel-ov').style.display='flex';
-}
-function setLabelSize(w,h){
-  document.getElementById('mlabel-w').value=w;
-  document.getElementById('mlabel-h').value=h;
-}
-function closeLabelModal(){document.getElementById('mlabel-ov').style.display='none';_labelIdx=null;}
-function printMaintLabel(){
-  if(_labelIdx===null)return;
-  const t=maintTickets[_labelIdx];if(!t)return;
-  const chosen=[...document.querySelectorAll('#mlabel-fields input:checked')].map(x=>x.value);
-  if(!chosen.length){toast('اختر بيانات واحدة على الأقل','err');return;}
-  let lw=Number(document.getElementById('mlabel-w').value)||80;
-  let lh=Number(document.getElementById('mlabel-h').value)||50;
-  lw=Math.min(300,Math.max(20,lw));
-  lh=Math.min(300,Math.max(15,lh));
-  const orient=document.getElementById('mlabel-orient').value||'portrait';
-  localStorage.setItem('ab_label_dims',JSON.stringify({w:lw,h:lh,orient}));
-  // normalize page box to match the chosen orientation regardless of which number is larger
-  const shortSide=Math.min(lw,lh), longSide=Math.max(lw,lh);
-  const pageW = orient==='landscape'? longSide : shortSide;
-  const pageH = orient==='landscape'? shortSide : longSide;
-  const pad=Math.max(1.5,Math.min(4,pageW*0.04)).toFixed(1);
-  const fs=Math.max(8,Math.min(11,9+(pageW-80)*0.03)).toFixed(1);
-  const rows={
-    id:['رقم التذكرة',t.id],
-    name:['الزبون',t.name],
-    phone:['الهاتف',t.phone],
-    device:['الجهاز',t.device||'—'],
-    problem:['العطل',t.problem||'—'],
-    services:['الخدمات',(t.services||[]).map(s=>s.name).join('، ')||'—'],
-    dateIn:['تاريخ الاستلام',t.dateIn?new Date(t.dateIn).toLocaleDateString('ar'):'—'],
-    dateOut:['تاريخ التسليم',t.dateOut?new Date(t.dateOut).toLocaleDateString('ar'):'—'],
-    fee:['أجور الصيانة',maintTotalStr(t)],
-    deposit:['الدفعة',fmtCur(t.deposit||0,t.payCurrency||_mPayCur)],
-    remaining:['المتبقي',maintRemainingStr(t)],
-    notes:['ملاحظة',t.notes||'—']
-  };
-  const body=chosen.map(k=>`<div class="lrow"><span class="lk">${rows[k][0]}</span><span class="lv">${rows[k][1]}</span></div>`).join('');
-  const customLogo=localStorage.getItem('ab_print_logo');
-  const logoSvg=customLogo?`<img src="${customLogo}" style="width:100%;height:100%;object-fit:contain">`:`<svg width="22" height="22" viewBox="0 0 42 42" fill="none">
-    <path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#1E3A8A" stroke-width="2.2" stroke-linecap="round"/>
-    <rect x="11" y="22" width="4" height="6" rx="2" fill="#3B5BDB"/>
-    <rect x="27" y="22" width="4" height="6" rx="2" fill="#3B5BDB"/>
-    <path d="M15 28C15 31 18 32 21 32" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"/>
-    <circle cx="21" cy="32.5" r="1.5" fill="#F59E0B"/>
-  </svg>`;
-  const html=`<div class="label"><div class="lhdr"><div class="lhdr-logo">${logoSvg}</div><div><div class="lhdr-ar">البسيط</div><div class="lhdr-en">TECH SUPPORT</div></div></div>${body}</div>`;
-  const w=window.open('','_blank','width=420,height=420');
-  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><title>لصاقة ${t.id}</title>
-  <style>
-  @page{size:${pageW}mm ${pageH}mm;margin:1.5mm}
-  *{box-sizing:border-box}
-  body{font-family:'Times New Roman',Times,serif;direction:rtl;color:#0F172A;margin:0;font-size:${fs}px}
-  .label{width:100%;padding:${pad}mm}
-  .lhdr{display:flex;align-items:center;gap:2mm;border-bottom:1.5px solid #1E3A8A;padding-bottom:1.5mm;margin-bottom:1.5mm}
-  .lhdr-logo{background:#fff;border:1px solid #DBEAFE;border-radius:5px;width:8mm;height:8mm;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .lhdr-ar{font-size:1.15em;font-weight:800;color:#1E3A8A;line-height:1.1}
-  .lhdr-en{font-size:.7em;color:#64748B;letter-spacing:1px}
-  .lrow{display:flex;justify-content:space-between;gap:6px;font-size:1em;padding:1mm 0;border-bottom:1px dotted #CBD5E1}
-  .lk{font-weight:700;color:#334155;white-space:nowrap}
-  .lv{text-align:left;word-break:break-word}
-  @media print{body{padding:0}}
-  </style></head><body>${html}
-  <scr'+'ipt>window.onload=()=>{window.print();setTimeout(()=>window.close(),2600)}<\/scr'+'ipt></body></html>`);
-  w.document.close();
-  closeLabelModal();
-}
-
 /* ── طباعة وصل الصيانة ── */
 let _receiptIdx=null;
 function openReceiptModal(ri){
@@ -4659,10 +4533,12 @@ function openReceiptModal(ri){
   const img=document.getElementById('rcpt-logo-img');
   if(logo){ img.src=logo; prev.style.display='flex'; } else { prev.style.display='none'; }
   document.getElementById('rcpt-logo-input').value='';
-  document.getElementById('rcpt-fontsize').value=localStorage.getItem('ab_rcpt_fontsize')||'lg';
+  document.getElementById('rcpt-width').value=localStorage.getItem('ab_rcpt_width')||'80';
+  document.getElementById('rcpt-fontsize').value=localStorage.getItem('ab_rcpt_fontsize')||'13';
   document.getElementById('rcpt-fontweight').value=localStorage.getItem('ab_rcpt_fontweight')||'bold';
   document.getElementById('mreceipt-ov').style.display='flex';
 }
+function setRcptWidth(w){ document.getElementById('rcpt-width').value=w; }
 function closeReceiptModal(){document.getElementById('mreceipt-ov').style.display='none';_receiptIdx=null;}
 function handleReceiptLogoUpload(ev){
   const file=ev.target.files&&ev.target.files[0];
@@ -4687,23 +4563,35 @@ function printMaintReceipt(){
   const t=maintTickets[_receiptIdx];if(!t)return;
   const logo=localStorage.getItem('ab_print_logo');
   const showSig=document.getElementById('rcpt-sig').checked;
-  const fontSizeKey=document.getElementById('rcpt-fontsize').value;
+
+  let widthMm=Number(document.getElementById('rcpt-width').value)||80;
+  widthMm=Math.min(220,Math.max(40,widthMm));
+  let baseFs=Number(document.getElementById('rcpt-fontsize').value)||13;
+  baseFs=Math.min(40,Math.max(8,baseFs));
   const fontWeightKey=document.getElementById('rcpt-fontweight').value;
-  localStorage.setItem('ab_rcpt_fontsize',fontSizeKey);
+
+  localStorage.setItem('ab_rcpt_width',widthMm);
+  localStorage.setItem('ab_rcpt_fontsize',baseFs);
   localStorage.setItem('ab_rcpt_fontweight',fontWeightKey);
-  const scale={md:1,lg:1.16,xl:1.32}[fontSizeKey]||1.16;
+
   const weight={normal:500,bold:700,xbold:800}[fontWeightKey]||700;
   const titleWeight=Math.min(weight+100,900);
-  const px=n=>(Math.round(n*scale*10)/10)+'px';
+  // كل الأحجام مبنية نسبةً لحجم الخط الأساسي المُدخل يدوياً
+  const px=n=>(Math.round(baseFs*n*10)/10)+'px';
+  const isThermal=widthMm<=110; // ورق حراري (POS58/POS80) مقابل ورق عادي A4
+
   const cur=t.payCurrency||_mPayCur;
   const svcNames=(t.services||[]).map(s=>s.name).join('، ')||'—';
   const statusBadge=t.status==='done'
-    ?'<span style="background:#D1FAE5;color:#065F46;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700">تم التسليم</span>'
-    :'<span style="background:#FEF3C7;color:#92400E;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700">قيد الصيانة</span>';
+    ?`<span style="background:#D1FAE5;color:#065F46;padding:${isThermal?'2px 8px':'4px 14px'};border-radius:20px;font-size:${px(0.82)};font-weight:700;display:inline-block">تم التسليم</span>`
+    :`<span style="background:#FEF3C7;color:#92400E;padding:${isThermal?'2px 8px':'4px 14px'};border-radius:20px;font-size:${px(0.82)};font-weight:700;display:inline-block">قيد الصيانة</span>`;
+  const logoSize=isThermal?px(2.6):px(4.5);
   const logoBlock = logo
-    ? `<img src="${logo}" style="width:52px;height:52px;object-fit:contain;border-radius:12px;background:#fff;padding:3px">`
-    : `<svg width="30" height="30" viewBox="0 0 42 42" fill="none"><path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#93C5FD" stroke-width="2.4" stroke-linecap="round"/><rect x="11" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><rect x="27" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><path d="M15 28C15 31 18 32 21 32" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="32.5" r="1.7" fill="#F59E0B"/></svg>`;
+    ? `<img src="${logo}" style="width:${logoSize};height:${logoSize};object-fit:contain;border-radius:10px;background:#fff;padding:2px">`
+    : `<svg width="${isThermal?22:30}" height="${isThermal?22:30}" viewBox="0 0 42 42" fill="none"><path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#93C5FD" stroke-width="2.4" stroke-linecap="round"/><rect x="11" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><rect x="27" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><path d="M15 28C15 31 18 32 21 32" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="32.5" r="1.7" fill="#F59E0B"/></svg>`;
+
   const row=(k,v)=>`<div class="ri"><span class="rk">${k}</span><span class="rv">${v}</span></div>`;
+
   const body=`
   <div class="hd">
     <div class="hd-l">
@@ -4738,38 +4626,52 @@ function printMaintReceipt(){
   ${t.notes?`<div class="sec-title">ملاحظة</div><div class="box">${t.notes}</div>`:''}
   ${showSig?`<div class="sig-row"><div class="sig"><div class="sig-line"></div>توقيع الزبون</div><div class="sig"><div class="sig-line"></div>توقيع الفني</div></div>`:''}
   `;
+
+  // إعدادات الصفحة: @page ديناميكي حسب نوع الورق — يضمن طباعة صحيحة 100% سواء على طابعة حرارية POS80/58 أو ورق A4 عادي
+  const pageRule=isThermal
+    ? `@page{size:${widthMm}mm auto;margin:0}`
+    : `@page{size:A4;margin:14mm}`;
+  const bodyWidth=isThermal? `${widthMm}mm` : '100%';
+  const bodyPad=isThermal? '3mm' : '30px';
+  const maxW=isThermal? '' : 'max-width:760px;margin-inline:auto;';
+
   const w=window.open('','_blank','width=860,height=900');
   w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><title>وصل ${t.id}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&display=swap">
   <style>
+  ${pageRule}
   *{box-sizing:border-box}
-  body{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;color:#0F1420;margin:0;padding:30px;font-size:${px(13)};font-weight:${weight};background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .hd{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:3px solid #1A2356;padding-bottom:16px;margin-bottom:18px}
-  .hd-l{display:flex;align-items:center;gap:12px}
-  .hd-logo{width:${px(58)};height:${px(58)};background:#1A2356;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .hd-name{font-size:${px(23)};font-weight:${titleWeight};color:#1A2356}
-  .hd-sub{font-size:${px(12)};color:#475569;font-weight:${weight};margin-top:2px}
-  .hd-r{text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
-  .hd-id{font-size:${px(16)};font-weight:${titleWeight};color:#2C3E8C}
-  .hd-date{font-size:${px(12)};color:#475569;font-weight:${weight}}
-  .sec-title{font-size:${px(13.5)};font-weight:${titleWeight};color:#2C3E8C;margin:18px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #C7D2E8}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
-  .ri{display:flex;justify-content:space-between;gap:10px;font-size:${px(13.5)};padding:5px 0;border-bottom:1px dotted #CBD5E1}
+  html,body{width:${bodyWidth}}
+  body{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;color:#0F1420;margin:0 auto;padding:${bodyPad};font-size:${px(1)};font-weight:${weight};background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;${maxW}word-break:break-word}
+  .hd{display:flex;align-items:${isThermal?'center':'flex-start'};justify-content:space-between;border-bottom:${isThermal?'2px':'3px'} solid #1A2356;padding-bottom:${isThermal?'8px':'16px'};margin-bottom:${isThermal?'10px':'18px'};flex-wrap:wrap;gap:6px}
+  .hd-l{display:flex;align-items:center;gap:${isThermal?'6px':'12px'}}
+  .hd-logo{width:${logoSize};height:${logoSize};background:#1A2356;border-radius:${isThermal?'8px':'14px'};display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+  .hd-name{font-size:${px(1.7)};font-weight:${titleWeight};color:#1A2356;line-height:1.15}
+  .hd-sub{font-size:${px(0.86)};color:#475569;font-weight:${weight};margin-top:2px}
+  .hd-r{text-align:${isThermal?'right':'left'};display:flex;flex-direction:column;align-items:${isThermal?'flex-start':'flex-end'};gap:5px}
+  .hd-id{font-size:${px(1.16)};font-weight:${titleWeight};color:#2C3E8C}
+  .hd-date{font-size:${px(0.86)};color:#475569;font-weight:${weight}}
+  .sec-title{font-size:${px(0.98)};font-weight:${titleWeight};color:#2C3E8C;margin:${isThermal?'12px 0 6px':'18px 0 8px'};padding-bottom:4px;border-bottom:1.5px solid #C7D2E8}
+  .grid2{display:grid;grid-template-columns:${isThermal?'1fr':'1fr 1fr'};gap:${isThermal?'2px 0':'8px 22px'}}
+  .ri{display:flex;justify-content:space-between;gap:10px;font-size:${px(0.98)};padding:${isThermal?'4px 0':'5px 0'};border-bottom:1px dotted #CBD5E1;flex-wrap:wrap}
   .rk{color:#334155;font-weight:${titleWeight};white-space:nowrap}
-  .rv{text-align:left;font-weight:${weight}}
-  .box{background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;padding:10px 12px;font-size:${px(13.5)};font-weight:${weight};line-height:1.7}
+  .rv{text-align:left;font-weight:${weight};word-break:break-word}
+  .box{background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;padding:${isThermal?'8px 10px':'10px 12px'};font-size:${px(0.98)};font-weight:${weight};line-height:1.7}
   .ftbl{width:100%;border-collapse:collapse;margin-top:4px}
-  .ftbl td{padding:9px 12px;font-size:${px(14)};font-weight:${weight};border-bottom:1px solid #CBD5E1}
+  .ftbl td{padding:${isThermal?'6px 4px':'9px 12px'};font-size:${px(1.02)};font-weight:${weight};border-bottom:1px solid #CBD5E1}
   .ftbl td:first-child{color:#334155;font-weight:${titleWeight}}
   .ftbl td:last-child{text-align:left;font-weight:${titleWeight}}
-  .ftbl tr.rem td{background:#EDF2FF;color:#1A2356;font-size:${px(16)};font-weight:900;border-radius:8px}
-  .sig-row{display:flex;justify-content:space-between;gap:40px;margin-top:46px}
-  .sig{flex:1;text-align:center;font-size:${px(12)};font-weight:${weight};color:#475569}
-  .sig-line{border-top:1.5px solid #64748B;margin-bottom:8px;height:34px}
-  .ft{text-align:center;font-size:${px(11)};font-weight:${weight};color:#64748B;margin-top:26px;padding-top:10px;border-top:1px solid #CBD5E1}
-  @media print{body{padding:12px}}
+  .ftbl tr.rem td{background:#EDF2FF;color:#1A2356;font-size:${px(1.16)};font-weight:900;border-radius:8px}
+  .sig-row{display:flex;justify-content:space-between;gap:${isThermal?'16px':'40px'};margin-top:${isThermal?'26px':'46px'}}
+  .sig{flex:1;text-align:center;font-size:${px(0.86)};font-weight:${weight};color:#475569}
+  .sig-line{border-top:1.5px solid #64748B;margin-bottom:8px;height:${isThermal?'24px':'34px'}}
+  .ft{text-align:center;font-size:${px(0.8)};font-weight:${weight};color:#64748B;margin-top:${isThermal?'14px':'26px'};padding-top:10px;border-top:1px solid #CBD5E1}
+  @media print{
+    body{padding:${bodyPad};margin:0}
+    ${isThermal?'html,body{width:'+widthMm+'mm}':''}
+  }
   </style></head><body>${body}
   <div class="ft">شركة البسيط للدعم الفني — فرع حلب · ${new Date().toLocaleString('ar')}</div>
   <scr'+'ipt>
