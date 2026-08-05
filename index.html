@@ -1026,25 +1026,27 @@ button, label, .nb, .btn, .stt, .card {
         </div>
         <div class="fg">
           <div class="fld ac-wrap full">
-            <label>اسم العميل <span class="ast">*</span></label>
+            <label>اسم الزبون <span class="ast">*</span></label>
             <input class="inp" id="f-name" type="text" placeholder="ابحث أو أدخل اسم العميل…" autocomplete="off"
               oninput="acSearch(this.value)" onfocus="acSearch(this.value)" onkeydown="acKey(event)">
             <div class="ac-list" id="ac-list"></div>
           </div>
+          <div class="fld"><label>اسم المنشأة</label><input class="inp" id="f-company" type="text" placeholder="اسم الشركة/المحل (إن وجد)"></div>
+          <div class="fld"><label>المهنة</label><input class="inp" id="f-profession" type="text" placeholder="مهنة العميل"></div>
           <div class="fld">
-            <label>الهاتف <span class="ast">*</span></label>
+            <label>هاتف الموبايل <span class="ast">*</span></label>
             <div style="display:flex;gap:7px;align-items:center">
-              <div class="ph-wrap" style="flex:1">
-                <span class="ph-flag">🇸🇾 +963</span>
-                <input class="ph-inp" id="f-phone" type="tel" inputmode="tel" placeholder="9xxxxxxxx">
-              </div>
+              <select class="inp" id="f-cc" style="max-width:150px;flex-shrink:0"></select>
+              <input class="ph-inp" id="f-phone" type="tel" inputmode="tel" placeholder="9xxxxxxxx" style="flex:1">
               <a href="#" class="btn bw sm" onclick="return openWa('f-phone')">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               </a>
             </div>
           </div>
-          <div class="fld full"><label>العنوان</label><input class="inp" id="f-addr" type="text" placeholder="المدينة / الحي"></div>
-          <div class="fld"><label>التاريخ <span class="ast">*</span></label><input class="inp" id="f-date" type="datetime-local" inputmode="none"></div>
+          <div class="fld"><label>العنوان (المحافظة)</label><select class="inp" id="f-addr"></select></div>
+          <div class="fld"><label>نوع النسخة</label><input class="inp" id="f-version" type="text" placeholder="مثال: نسخة كاملة / تجريبية"></div>
+          <div class="fld"><label>رقم التفعيل</label><input class="inp" id="f-activation" type="text" placeholder="اختياري"></div>
+          <div class="fld"><label>تاريخ الاستلام <span class="ast">*</span></label><input class="inp" id="f-date" type="datetime-local" inputmode="none"></div>
           <div class="fld">
             <label>الحالة</label>
             <select class="inp" id="f-status">
@@ -1053,6 +1055,7 @@ button, label, .nb, .btn, .stt, .card {
               <option value="done">محلول</option>
             </select>
           </div>
+          <div class="fld full"><label>الملحقات</label><textarea class="inp" id="f-accessories" style="min-height:52px" placeholder="مثال: شاحن، حقيبة، كابلات…"></textarea></div>
         </div>
       </div>
 
@@ -1472,6 +1475,50 @@ button, label, .nb, .btn, .stt, .card {
   </div>
 </div>
 
+<!-- ══ PRINT LABEL MODAL ══ -->
+<div class="ov" id="mlabel-ov" onclick="if(event.target===this)closeLabelModal()">
+  <div class="modal" style="width:420px">
+    <div class="mhdr" style="background:linear-gradient(135deg,#1A2356,#2C3E8C)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="mhdr-ico"><svg viewBox="0 0 24 24" width="16" height="16" stroke="white" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>
+        <div style="font-size:15px;font-weight:800;color:#fff">طباعة لصاقة</div>
+      </div>
+      <button class="mclose" onclick="closeLabelModal()">✕</button>
+    </div>
+    <div class="mbody">
+      <div style="font-size:12px;color:var(--ink2);margin-bottom:10px">اختر البيانات التي تريد طباعتها على اللصاقة:</div>
+      <div id="mlabel-fields" style="display:flex;flex-direction:column;gap:9px"></div>
+      <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:14px">
+        <label style="font-size:12px;font-weight:700;color:var(--ink);display:block;margin-bottom:8px">أبعاد اللصاقة (مم) <small style="font-weight:400;color:var(--ink3)">— اضبطها حسب طابعتك لتفادي انقطاع الطباعة</small></label>
+        <div style="display:flex;gap:10px">
+          <div class="fld" style="flex:1"><label>العرض</label><input class="inp" id="mlabel-w" type="number" min="20" max="300" step="1" value="80"></div>
+          <div class="fld" style="flex:1"><label>الارتفاع</label><input class="inp" id="mlabel-h" type="number" min="15" max="300" step="1" value="50"></div>
+        </div>
+        <div class="fld" style="margin-top:10px">
+          <label>اتجاه الطباعة</label>
+          <select class="inp" id="mlabel-orient">
+            <option value="portrait">عمودي (طولي) ↕️</option>
+            <option value="landscape">أفقي (عرضي) ↔️</option>
+          </select>
+        </div>
+        <div class="brow" style="margin-top:8px">
+          <button class="btn bo sm" onclick="setLabelSize(80,50)">80×50</button>
+          <button class="btn bo sm" onclick="setLabelSize(60,40)">60×40</button>
+          <button class="btn bo sm" onclick="setLabelSize(50,30)">50×30</button>
+          <button class="btn bo sm" onclick="setLabelSize(100,150)">100×150</button>
+        </div>
+      </div>
+    </div>
+    <div class="mfoot">
+      <button class="btn bo" onclick="closeLabelModal()">إلغاء</button>
+      <button class="btn bp" onclick="printMaintLabel()">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        طباعة
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ PRINT RECEIPT MODAL ══ -->
 <div class="ov" id="mreceipt-ov" onclick="if(event.target===this)closeReceiptModal()">
   <div class="modal" style="width:420px">
@@ -1490,24 +1537,14 @@ button, label, .nb, .btn, .stt, .card {
         <button class="btn sm bd" onclick="removeReceiptLogo()">إزالة</button>
       </div>
       <input type="file" accept="image/*" id="rcpt-logo-input" class="inp" onchange="handleReceiptLogoUpload(event)">
-
-      <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:12px">
-        <label style="font-size:12px;font-weight:700;color:var(--ink);display:block;margin-bottom:8px">نوع الطابعة / عرض الورق</label>
-        <div class="brow" style="gap:6px">
-          <button type="button" class="btn bo sm" onclick="setRcptWidth(80)">حراري POS80</button>
-          <button type="button" class="btn bo sm" onclick="setRcptWidth(58)">حراري 58مم</button>
-          <button type="button" class="btn bo sm" onclick="setRcptWidth(210)">A4 عادي</button>
-        </div>
-        <div class="fld" style="margin-top:10px">
-          <label>عرض الورق يدوياً (مم)</label>
-          <input class="inp" id="rcpt-width" type="number" min="40" max="220" step="1" value="80">
-        </div>
-      </div>
-
       <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <div class="fld" style="margin:0">
-          <label>حجم الخط (نقطة) — يدوي</label>
-          <input class="inp" id="rcpt-fontsize" type="number" min="8" max="40" step="0.5" value="13">
+          <label>حجم الخط</label>
+          <select class="inp" id="rcpt-fontsize">
+            <option value="md">عادي</option>
+            <option value="lg">كبير</option>
+            <option value="xl">كبير جداً</option>
+          </select>
         </div>
         <div class="fld" style="margin:0">
           <label>غمق الخط</label>
@@ -1518,7 +1555,6 @@ button, label, .nb, .btn, .stt, .card {
           </select>
         </div>
       </div>
-
       <div style="margin-top:12px">
         <label class="sc" style="width:100%"><input type="checkbox" id="rcpt-sig" checked> إظهار خانتَي توقيع (العميل / الفني)</label>
       </div>
@@ -1799,13 +1835,20 @@ button, label, .nb, .btn, .stt, .card {
     </div>
     <div class="mbody">
       <div class="fg">
-        <div class="fld"><label>الاسم <span class="ast">*</span></label><input class="inp" id="e-name" type="text"></div>
+        <div class="fld"><label>اسم الزبون <span class="ast">*</span></label><input class="inp" id="e-name" type="text"></div>
+        <div class="fld"><label>اسم المنشأة</label><input class="inp" id="e-company" type="text"></div>
+        <div class="fld"><label>المهنة</label><input class="inp" id="e-profession" type="text"></div>
         <div class="fld">
-          <label>الهاتف <span class="ast">*</span></label>
-          <div class="ph-wrap"><span class="ph-flag">🇸🇾 +963</span><input class="ph-inp" id="e-phone" type="tel" inputmode="tel"></div>
+          <label>هاتف الموبايل <span class="ast">*</span></label>
+          <div style="display:flex;gap:7px;align-items:center">
+            <select class="inp" id="e-cc" style="max-width:150px;flex-shrink:0"></select>
+            <input class="ph-inp" id="e-phone" type="tel" inputmode="tel" style="flex:1">
+          </div>
         </div>
-        <div class="fld full"><label>العنوان</label><input class="inp" id="e-addr" type="text"></div>
-        <div class="fld"><label>التاريخ</label><input class="inp" id="e-date" type="datetime-local" inputmode="none"></div>
+        <div class="fld"><label>العنوان (المحافظة)</label><select class="inp" id="e-addr"></select></div>
+        <div class="fld"><label>نوع النسخة</label><input class="inp" id="e-version" type="text"></div>
+        <div class="fld"><label>رقم التفعيل</label><input class="inp" id="e-activation" type="text" placeholder="اختياري"></div>
+        <div class="fld"><label>تاريخ الاستلام</label><input class="inp" id="e-date" type="datetime-local" inputmode="none"></div>
         <div class="fld">
           <label>الحالة</label>
           <select class="inp" id="e-status">
@@ -1814,6 +1857,7 @@ button, label, .nb, .btn, .stt, .card {
             <option value="done">محلول</option>
           </select>
         </div>
+        <div class="fld full"><label>الملحقات</label><textarea class="inp" id="e-accessories" style="min-height:52px"></textarea></div>
         <div class="fld full">
           <label>الأولوية</label>
           <div class="pri-sel" id="e-pri-sel">
@@ -1930,6 +1974,157 @@ let tickets = JSON.parse(localStorage.getItem('ab_tickets')||'[]');
 let clients = JSON.parse(localStorage.getItem('ab_clients')||'[]');
 let fbDB = null;
 let _fbCurrentUser = null; // { uid, email, name, role }
+/* ── بيانات مساعدة: أكواد الدول والمحافظات السورية ── */
+const COUNTRY_CODES=[
+{n:'سوريا',d:'963',f:'🇸🇾'},
+{n:'السعودية',d:'966',f:'🇸🇦'},
+{n:'الإمارات',d:'971',f:'🇦🇪'},
+{n:'قطر',d:'974',f:'🇶🇦'},
+{n:'الكويت',d:'965',f:'🇰🇼'},
+{n:'البحرين',d:'973',f:'🇧🇭'},
+{n:'عُمان',d:'968',f:'🇴🇲'},
+{n:'الأردن',d:'962',f:'🇯🇴'},
+{n:'لبنان',d:'961',f:'🇱🇧'},
+{n:'العراق',d:'964',f:'🇮🇶'},
+{n:'فلسطين',d:'970',f:'🇵🇸'},
+{n:'مصر',d:'20',f:'🇪🇬'},
+{n:'اليمن',d:'967',f:'🇾🇪'},
+{n:'تركيا',d:'90',f:'🇹🇷'},
+{n:'ليبيا',d:'218',f:'🇱🇾'},
+{n:'تونس',d:'216',f:'🇹🇳'},
+{n:'الجزائر',d:'213',f:'🇩🇿'},
+{n:'المغرب',d:'212',f:'🇲🇦'},
+{n:'السودان',d:'249',f:'🇸🇩'},
+{n:'الصومال',d:'252',f:'🇸🇴'},
+{n:'موريتانيا',d:'222',f:'🇲🇷'},
+{n:'جيبوتي',d:'253',f:'🇩🇯'},
+{n:'جزر القمر',d:'269',f:'🇰🇲'},
+{n:'إيران',d:'98',f:'🇮🇷'},
+{n:'باكستان',d:'92',f:'🇵🇰'},
+{n:'أفغانستان',d:'93',f:'🇦🇫'},
+{n:'الهند',d:'91',f:'🇮🇳'},
+{n:'بنغلاديش',d:'880',f:'🇧🇩'},
+{n:'سريلانكا',d:'94',f:'🇱🇰'},
+{n:'نيبال',d:'977',f:'🇳🇵'},
+{n:'الصين',d:'86',f:'🇨🇳'},
+{n:'اليابان',d:'81',f:'🇯🇵'},
+{n:'كوريا الجنوبية',d:'82',f:'🇰🇷'},
+{n:'كوريا الشمالية',d:'850',f:'🇰🇵'},
+{n:'الفلبين',d:'63',f:'🇵🇭'},
+{n:'فيتنام',d:'84',f:'🇻🇳'},
+{n:'تايلاند',d:'66',f:'🇹🇭'},
+{n:'ماليزيا',d:'60',f:'🇲🇾'},
+{n:'سنغافورة',d:'65',f:'🇸🇬'},
+{n:'إندونيسيا',d:'62',f:'🇮🇩'},
+{n:'ميانمار',d:'95',f:'🇲🇲'},
+{n:'كمبوديا',d:'855',f:'🇰🇭'},
+{n:'لاوس',d:'856',f:'🇱🇦'},
+{n:'منغوليا',d:'976',f:'🇲🇳'},
+{n:'تايوان',d:'886',f:'🇹🇼'},
+{n:'هونغ كونغ',d:'852',f:'🇭🇰'},
+{n:'بريطانيا',d:'44',f:'🇬🇧'},
+{n:'إيرلندا',d:'353',f:'🇮🇪'},
+{n:'فرنسا',d:'33',f:'🇫🇷'},
+{n:'ألمانيا',d:'49',f:'🇩🇪'},
+{n:'إسبانيا',d:'34',f:'🇪🇸'},
+{n:'البرتغال',d:'351',f:'🇵🇹'},
+{n:'إيطاليا',d:'39',f:'🇮🇹'},
+{n:'هولندا',d:'31',f:'🇳🇱'},
+{n:'بلجيكا',d:'32',f:'🇧🇪'},
+{n:'سويسرا',d:'41',f:'🇨🇭'},
+{n:'النمسا',d:'43',f:'🇦🇹'},
+{n:'السويد',d:'46',f:'🇸🇪'},
+{n:'النرويج',d:'47',f:'🇳🇴'},
+{n:'الدنمارك',d:'45',f:'🇩🇰'},
+{n:'فنلندا',d:'358',f:'🇫🇮'},
+{n:'آيسلندا',d:'354',f:'🇮🇸'},
+{n:'بولندا',d:'48',f:'🇵🇱'},
+{n:'التشيك',d:'420',f:'🇨🇿'},
+{n:'سلوفاكيا',d:'421',f:'🇸🇰'},
+{n:'المجر',d:'36',f:'🇭🇺'},
+{n:'رومانيا',d:'40',f:'🇷🇴'},
+{n:'بلغاريا',d:'359',f:'🇧🇬'},
+{n:'اليونان',d:'30',f:'🇬🇷'},
+{n:'قبرص',d:'357',f:'🇨🇾'},
+{n:'مالطا',d:'356',f:'🇲🇹'},
+{n:'روسيا',d:'7',f:'🇷🇺'},
+{n:'أوكرانيا',d:'380',f:'🇺🇦'},
+{n:'بيلاروسيا',d:'375',f:'🇧🇾'},
+{n:'جورجيا',d:'995',f:'🇬🇪'},
+{n:'أرمينيا',d:'374',f:'🇦🇲'},
+{n:'أذربيجان',d:'994',f:'🇦🇿'},
+{n:'كازاخستان',d:'7',f:'🇰🇿'},
+{n:'أوزبكستان',d:'998',f:'🇺🇿'},
+{n:'تركمانستان',d:'993',f:'🇹🇲'},
+{n:'طاجيكستان',d:'992',f:'🇹🇯'},
+{n:'قيرغيزستان',d:'996',f:'🇰🇬'},
+{n:'كرواتيا',d:'385',f:'🇭🇷'},
+{n:'صربيا',d:'381',f:'🇷🇸'},
+{n:'البوسنة',d:'387',f:'🇧🇦'},
+{n:'ألبانيا',d:'355',f:'🇦🇱'},
+{n:'مقدونيا الشمالية',d:'389',f:'🇲🇰'},
+{n:'الجبل الأسود',d:'382',f:'🇲🇪'},
+{n:'كوسوفو',d:'383',f:'🇽🇰'},
+{n:'سلوفينيا',d:'386',f:'🇸🇮'},
+{n:'ليتوانيا',d:'370',f:'🇱🇹'},
+{n:'لاتفيا',d:'371',f:'🇱🇻'},
+{n:'إستونيا',d:'372',f:'🇪🇪'},
+{n:'مولدوفا',d:'373',f:'🇲🇩'},
+{n:'أمريكا',d:'1',f:'🇺🇸'},
+{n:'كندا',d:'1',f:'🇨🇦'},
+{n:'المكسيك',d:'52',f:'🇲🇽'},
+{n:'البرازيل',d:'55',f:'🇧🇷'},
+{n:'الأرجنتين',d:'54',f:'🇦🇷'},
+{n:'تشيلي',d:'56',f:'🇨🇱'},
+{n:'كولومبيا',d:'57',f:'🇨🇴'},
+{n:'بيرو',d:'51',f:'🇵🇪'},
+{n:'فنزويلا',d:'58',f:'🇻🇪'},
+{n:'الإكوادور',d:'593',f:'🇪🇨'},
+{n:'أوروغواي',d:'598',f:'🇺🇾'},
+{n:'باراغواي',d:'595',f:'🇵🇾'},
+{n:'بوليفيا',d:'591',f:'🇧🇴'},
+{n:'كوبا',d:'53',f:'🇨🇺'},
+{n:'جمهورية الدومينيكان',d:'1',f:'🇩🇴'},
+{n:'جنوب أفريقيا',d:'27',f:'🇿🇦'},
+{n:'نيجيريا',d:'234',f:'🇳🇬'},
+{n:'كينيا',d:'254',f:'🇰🇪'},
+{n:'إثيوبيا',d:'251',f:'🇪🇹'},
+{n:'غانا',d:'233',f:'🇬🇭'},
+{n:'تنزانيا',d:'255',f:'🇹🇿'},
+{n:'أوغندا',d:'256',f:'🇺🇬'},
+{n:'السنغال',d:'221',f:'🇸🇳'},
+{n:'ساحل العاج',d:'225',f:'🇨🇮'},
+{n:'الكاميرون',d:'237',f:'🇨🇲'},
+{n:'مالي',d:'223',f:'🇲🇱'},
+{n:'النيجر',d:'227',f:'🇳🇪'},
+{n:'تشاد',d:'235',f:'🇹🇩'},
+{n:'رواندا',d:'250',f:'🇷🇼'},
+{n:'زامبيا',d:'260',f:'🇿🇲'},
+{n:'زيمبابوي',d:'263',f:'🇿🇼'},
+{n:'أنغولا',d:'244',f:'🇦🇴'},
+{n:'موزمبيق',d:'258',f:'🇲🇿'},
+{n:'الغابون',d:'241',f:'🇬🇦'},
+{n:'الكونغو',d:'242',f:'🇨🇬'},
+{n:'الكونغو الديمقراطية',d:'243',f:'🇨🇩'},
+{n:'أستراليا',d:'61',f:'🇦🇺'},
+{n:'نيوزيلندا',d:'64',f:'🇳🇿'},
+{n:'فيجي',d:'679',f:'🇫🇯'}
+];
+const SY_GOVS=['دمشق','ريف دمشق','حلب','حمص','حماة','اللاذقية','طرطوس','إدلب','درعا','السويداء','القنيطرة','دير الزور','الرقة','الحسكة'];
+function ccOptionsHtml(sel){
+  sel=sel||'963';
+  return COUNTRY_CODES.map(c=>`<option value="${c.d}" ${c.d===sel?'selected':''}>${c.f} +${c.d} ${c.n}</option>`).join('');
+}
+function govOptionsHtml(sel){
+  sel=sel||'';
+  return `<option value="">اختر المحافظة</option>` + SY_GOVS.map(g=>`<option value="${g}" ${g===sel?'selected':''}>${g}</option>`).join('');
+}
+function matchSyGov(text){
+  if(!text)return'';
+  const found=SY_GOVS.find(g=>text.includes(g));
+  return found||'';
+}
+
 const DEFAULT_FB_CONFIG = {
   apiKey: "AIzaSyD5mORSuGjYh4Zq9-pniKZc99J3TPF82T0",
   authDomain: "albasset-support.firebaseapp.com",
@@ -1965,7 +2160,7 @@ let maintSvcs = JSON.parse(localStorage.getItem('ab_maint_svcs')||'null') || [
   {id:'ms8',name:'تغيير شاشة',price:25000}
 ];
 let maintTickets = JSON.parse(localStorage.getItem('ab_maint_tickets')||'[]');
-let _maintEditIdx = null;
+let _maintEditIdx = null, _labelIdx = null;
 let ticketSvcs = JSON.parse(localStorage.getItem('ab_ticket_svcs')||'null') || [
   {id:'ts1',name:'اشتراك',price:0},
   {id:'ts2',name:'تجديد اشتراك',price:0},
@@ -2003,6 +2198,10 @@ function saveCurrency(){localStorage.setItem('ab_currency',JSON.stringify(priceC
   if(th==='dark'){ document.documentElement.setAttribute('data-theme','dark'); updateTgl(true); }
   refreshNum();
   document.getElementById('f-date').value = new Date().toISOString().slice(0,16);
+  document.getElementById('f-cc').innerHTML = ccOptionsHtml('963');
+  document.getElementById('f-addr').innerHTML = govOptionsHtml('');
+  document.getElementById('e-cc').innerHTML = ccOptionsHtml('963');
+  document.getElementById('e-addr').innerHTML = govOptionsHtml('');
   setTimeout(renderDashboard, 100);
   document.getElementById('m-date-in').value = new Date().toISOString().slice(0,16);
   setMaintPayCur(_mPayCur);
@@ -2401,7 +2600,7 @@ function goPage(n){
 /* ══ KEYBOARD ══════════════════════════════════════════ */
 document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();if(document.getElementById('pg1').classList.contains('on'))saveTicket();}
-  if(e.key==='Escape'){closePaste();closeEdit();closeDel();closePwd();closeAddClient();closeMaintSvcModal();closeReceiptModal();closeTicketSvcModal();closeFbModal();closeProfileModal();}
+  if(e.key==='Escape'){closePaste();closeEdit();closeDel();closePwd();closeAddClient();closeMaintSvcModal();closeLabelModal();closeReceiptModal();closeTicketSvcModal();closeFbModal();closeProfileModal();}
 });
 document.addEventListener('mousemove',e=>{
   const btn=e.target.closest('.btn');
@@ -2480,13 +2679,13 @@ function toArr(t){
   const pl=priLabel[t.priority]||'عادي';
   return [t.id,t.name,t.phone,t.addr||'',t.date?new Date(t.date).toLocaleString('ar'):'',t.problem,t.services||'',t.notes||'',st,pl,dur(t)||''];
 }
-function fmtWa(n){let v=n.replace(/[^0-9]/g,'');if(v.startsWith('00963'))v=v.slice(5);else if(v.startsWith('963'))v=v.slice(3);else if(v.startsWith('0'))v=v.slice(1);return '963'+v;}
-function openWa(id){const n=document.getElementById(id).value.trim();if(!n){toast('أدخل رقم الهاتف','err');return false;}window.open('https://wa.me/'+fmtWa(n),'_blank');return false;}
-function openWaN(n){if(n)window.open('https://wa.me/'+fmtWa(n),'_blank');}
-function sendFollowUp(name,phone,idx){
+function fmtWa(n,cc){cc=cc||'963';let v=n.replace(/[^0-9]/g,'');if(v.startsWith('00'+cc))v=v.slice(2+cc.length);else if(v.startsWith(cc))v=v.slice(cc.length);else if(v.startsWith('0'))v=v.slice(1);return cc+v;}
+function openWa(id){const n=document.getElementById(id).value.trim();if(!n){toast('أدخل رقم الهاتف','err');return false;}const ccEl=document.getElementById(id==='f-phone'?'f-cc':(id==='e-phone'?'e-cc':''));const cc=ccEl?ccEl.value:'963';window.open('https://wa.me/'+fmtWa(n,cc),'_blank');return false;}
+function openWaN(n,cc){if(n)window.open('https://wa.me/'+fmtWa(n,cc),'_blank');}
+function sendFollowUp(name,phone,idx,cc){
   const n=name.replace(/^(الاستاذ|الأستاذ|الاخ|الأخ|السيد|أبو|ابو)\s*/,'').trim();
   const msg='السلام عليكم استاذ '+n+' معك شركة البسيط فرع حلب هل عندك اي مشاكل او استفسارات ونحن جاهزين للخدمة اي وقت ولنجاوب ع كل الاسئلة 🌟';
-  window.open('https://wa.me/'+fmtWa(phone)+'?text='+encodeURIComponent(msg),'_blank');
+  window.open('https://wa.me/'+fmtWa(phone,cc)+'?text='+encodeURIComponent(msg),'_blank');
   if(idx!==undefined && clients[idx]){
     clients[idx].lastFollowUp = Date.now();
     saveC();
@@ -2508,6 +2707,7 @@ function matchDate(t,df){
 function saveTicket(){
   const name=document.getElementById('f-name').value.trim();
   const phone=document.getElementById('f-phone').value.trim();
+  const countryCode=document.getElementById('f-cc').value||'963';
   const prob=document.getElementById('f-prob').value.trim();
   const date=document.getElementById('f-date').value;
   if(!name||!phone||!prob||!date){toast('يرجى ملء الحقول الإلزامية (*)','err');return;}
@@ -2520,8 +2720,13 @@ function saveTicket(){
   const payCurrency=_tPayCur;
   const payTotal=convertAmt(cost,priceCurrency.unit,payCurrency);
   tickets.push({
-    id:window._cn, name, phone,
+    id:window._cn, name, phone, countryCode,
+    company:document.getElementById('f-company').value.trim(),
+    profession:document.getElementById('f-profession').value.trim(),
     addr:document.getElementById('f-addr').value.trim(),
+    version:document.getElementById('f-version').value.trim(),
+    activation:document.getElementById('f-activation').value.trim(),
+    accessories:document.getElementById('f-accessories').value.trim(),
     date, problem:prob,
     services:getChecked(),
     notes:document.getElementById('f-notes').value.trim(),
@@ -2539,7 +2744,9 @@ function saveTicket(){
   if(document.getElementById('pg1').classList.contains('on')) setTimeout(renderFollowUp,200);
 }
 function clearForm(){
-  ['f-name','f-phone','f-addr','f-prob','f-notes'].forEach(id=>document.getElementById(id).value='');
+  ['f-name','f-phone','f-company','f-profession','f-version','f-activation','f-accessories','f-prob','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-addr').value='';
+  document.getElementById('f-cc').value='963';
   document.getElementById('f-date').value=new Date().toISOString().slice(0,16);
   document.getElementById('f-status').value='open';
   document.getElementById('f-extra').value=0;
@@ -2586,7 +2793,7 @@ function selectClient(id){
   if(!c)return;
   document.getElementById('f-name').value=c.name;
   document.getElementById('f-phone').value=c.phone||'';
-  document.getElementById('f-addr').value=c.addr||'';
+  document.getElementById('f-addr').value=matchSyGov(c.addr||'');
   closeAcList();
   document.getElementById('f-prob').focus();
   toast('✓ تم تحميل بيانات '+c.name);
@@ -2662,8 +2869,8 @@ function renderT(){
       <td data-label="الاسم" style="font-weight:600">${t.name}</td>
       <td data-label="الهاتف" dir="ltr" style="text-align:right;font-size:12px">
         <div style="display:inline-flex;align-items:center;gap:5px">
-          <a href="#" onclick="openWaN('${t.phone}');return false" style="display:inline-flex;align-items:center;gap:3px;color:#25D366;font-weight:700;text-decoration:none">${WA} ${t.phone}</a>
-          <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--font-body)" title="رسالة متابعة">📨</button>
+          <a href="#" onclick="openWaN('${t.phone}','${t.countryCode||'963'}');return false" style="display:inline-flex;align-items:center;gap:3px;color:#25D366;font-weight:700;text-decoration:none">${WA} ${t.phone}</a>
+          <button onclick="sendFollowUp('${t.name}','${t.phone}',undefined,'${t.countryCode||'963'}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--font-body)" title="رسالة متابعة">📨</button>
         </div>
       </td>
       <td data-label="التاريخ" style="font-size:12px;color:var(--ink2)">${ds}</td>
@@ -2685,10 +2892,16 @@ function renderT(){
     tbody.appendChild(tr);
     const ex=document.createElement('tr');ex.id='ex'+ri;ex.className='exp-row';ex.style.display='none';
     ex.innerHTML=`<td colspan="9"><div class="exp-grid">
+      <div class="exp-item"><div class="exp-lbl">اسم المنشأة</div><div class="exp-val">${t.company||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">المهنة</div><div class="exp-val">${t.profession||'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">العنوان</div><div class="exp-val">${t.addr||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">نوع النسخة</div><div class="exp-val">${t.version||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">رقم التفعيل</div><div class="exp-val">${t.activation||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">الملحقات</div><div class="exp-val">${t.accessories||'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">الخدمات</div><div class="exp-val">${t.services||'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">التكلفة الإجمالية</div><div class="exp-val">${ticketTotalStr(t)}</div></div>
       <div class="exp-item"><div class="exp-lbl">الملاحظات</div><div class="exp-val">${t.notes||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">طريقة الحل</div><div class="exp-val">${t.solution||'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">وقت البداية</div><div class="exp-val">${t.startTime?new Date(t.startTime).toLocaleString('ar'):'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">وقت الحل</div><div class="exp-val">${t.endTime?new Date(t.endTime).toLocaleString('ar'):'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">مدة المعالجة</div><div class="exp-val">${d||'لم تُحل بعد'}</div></div>
@@ -2738,7 +2951,13 @@ function openEdit(ri){
   document.getElementById('edit-num-lbl').textContent='رقم التيكت: '+t.id;
   document.getElementById('e-name').value=t.name||'';
   document.getElementById('e-phone').value=t.phone||'';
+  document.getElementById('e-cc').value=t.countryCode||'963';
+  document.getElementById('e-company').value=t.company||'';
+  document.getElementById('e-profession').value=t.profession||'';
   document.getElementById('e-addr').value=t.addr||'';
+  document.getElementById('e-version').value=t.version||'';
+  document.getElementById('e-activation').value=t.activation||'';
+  document.getElementById('e-accessories').value=t.accessories||'';
   document.getElementById('e-date').value=t.date||'';
   document.getElementById('e-prob').value=t.problem||'';
   document.getElementById('e-notes').value=t.notes||'';
@@ -2773,7 +2992,13 @@ function saveEdit(){
   const t=tickets[_editIdx],ns=document.getElementById('e-status').value;
   if(ns==='done'&&t.status!=='done')t.endTime=Date.now();
   if(ns==='open')t.endTime=null;
-  t.name=name;t.phone=phone;t.addr=document.getElementById('e-addr').value.trim();
+  t.name=name;t.phone=phone;t.countryCode=document.getElementById('e-cc').value||'963';
+  t.company=document.getElementById('e-company').value.trim();
+  t.profession=document.getElementById('e-profession').value.trim();
+  t.addr=document.getElementById('e-addr').value.trim();
+  t.version=document.getElementById('e-version').value.trim();
+  t.activation=document.getElementById('e-activation').value.trim();
+  t.accessories=document.getElementById('e-accessories').value.trim();
   t.date=document.getElementById('e-date').value;t.problem=prob;
   t.priority=getEditPri();
   t.services=[...document.querySelectorAll('#e-svcs input:checked')].map(x=>x.value).join(' ، ');
@@ -2829,7 +3054,7 @@ function openTicketForClient(idx){
   goPage(1);
   document.getElementById('f-name').value=c.name;
   document.getElementById('f-phone').value=c.phone||'';
-  document.getElementById('f-addr').value=c.addr||'';
+  document.getElementById('f-addr').value=matchSyGov(c.addr||'');
   document.getElementById('f-date').value=new Date().toISOString().slice(0,16);
   toast('✓ تم تحميل بيانات '+c.name+' — أكمل تفاصيل التيكت');
   document.getElementById('f-prob').focus();
@@ -3026,7 +3251,7 @@ function fillFromClientByPhone(phone){
   if(!c)return;
   document.getElementById('f-name').value=c.name;
   document.getElementById('f-phone').value=c.phone||'';
-  document.getElementById('f-addr').value=c.addr||'';
+  document.getElementById('f-addr').value=matchSyGov(c.addr||'');
   document.getElementById('f-date').value=new Date().toISOString().slice(0,16);
   toast('✓ تم تحميل بيانات '+c.name+' — أكمل التيكت');
   // scroll للفورم
@@ -3073,8 +3298,8 @@ function renderDashboard(){
       <div style="font-size:12px;color:var(--ink2);margin-bottom:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.problem}</div>
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         ${badge(t.status)}
-        <a href="#" onclick="openWaN('${t.phone}');return false" style="display:inline-flex;align-items:center;gap:3px;color:#25D366;font-size:11px;font-weight:700;text-decoration:none">${WA_S}${t.phone}</a>
-        <button onclick="sendFollowUp('${t.name}','${t.phone}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--font-body)">📨</button>
+        <a href="#" onclick="openWaN('${t.phone}','${t.countryCode||'963'}');return false" style="display:inline-flex;align-items:center;gap:3px;color:#25D366;font-size:11px;font-weight:700;text-decoration:none">${WA_S}${t.phone}</a>
+        <button onclick="sendFollowUp('${t.name}','${t.phone}',undefined,'${t.countryCode||'963'}')" style="background:linear-gradient(135deg,#128C7E,#25D366);border:none;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--font-body)">📨</button>
         <div style="margin-right:auto;display:flex;gap:4px">
           ${t.status==='open'?`<button class="btn sm bg" onclick="resolveDash(${ri})" style="font-size:10px;padding:3px 9px">✔</button>`:''}
           <button class="btn sm bo" onclick="openEdit(${ri});goPage(2)" style="font-size:10px;padding:3px 9px">✏️</button>
@@ -3227,7 +3452,7 @@ function analyzeMsg(){
 function fillFromMsg(){
   if(_parsed.name)document.getElementById('f-name').value=_parsed.name;
   if(_parsed.phone)document.getElementById('f-phone').value=_parsed.phone;
-  if(_parsed.addr)document.getElementById('f-addr').value=_parsed.addr;
+  if(_parsed.addr)document.getElementById('f-addr').value=matchSyGov(_parsed.addr);
   if(_parsed.problem)document.getElementById('f-prob').value=_parsed.problem;
   if(_parsed.notes)document.getElementById('f-notes').value=_parsed.notes;
   if(_parsed.date)document.getElementById('f-date').value=_parsed.date;
@@ -3252,7 +3477,7 @@ function printW(html,title){
   .ft{text-align:center;font-size:11px;color:#94A3B8;margin-top:24px;padding-top:9px;border-top:1px solid #E2E8F0}
   @media print{body{padding:8px}}</style></head><body>
   ${html}<div class="ft">شركة البسيط للدعم الفني — فرع حلب · ${new Date().toLocaleString('ar')}</div>
-  <script>window.onload=()=>{window.print();setTimeout(()=>window.close(),2600)}${'<'+'/script>'}</body></html>`);
+  <scr'+'ipt>window.onload=()=>{window.print();setTimeout(()=>window.close(),2600)}<\/scr'+'ipt></body></html>`);
   w.document.close();
 }
 const bc=s=>s==='done'?'bd':s==='contacted'?'bc':'bo';
@@ -3262,11 +3487,17 @@ function sHtml(t){
   <div><div style="font-size:16px;font-weight:800;color:#1E40AF">شركة البسيط</div><div style="font-size:11px;color:#64748B">الدعم الفني — فرع حلب</div></div>
   <div class="rp">رقم التيكت: ${t.id}</div></div>
   <table><tr><th colspan="2">تفاصيل طلب الدعم الفني</th></tr>
-  <tr><td width="150"><b>الاسم</b></td><td>${t.name}</td></tr>
-  <tr><td><b>الهاتف</b></td><td dir="ltr" style="text-align:right">${t.phone}</td></tr>
+  <tr><td width="150"><b>اسم الزبون</b></td><td>${t.name}</td></tr>
+  <tr><td><b>اسم المنشأة</b></td><td>${t.company||'—'}</td></tr>
+  <tr><td><b>المهنة</b></td><td>${t.profession||'—'}</td></tr>
+  <tr><td><b>الهاتف</b></td><td dir="ltr" style="text-align:right">+${t.countryCode||'963'} ${t.phone}</td></tr>
   <tr><td><b>العنوان</b></td><td>${t.addr||'—'}</td></tr>
-  <tr><td><b>التاريخ</b></td><td>${t.date?new Date(t.date).toLocaleString('ar'):'—'}</td></tr>
+  <tr><td><b>نوع النسخة</b></td><td>${t.version||'—'}</td></tr>
+  <tr><td><b>رقم التفعيل</b></td><td>${t.activation||'—'}</td></tr>
+  <tr><td><b>تاريخ الاستلام</b></td><td>${t.date?new Date(t.date).toLocaleString('ar'):'—'}</td></tr>
+  <tr><td><b>الملحقات</b></td><td>${t.accessories||'—'}</td></tr>
   <tr><td><b>المشكلة</b></td><td>${t.problem}</td></tr>
+  <tr><td><b>طريقة الحل</b></td><td>${t.solution||'—'}</td></tr>
   <tr><td><b>الخدمات</b></td><td>${t.services||'—'}</td></tr>
   <tr><td><b>التكلفة الإجمالية</b></td><td>${ticketTotalStr(t)}</td></tr>
   <tr><td><b>الملاحظات</b></td><td>${t.notes||'—'}</td></tr>
@@ -3489,6 +3720,7 @@ function renderMaintTable(){
       <td><div class="brow" style="gap:3px;flex-wrap:nowrap">
         <button class="btn sm" onclick="toggleMaintExp(${ri})" title="عرض كل التفاصيل">👁</button>
         <button class="btn sm bo" onclick="editMaintTicket(${ri})" title="تعديل">✏️</button>
+        <button class="btn sm" onclick="openLabelModal(${ri})" title="طباعة لصاقة">🏷️</button>
         <button class="btn sm" onclick="openReceiptModal(${ri})" title="طباعة وصل">🧾</button>
         <button class="btn sm bw" onclick="sendMaintReady(${ri})" title="إعلام العميل عبر واتساب">${WA}</button>
         <button class="btn sm bd admin-only-el" onclick="deleteMaintTicket(${ri})" title="حذف">🗑</button>
@@ -4524,6 +4756,98 @@ async function doFbEmailLogin(){
   }
 }
 
+/* ── طباعة لصاقة ── */
+const MLABEL_FIELDS=[
+  {k:'id',lbl:'رقم التذكرة',def:true},
+  {k:'name',lbl:'اسم الزبون',def:true},
+  {k:'phone',lbl:'رقم الهاتف',def:true},
+  {k:'device',lbl:'نوع الجهاز',def:true},
+  {k:'problem',lbl:'العطل',def:false},
+  {k:'services',lbl:'الخدمات',def:false},
+  {k:'dateIn',lbl:'تاريخ الاستلام',def:false},
+  {k:'dateOut',lbl:'تاريخ التسليم',def:false},
+  {k:'fee',lbl:'أجور الصيانة',def:true},
+  {k:'deposit',lbl:'الدفعة',def:false},
+  {k:'remaining',lbl:'المبلغ المتبقي',def:true},
+  {k:'notes',lbl:'الملاحظة',def:false}
+];
+function openLabelModal(ri){
+  _labelIdx=ri;
+  document.getElementById('mlabel-fields').innerHTML=MLABEL_FIELDS.map(f=>
+    `<label class="sc" style="width:100%"><input type="checkbox" value="${f.k}" ${f.def?'checked':''}> ${f.lbl}</label>`).join('');
+  const dims=JSON.parse(localStorage.getItem('ab_label_dims')||'null')||{w:80,h:50,orient:'portrait'};
+  document.getElementById('mlabel-w').value=dims.w;
+  document.getElementById('mlabel-h').value=dims.h;
+  document.getElementById('mlabel-orient').value=dims.orient||'portrait';
+  document.getElementById('mlabel-ov').style.display='flex';
+}
+function setLabelSize(w,h){
+  document.getElementById('mlabel-w').value=w;
+  document.getElementById('mlabel-h').value=h;
+}
+function closeLabelModal(){document.getElementById('mlabel-ov').style.display='none';_labelIdx=null;}
+function printMaintLabel(){
+  if(_labelIdx===null)return;
+  const t=maintTickets[_labelIdx];if(!t)return;
+  const chosen=[...document.querySelectorAll('#mlabel-fields input:checked')].map(x=>x.value);
+  if(!chosen.length){toast('اختر بيانات واحدة على الأقل','err');return;}
+  let lw=Number(document.getElementById('mlabel-w').value)||80;
+  let lh=Number(document.getElementById('mlabel-h').value)||50;
+  lw=Math.min(300,Math.max(20,lw));
+  lh=Math.min(300,Math.max(15,lh));
+  const orient=document.getElementById('mlabel-orient').value||'portrait';
+  localStorage.setItem('ab_label_dims',JSON.stringify({w:lw,h:lh,orient}));
+  // normalize page box to match the chosen orientation regardless of which number is larger
+  const shortSide=Math.min(lw,lh), longSide=Math.max(lw,lh);
+  const pageW = orient==='landscape'? longSide : shortSide;
+  const pageH = orient==='landscape'? shortSide : longSide;
+  const pad=Math.max(1.5,Math.min(4,pageW*0.04)).toFixed(1);
+  const fs=Math.max(8,Math.min(11,9+(pageW-80)*0.03)).toFixed(1);
+  const rows={
+    id:['رقم التذكرة',t.id],
+    name:['الزبون',t.name],
+    phone:['الهاتف',t.phone],
+    device:['الجهاز',t.device||'—'],
+    problem:['العطل',t.problem||'—'],
+    services:['الخدمات',(t.services||[]).map(s=>s.name).join('، ')||'—'],
+    dateIn:['تاريخ الاستلام',t.dateIn?new Date(t.dateIn).toLocaleDateString('ar'):'—'],
+    dateOut:['تاريخ التسليم',t.dateOut?new Date(t.dateOut).toLocaleDateString('ar'):'—'],
+    fee:['أجور الصيانة',maintTotalStr(t)],
+    deposit:['الدفعة',fmtCur(t.deposit||0,t.payCurrency||_mPayCur)],
+    remaining:['المتبقي',maintRemainingStr(t)],
+    notes:['ملاحظة',t.notes||'—']
+  };
+  const body=chosen.map(k=>`<div class="lrow"><span class="lk">${rows[k][0]}</span><span class="lv">${rows[k][1]}</span></div>`).join('');
+  const customLogo=localStorage.getItem('ab_print_logo');
+  const logoSvg=customLogo?`<img src="${customLogo}" style="width:100%;height:100%;object-fit:contain">`:`<svg width="22" height="22" viewBox="0 0 42 42" fill="none">
+    <path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#1E3A8A" stroke-width="2.2" stroke-linecap="round"/>
+    <rect x="11" y="22" width="4" height="6" rx="2" fill="#3B5BDB"/>
+    <rect x="27" y="22" width="4" height="6" rx="2" fill="#3B5BDB"/>
+    <path d="M15 28C15 31 18 32 21 32" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="21" cy="32.5" r="1.5" fill="#F59E0B"/>
+  </svg>`;
+  const html=`<div class="label"><div class="lhdr"><div class="lhdr-logo">${logoSvg}</div><div><div class="lhdr-ar">البسيط</div><div class="lhdr-en">TECH SUPPORT</div></div></div>${body}</div>`;
+  const w=window.open('','_blank','width=420,height=420');
+  w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><title>لصاقة ${t.id}</title>
+  <style>
+  @page{size:${pageW}mm ${pageH}mm;margin:1.5mm}
+  *{box-sizing:border-box}
+  body{font-family:'Times New Roman',Times,serif;direction:rtl;color:#0F172A;margin:0;font-size:${fs}px}
+  .label{width:100%;padding:${pad}mm}
+  .lhdr{display:flex;align-items:center;gap:2mm;border-bottom:1.5px solid #1E3A8A;padding-bottom:1.5mm;margin-bottom:1.5mm}
+  .lhdr-logo{background:#fff;border:1px solid #DBEAFE;border-radius:5px;width:8mm;height:8mm;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .lhdr-ar{font-size:1.15em;font-weight:800;color:#1E3A8A;line-height:1.1}
+  .lhdr-en{font-size:.7em;color:#64748B;letter-spacing:1px}
+  .lrow{display:flex;justify-content:space-between;gap:6px;font-size:1em;padding:1mm 0;border-bottom:1px dotted #CBD5E1}
+  .lk{font-weight:700;color:#334155;white-space:nowrap}
+  .lv{text-align:left;word-break:break-word}
+  @media print{body{padding:0}}
+  </style></head><body>${html}
+  <scr'+'ipt>window.onload=()=>{window.print();setTimeout(()=>window.close(),2600)}<\/scr'+'ipt></body></html>`);
+  w.document.close();
+  closeLabelModal();
+}
+
 /* ── طباعة وصل الصيانة ── */
 let _receiptIdx=null;
 function openReceiptModal(ri){
@@ -4533,12 +4857,10 @@ function openReceiptModal(ri){
   const img=document.getElementById('rcpt-logo-img');
   if(logo){ img.src=logo; prev.style.display='flex'; } else { prev.style.display='none'; }
   document.getElementById('rcpt-logo-input').value='';
-  document.getElementById('rcpt-width').value=localStorage.getItem('ab_rcpt_width')||'80';
-  document.getElementById('rcpt-fontsize').value=localStorage.getItem('ab_rcpt_fontsize')||'13';
+  document.getElementById('rcpt-fontsize').value=localStorage.getItem('ab_rcpt_fontsize')||'lg';
   document.getElementById('rcpt-fontweight').value=localStorage.getItem('ab_rcpt_fontweight')||'bold';
   document.getElementById('mreceipt-ov').style.display='flex';
 }
-function setRcptWidth(w){ document.getElementById('rcpt-width').value=w; }
 function closeReceiptModal(){document.getElementById('mreceipt-ov').style.display='none';_receiptIdx=null;}
 function handleReceiptLogoUpload(ev){
   const file=ev.target.files&&ev.target.files[0];
@@ -4563,35 +4885,23 @@ function printMaintReceipt(){
   const t=maintTickets[_receiptIdx];if(!t)return;
   const logo=localStorage.getItem('ab_print_logo');
   const showSig=document.getElementById('rcpt-sig').checked;
-
-  let widthMm=Number(document.getElementById('rcpt-width').value)||80;
-  widthMm=Math.min(220,Math.max(40,widthMm));
-  let baseFs=Number(document.getElementById('rcpt-fontsize').value)||13;
-  baseFs=Math.min(40,Math.max(8,baseFs));
+  const fontSizeKey=document.getElementById('rcpt-fontsize').value;
   const fontWeightKey=document.getElementById('rcpt-fontweight').value;
-
-  localStorage.setItem('ab_rcpt_width',widthMm);
-  localStorage.setItem('ab_rcpt_fontsize',baseFs);
+  localStorage.setItem('ab_rcpt_fontsize',fontSizeKey);
   localStorage.setItem('ab_rcpt_fontweight',fontWeightKey);
-
+  const scale={md:1,lg:1.16,xl:1.32}[fontSizeKey]||1.16;
   const weight={normal:500,bold:700,xbold:800}[fontWeightKey]||700;
   const titleWeight=Math.min(weight+100,900);
-  // كل الأحجام مبنية نسبةً لحجم الخط الأساسي المُدخل يدوياً
-  const px=n=>(Math.round(baseFs*n*10)/10)+'px';
-  const isThermal=widthMm<=110; // ورق حراري (POS58/POS80) مقابل ورق عادي A4
-
+  const px=n=>(Math.round(n*scale*10)/10)+'px';
   const cur=t.payCurrency||_mPayCur;
   const svcNames=(t.services||[]).map(s=>s.name).join('، ')||'—';
   const statusBadge=t.status==='done'
-    ?`<span style="background:#D1FAE5;color:#065F46;padding:${isThermal?'2px 8px':'4px 14px'};border-radius:20px;font-size:${px(0.82)};font-weight:700;display:inline-block">تم التسليم</span>`
-    :`<span style="background:#FEF3C7;color:#92400E;padding:${isThermal?'2px 8px':'4px 14px'};border-radius:20px;font-size:${px(0.82)};font-weight:700;display:inline-block">قيد الصيانة</span>`;
-  const logoSize=isThermal?px(2.6):px(4.5);
+    ?'<span style="background:#D1FAE5;color:#065F46;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700">تم التسليم</span>'
+    :'<span style="background:#FEF3C7;color:#92400E;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700">قيد الصيانة</span>';
   const logoBlock = logo
-    ? `<img src="${logo}" style="width:${logoSize};height:${logoSize};object-fit:contain;border-radius:10px;background:#fff;padding:2px">`
-    : `<svg width="${isThermal?22:30}" height="${isThermal?22:30}" viewBox="0 0 42 42" fill="none"><path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#93C5FD" stroke-width="2.4" stroke-linecap="round"/><rect x="11" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><rect x="27" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><path d="M15 28C15 31 18 32 21 32" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="32.5" r="1.7" fill="#F59E0B"/></svg>`;
-
+    ? `<img src="${logo}" style="width:52px;height:52px;object-fit:contain;border-radius:12px;background:#fff;padding:3px">`
+    : `<svg width="30" height="30" viewBox="0 0 42 42" fill="none"><path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#93C5FD" stroke-width="2.4" stroke-linecap="round"/><rect x="11" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><rect x="27" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><path d="M15 28C15 31 18 32 21 32" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="32.5" r="1.7" fill="#F59E0B"/></svg>`;
   const row=(k,v)=>`<div class="ri"><span class="rk">${k}</span><span class="rv">${v}</span></div>`;
-
   const body=`
   <div class="hd">
     <div class="hd-l">
@@ -4626,58 +4936,44 @@ function printMaintReceipt(){
   ${t.notes?`<div class="sec-title">ملاحظة</div><div class="box">${t.notes}</div>`:''}
   ${showSig?`<div class="sig-row"><div class="sig"><div class="sig-line"></div>توقيع الزبون</div><div class="sig"><div class="sig-line"></div>توقيع الفني</div></div>`:''}
   `;
-
-  // إعدادات الصفحة: @page ديناميكي حسب نوع الورق — يضمن طباعة صحيحة 100% سواء على طابعة حرارية POS80/58 أو ورق A4 عادي
-  const pageRule=isThermal
-    ? `@page{size:${widthMm}mm auto;margin:0}`
-    : `@page{size:A4;margin:14mm}`;
-  const bodyWidth=isThermal? `${widthMm}mm` : '100%';
-  const bodyPad=isThermal? '3mm' : '30px';
-  const maxW=isThermal? '' : 'max-width:760px;margin-inline:auto;';
-
   const w=window.open('','_blank','width=860,height=900');
   w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><title>وصل ${t.id}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&display=swap">
   <style>
-  ${pageRule}
   *{box-sizing:border-box}
-  html,body{width:${bodyWidth}}
-  body{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;color:#0F1420;margin:0 auto;padding:${bodyPad};font-size:${px(1)};font-weight:${weight};background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;${maxW}word-break:break-word}
-  .hd{display:flex;align-items:${isThermal?'center':'flex-start'};justify-content:space-between;border-bottom:${isThermal?'2px':'3px'} solid #1A2356;padding-bottom:${isThermal?'8px':'16px'};margin-bottom:${isThermal?'10px':'18px'};flex-wrap:wrap;gap:6px}
-  .hd-l{display:flex;align-items:center;gap:${isThermal?'6px':'12px'}}
-  .hd-logo{width:${logoSize};height:${logoSize};background:#1A2356;border-radius:${isThermal?'8px':'14px'};display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-  .hd-name{font-size:${px(1.7)};font-weight:${titleWeight};color:#1A2356;line-height:1.15}
-  .hd-sub{font-size:${px(0.86)};color:#475569;font-weight:${weight};margin-top:2px}
-  .hd-r{text-align:${isThermal?'right':'left'};display:flex;flex-direction:column;align-items:${isThermal?'flex-start':'flex-end'};gap:5px}
-  .hd-id{font-size:${px(1.16)};font-weight:${titleWeight};color:#2C3E8C}
-  .hd-date{font-size:${px(0.86)};color:#475569;font-weight:${weight}}
-  .sec-title{font-size:${px(0.98)};font-weight:${titleWeight};color:#2C3E8C;margin:${isThermal?'12px 0 6px':'18px 0 8px'};padding-bottom:4px;border-bottom:1.5px solid #C7D2E8}
-  .grid2{display:grid;grid-template-columns:${isThermal?'1fr':'1fr 1fr'};gap:${isThermal?'2px 0':'8px 22px'}}
-  .ri{display:flex;justify-content:space-between;gap:10px;font-size:${px(0.98)};padding:${isThermal?'4px 0':'5px 0'};border-bottom:1px dotted #CBD5E1;flex-wrap:wrap}
+  body{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;color:#0F1420;margin:0;padding:30px;font-size:${px(13)};font-weight:${weight};background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .hd{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:3px solid #1A2356;padding-bottom:16px;margin-bottom:18px}
+  .hd-l{display:flex;align-items:center;gap:12px}
+  .hd-logo{width:${px(58)};height:${px(58)};background:#1A2356;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .hd-name{font-size:${px(23)};font-weight:${titleWeight};color:#1A2356}
+  .hd-sub{font-size:${px(12)};color:#475569;font-weight:${weight};margin-top:2px}
+  .hd-r{text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .hd-id{font-size:${px(16)};font-weight:${titleWeight};color:#2C3E8C}
+  .hd-date{font-size:${px(12)};color:#475569;font-weight:${weight}}
+  .sec-title{font-size:${px(13.5)};font-weight:${titleWeight};color:#2C3E8C;margin:18px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #C7D2E8}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
+  .ri{display:flex;justify-content:space-between;gap:10px;font-size:${px(13.5)};padding:5px 0;border-bottom:1px dotted #CBD5E1}
   .rk{color:#334155;font-weight:${titleWeight};white-space:nowrap}
-  .rv{text-align:left;font-weight:${weight};word-break:break-word}
-  .box{background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;padding:${isThermal?'8px 10px':'10px 12px'};font-size:${px(0.98)};font-weight:${weight};line-height:1.7}
+  .rv{text-align:left;font-weight:${weight}}
+  .box{background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;padding:10px 12px;font-size:${px(13.5)};font-weight:${weight};line-height:1.7}
   .ftbl{width:100%;border-collapse:collapse;margin-top:4px}
-  .ftbl td{padding:${isThermal?'6px 4px':'9px 12px'};font-size:${px(1.02)};font-weight:${weight};border-bottom:1px solid #CBD5E1}
+  .ftbl td{padding:9px 12px;font-size:${px(14)};font-weight:${weight};border-bottom:1px solid #CBD5E1}
   .ftbl td:first-child{color:#334155;font-weight:${titleWeight}}
   .ftbl td:last-child{text-align:left;font-weight:${titleWeight}}
-  .ftbl tr.rem td{background:#EDF2FF;color:#1A2356;font-size:${px(1.16)};font-weight:900;border-radius:8px}
-  .sig-row{display:flex;justify-content:space-between;gap:${isThermal?'16px':'40px'};margin-top:${isThermal?'26px':'46px'}}
-  .sig{flex:1;text-align:center;font-size:${px(0.86)};font-weight:${weight};color:#475569}
-  .sig-line{border-top:1.5px solid #64748B;margin-bottom:8px;height:${isThermal?'24px':'34px'}}
-  .ft{text-align:center;font-size:${px(0.8)};font-weight:${weight};color:#64748B;margin-top:${isThermal?'14px':'26px'};padding-top:10px;border-top:1px solid #CBD5E1}
-  @media print{
-    body{padding:${bodyPad};margin:0}
-    ${isThermal?'html,body{width:'+widthMm+'mm}':''}
-  }
+  .ftbl tr.rem td{background:#EDF2FF;color:#1A2356;font-size:${px(16)};font-weight:900;border-radius:8px}
+  .sig-row{display:flex;justify-content:space-between;gap:40px;margin-top:46px}
+  .sig{flex:1;text-align:center;font-size:${px(12)};font-weight:${weight};color:#475569}
+  .sig-line{border-top:1.5px solid #64748B;margin-bottom:8px;height:34px}
+  .ft{text-align:center;font-size:${px(11)};font-weight:${weight};color:#64748B;margin-top:26px;padding-top:10px;border-top:1px solid #CBD5E1}
+  @media print{body{padding:12px}}
   </style></head><body>${body}
   <div class="ft">شركة البسيط للدعم الفني — فرع حلب · ${new Date().toLocaleString('ar')}</div>
-  <script>
+  <scr'+'ipt>
   const _go=()=>{window.print();setTimeout(()=>window.close(),2600)};
   if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>setTimeout(_go,80));setTimeout(_go,1200);}else{window.onload=_go;}
-  ${'<'+'/script>'}</body></html>`);
+  <\/scr'+'ipt></body></html>`);
   w.document.close();
   closeReceiptModal();
 }
@@ -5162,7 +5458,7 @@ function fillFormFromScan() {
     const val = (_scanData[key] || '').trim();
     const el = document.getElementById(id);
     if (el && val) {
-      el.value = val;
+      el.value = id==='f-addr' ? matchSyGov(val) : val;
       // highlight briefly
       el.style.background = 'var(--green-bg)';
       el.style.borderColor = 'var(--green)';
