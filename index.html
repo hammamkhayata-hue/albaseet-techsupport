@@ -1322,6 +1322,8 @@ button, label, .nb, .btn, .stt, .card {
       <div class="fld"><label>حساب المركز</label><input class="inp" id="m-center-account" type="number" min="0" step="any" value="0"></div>
       <div class="fld"><label>لصالح مركز</label><input class="inp" id="m-for-center" type="text" placeholder="اسم المركز المستفيد (إن وجد)"></div>
       <div class="fld full"><label>ملاحظة</label><textarea class="inp" id="m-notes" style="min-height:56px" placeholder="ملاحظات إضافية…"></textarea></div>
+      <div class="fld"><label>رقم الدفتر <small style="font-weight:400;color:var(--ink3)">(دفتر الإيصالات)</small></label><input class="inp" id="m-booklet" type="text" placeholder="مثال: 5 أو A-02"></div>
+      <div class="fld"><label>رقم الوصل <small style="font-weight:400;color:var(--ink3)">(ضمن الدفتر)</small></label><input class="inp" id="m-receipt-num" type="text" placeholder="مثال: 12"></div>
     </div>
     <div class="brow" style="margin-top:14px">
       <button class="btn bp" id="m-save-btn" onclick="saveMaintTicket()">
@@ -3599,16 +3601,18 @@ function saveMaintTicket(){
   const forCenter=document.getElementById('m-for-center').value.trim();
   const notes=document.getElementById('m-notes').value.trim();
   const status=document.getElementById('m-status').value;
+  const booklet=document.getElementById('m-booklet').value.trim();
+  const receiptNum=document.getElementById('m-receipt-num').value.trim();
   if(_maintEditIdx!==null){
     const t=maintTickets[_maintEditIdx];
-    Object.assign(t,{name,phone,device,problem,dateIn,dateOut,services,fee,deposit,remaining,payCurrency,receiver,centerAccount,forCenter,notes,status});
+    Object.assign(t,{name,phone,device,problem,dateIn,dateOut,services,fee,deposit,remaining,payCurrency,receiver,centerAccount,forCenter,notes,status,booklet,receiptNum});
     logActivity('عدّل صيانة', `${name} — ${problem.slice(0,40)}`);
     toast('✓ تم تحديث التذكرة');
     _maintEditIdx=null;
     document.getElementById('maint-form-title').textContent='تذكرة صيانة جديدة';
     document.getElementById('m-save-btn').innerHTML='<svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>حفظ التذكرة';
   }else{
-    maintTickets.push({id:genMaintNum(),name,phone,device,problem,dateIn,dateOut,services,fee,deposit,remaining,payCurrency,receiver,centerAccount,forCenter,notes,status,createdAt:Date.now()});
+    maintTickets.push({id:genMaintNum(),name,phone,device,problem,dateIn,dateOut,services,fee,deposit,remaining,payCurrency,receiver,centerAccount,forCenter,notes,status,booklet,receiptNum,createdAt:Date.now()});
     logActivity('أضاف صيانة', `${name} — ${problem.slice(0,40)}`);
     toast('✓ تم حفظ تذكرة الصيانة');
   }
@@ -3630,6 +3634,8 @@ function clearMaintForm(){
   document.getElementById('m-for-center').value='';
   document.getElementById('m-notes').value='';
   document.getElementById('m-status').value='progress';
+  document.getElementById('m-booklet').value='';
+  document.getElementById('m-receipt-num').value='';
   _maintEditIdx=null;
   document.getElementById('maint-form-title').textContent='تذكرة صيانة جديدة';
   document.getElementById('m-save-btn').innerHTML='<svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>حفظ التذكرة';
@@ -3653,6 +3659,8 @@ function editMaintTicket(ri){
   document.getElementById('m-for-center').value=t.forCenter||'';
   document.getElementById('m-notes').value=t.notes||'';
   document.getElementById('m-status').value=t.status||'progress';
+  document.getElementById('m-booklet').value=t.booklet||'';
+  document.getElementById('m-receipt-num').value=t.receiptNum||'';
   renderMaintSvcsChecklist();
   const wrap=document.getElementById('m-svcs-wrap');
   const names=(t.services||[]).map(s=>s.name);
@@ -3736,6 +3744,8 @@ function renderMaintTable(){
       <div class="exp-item"><div class="exp-lbl">حساب المركز</div><div class="exp-val">${fmtCur(t.centerAccount||0,t.payCurrency||_mPayCur)}</div></div>
       <div class="exp-item"><div class="exp-lbl">لصالح مركز</div><div class="exp-val">${t.forCenter||'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">ملاحظة</div><div class="exp-val">${t.notes||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">رقم الدفتر</div><div class="exp-val">${t.booklet||'—'}</div></div>
+      <div class="exp-item"><div class="exp-lbl">رقم الوصل</div><div class="exp-val">${t.receiptNum||'—'}</div></div>
       <div class="exp-item"><div class="exp-lbl">تاريخ الإنشاء</div><div class="exp-val">${t.createdAt?new Date(t.createdAt).toLocaleString('ar'):'—'}</div></div>
     </div></td></tr>`;
   });
@@ -4910,6 +4920,8 @@ function printMaintReceipt(){
     </div>
     <div class="hd-r">
       <div class="hd-id">${t.id}</div>
+      ${t.booklet?`<div class="hd-date" style="font-weight:700">دفتر رقم: ${t.booklet}${t.receiptNum?' &nbsp;|&nbsp; وصل رقم: '+t.receiptNum:''}</div>`:''}
+      ${(!t.booklet&&t.receiptNum)?`<div class="hd-date" style="font-weight:700">وصل رقم: ${t.receiptNum}</div>`:''}
       <div class="hd-date">${t.dateIn?new Date(t.dateIn).toLocaleDateString('ar'):''}</div>
       ${statusBadge}
     </div>
