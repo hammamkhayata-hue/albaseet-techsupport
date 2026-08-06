@@ -4906,48 +4906,53 @@ function printMaintReceipt(){
   const cur=t.payCurrency||_mPayCur;
   const svcNames=(t.services||[]).map(s=>s.name).join('، ')||'—';
   const statusBadge=t.status==='done'
-    ?'<span style="background:#D1FAE5;color:#065F46;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700">تم التسليم</span>'
-    :'<span style="background:#FEF3C7;color:#92400E;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700">قيد الصيانة</span>';
-  const logoBlock = logo
-    ? `<img src="${logo}" style="width:52px;height:52px;object-fit:contain;border-radius:12px;background:#fff;padding:3px">`
-    : `<svg width="30" height="30" viewBox="0 0 42 42" fill="none"><path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#93C5FD" stroke-width="2.4" stroke-linecap="round"/><rect x="11" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><rect x="27" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><path d="M15 28C15 31 18 32 21 32" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="32.5" r="1.7" fill="#F59E0B"/></svg>`;
+    ?'<span style="background:#D1FAE5;color:#065F46;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700">تم التسليم</span>'
+    :'<span style="background:#FEF3C7;color:#92400E;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700">قيد الصيانة</span>';
+  const logoBlock=logo
+    ?`<img src="${logo}" style="width:46px;height:46px;object-fit:contain;border-radius:10px;background:#fff;padding:3px">`
+    :`<svg width="28" height="28" viewBox="0 0 42 42" fill="none"><path d="M13 23C13 17.477 16.477 14 21 14C25.523 14 29 17.477 29 23" stroke="#93C5FD" stroke-width="2.4" stroke-linecap="round"/><rect x="11" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><rect x="27" y="22" width="4" height="6" rx="2" fill="#60A5FA"/><path d="M15 28C15 31 18 32 21 32" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="32.5" r="1.7" fill="#F59E0B"/></svg>`;
   const row=(k,v)=>`<div class="ri"><span class="rk">${k}</span><span class="rv">${v}</span></div>`;
-  const body=`
-  <div class="hd">
-    <div class="hd-l">
-      <div class="hd-logo">${logoBlock}</div>
-      <div><div class="hd-name">البسيط</div><div class="hd-sub">للصيانة والدعم الفني — فرع حلب</div></div>
+  const bookletLine=t.booklet
+    ?`<div class="hd-date" style="font-weight:700">دفتر رقم: ${t.booklet}${t.receiptNum?' | وصل رقم: '+t.receiptNum:''}</div>`
+    :(t.receiptNum?`<div class="hd-date" style="font-weight:700">وصل رقم: ${t.receiptNum}</div>`:'');
+
+  // ── مكوّن الوصل المشترك (يُستخدم للنسختين) ──
+  const buildReceipt=(copyLabel,copyColor)=>`
+  <div class="receipt-wrap">
+    <div class="copy-label" style="background:${copyColor}">${copyLabel}</div>
+    <div class="hd">
+      <div class="hd-l">
+        <div class="hd-logo">${logoBlock}</div>
+        <div><div class="hd-name">البسيط</div><div class="hd-sub">للصيانة والدعم الفني — فرع حلب</div></div>
+      </div>
+      <div class="hd-r">
+        <div class="hd-id">${t.id}</div>
+        ${bookletLine}
+        <div class="hd-date">${t.dateIn?new Date(t.dateIn).toLocaleDateString('ar'):''}</div>
+        ${statusBadge}
+      </div>
     </div>
-    <div class="hd-r">
-      <div class="hd-id">${t.id}</div>
-      ${t.booklet?`<div class="hd-date" style="font-weight:700">دفتر رقم: ${t.booklet}${t.receiptNum?' &nbsp;|&nbsp; وصل رقم: '+t.receiptNum:''}</div>`:''}
-      ${(!t.booklet&&t.receiptNum)?`<div class="hd-date" style="font-weight:700">وصل رقم: ${t.receiptNum}</div>`:''}
-      <div class="hd-date">${t.dateIn?new Date(t.dateIn).toLocaleDateString('ar'):''}</div>
-      ${statusBadge}
+    <div class="grid2">
+      ${row('اسم الزبون',t.name)}
+      ${row('رقم الهاتف',`<span dir="ltr">${t.phone}</span>`)}
+      ${row('نوع الجهاز',t.device||'—')}
+      ${row('تاريخ الاستلام',t.dateIn?new Date(t.dateIn).toLocaleDateString('ar'):'—')}
+      ${row('تاريخ التسليم',t.dateOut?new Date(t.dateOut).toLocaleDateString('ar'):'—')}
+      ${row('اسم المستلم',t.receiver||'—')}
     </div>
-  </div>
-  <div class="sec-title">بيانات الزبون والجهاز</div>
-  <div class="grid2">
-    ${row('اسم الزبون',t.name)}
-    ${row('رقم الهاتف',`<span dir="ltr">${t.phone}</span>`)}
-    ${row('نوع الجهاز',t.device||'—')}
-    ${row('تاريخ الاستلام',t.dateIn?new Date(t.dateIn).toLocaleString('ar'):'—')}
-    ${row('تاريخ التسليم',t.dateOut?new Date(t.dateOut).toLocaleString('ar'):'—')}
-    ${row('اسم المستلم',t.receiver||'—')}
-  </div>
-  <div class="sec-title">العطل والخدمات</div>
-  <div class="box">${t.problem||'—'}</div>
-  ${svcNames!=='—'?`<div class="box" style="margin-top:6px"><b>الخدمات:</b> ${svcNames}</div>`:''}
-  <div class="sec-title">التفاصيل المالية</div>
-  <table class="ftbl">
-    <tr><td>أجور الصيانة</td><td>${fmtCur(t.fee||0,cur)}</td></tr>
-    <tr><td>الدفعة</td><td>${fmtCur(t.deposit||0,cur)}</td></tr>
-    <tr class="rem"><td>المبلغ المتبقي</td><td>${maintRemainingStr(t)}</td></tr>
-  </table>
-  ${(t.forCenter||t.centerAccount)?`<div class="sec-title">بيانات المركز</div><div class="grid2">${t.forCenter?row('لصالح مركز',t.forCenter):''}${t.centerAccount?row('حساب المركز',fmtCur(t.centerAccount,cur)):''}</div>`:''}
-  ${t.notes?`<div class="sec-title">ملاحظة</div><div class="box">${t.notes}</div>`:''}
-  ${showSig?`<div class="sig-row"><div class="sig"><div class="sig-line"></div>توقيع الزبون</div><div class="sig"><div class="sig-line"></div>توقيع الفني</div></div>`:''}
-  `;
+    <div class="prob-box">${t.problem||'—'}${svcNames!=='—'?' | '+svcNames:''}</div>
+    <table class="ftbl">
+      <tr><td>أجور الصيانة</td><td>${fmtCur(t.fee||0,cur)}</td></tr>
+      <tr><td>الدفعة المقدمة</td><td>${fmtCur(t.deposit||0,cur)}</td></tr>
+      <tr class="rem"><td>المبلغ المتبقي</td><td>${maintRemainingStr(t)}</td></tr>
+    </table>
+    ${t.notes?`<div class="notes-box">ملاحظة: ${t.notes}</div>`:''}
+    ${showSig?`<div class="sig-row"><div class="sig"><div class="sig-line"></div>توقيع الزبون</div><div class="sig"><div class="sig-line"></div>توقيع الفني</div></div>`:''}
+  </div>`;
+
+  const centerCopy=buildReceipt('نسخة المركز — تُحفظ مع القطعة','#1A2356');
+  const customerCopy=buildReceipt('نسخة العميل — تُسلَّم للزبون','#065F46');
+
   const w=window.open('','_blank','width=860,height=900');
   w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><title>وصل ${t.id}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4955,36 +4960,42 @@ function printMaintReceipt(){
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&display=swap">
   <style>
   *{box-sizing:border-box}
-  body{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;color:#0F1420;margin:0;padding:30px;font-size:${px(13)};font-weight:${weight};background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .hd{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:3px solid #1A2356;padding-bottom:16px;margin-bottom:18px}
-  .hd-l{display:flex;align-items:center;gap:12px}
-  .hd-logo{width:${px(58)};height:${px(58)};background:#1A2356;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .hd-name{font-size:${px(23)};font-weight:${titleWeight};color:#1A2356}
-  .hd-sub{font-size:${px(12)};color:#475569;font-weight:${weight};margin-top:2px}
-  .hd-r{text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
-  .hd-id{font-size:${px(16)};font-weight:${titleWeight};color:#2C3E8C}
-  .hd-date{font-size:${px(12)};color:#475569;font-weight:${weight}}
-  .sec-title{font-size:${px(13.5)};font-weight:${titleWeight};color:#2C3E8C;margin:18px 0 8px;padding-bottom:4px;border-bottom:1.5px solid #C7D2E8}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
-  .ri{display:flex;justify-content:space-between;gap:10px;font-size:${px(13.5)};padding:5px 0;border-bottom:1px dotted #CBD5E1}
+  body{font-family:'Tajawal','Segoe UI',sans-serif;direction:rtl;color:#0F1420;margin:0;padding:16px 24px;font-size:${px(12)};font-weight:${weight};background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .receipt-wrap{border:1.5px solid #CBD5E1;border-radius:12px;padding:14px 16px;position:relative;margin-bottom:0}
+  .copy-label{display:inline-block;color:#fff;font-size:${px(10.5)};font-weight:800;padding:3px 14px;border-radius:0 0 10px 10px;position:absolute;top:0;left:16px;letter-spacing:.4px}
+  .hd{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid #1A2356;padding-bottom:10px;margin:18px 0 10px}
+  .hd-l{display:flex;align-items:center;gap:10px}
+  .hd-logo{width:${px(50)};height:${px(50)};background:#1A2356;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .hd-name{font-size:${px(20)};font-weight:${titleWeight};color:#1A2356}
+  .hd-sub{font-size:${px(11)};color:#475569;font-weight:${weight};margin-top:1px}
+  .hd-r{text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+  .hd-id{font-size:${px(15)};font-weight:${titleWeight};color:#2C3E8C}
+  .hd-date{font-size:${px(11)};color:#475569;font-weight:${weight}}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;margin-bottom:8px}
+  .ri{display:flex;justify-content:space-between;gap:8px;font-size:${px(12)};padding:4px 0;border-bottom:1px dotted #CBD5E1}
   .rk{color:#334155;font-weight:${titleWeight};white-space:nowrap}
   .rv{text-align:left;font-weight:${weight}}
-  .box{background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;padding:10px 12px;font-size:${px(13.5)};font-weight:${weight};line-height:1.7}
-  .ftbl{width:100%;border-collapse:collapse;margin-top:4px}
-  .ftbl td{padding:9px 12px;font-size:${px(14)};font-weight:${weight};border-bottom:1px solid #CBD5E1}
+  .prob-box{background:#F8FAFC;border:1px solid #CBD5E1;border-radius:7px;padding:7px 10px;font-size:${px(12)};font-weight:${weight};line-height:1.6;margin-bottom:8px}
+  .notes-box{background:#FFFBEB;border:1px solid #FCD34D;border-radius:7px;padding:6px 10px;font-size:${px(11.5)};font-weight:${weight};margin-top:6px;color:#78350F}
+  .ftbl{width:100%;border-collapse:collapse;margin-bottom:6px}
+  .ftbl td{padding:6px 10px;font-size:${px(13)};font-weight:${weight};border-bottom:1px solid #CBD5E1}
   .ftbl td:first-child{color:#334155;font-weight:${titleWeight}}
   .ftbl td:last-child{text-align:left;font-weight:${titleWeight}}
-  .ftbl tr.rem td{background:#EDF2FF;color:#1A2356;font-size:${px(16)};font-weight:900;border-radius:8px}
-  .sig-row{display:flex;justify-content:space-between;gap:40px;margin-top:46px}
-  .sig{flex:1;text-align:center;font-size:${px(12)};font-weight:${weight};color:#475569}
-  .sig-line{border-top:1.5px solid #64748B;margin-bottom:8px;height:34px}
-  .ft{text-align:center;font-size:${px(11)};font-weight:${weight};color:#64748B;margin-top:26px;padding-top:10px;border-top:1px solid #CBD5E1}
-  @media print{body{padding:12px}}
-  </style></head><body>${body}
-  <div class="ft">شركة البسيط للدعم الفني — فرع حلب · ${new Date().toLocaleString('ar')}</div>
+  .ftbl tr.rem td{background:#EDF2FF;color:#1A2356;font-size:${px(14.5)};font-weight:900}
+  .sig-row{display:flex;justify-content:space-between;gap:30px;margin-top:28px}
+  .sig{flex:1;text-align:center;font-size:${px(11)};font-weight:${weight};color:#475569}
+  .sig-line{border-top:1.5px solid #94A3B8;margin-bottom:6px;height:28px}
+  .cut-line{display:flex;align-items:center;gap:8px;margin:10px 0;color:#94A3B8;font-size:${px(11)}}
+  .cut-line::before,.cut-line::after{content:'';flex:1;border-top:1.5px dashed #CBD5E1}
+  .cut-icon{font-size:${px(15)};transform:rotate(180deg);display:inline-block}
+  @media print{body{padding:8px 14px}.cut-line{margin:6px 0}}
+  </style></head><body>
+  ${centerCopy}
+  <div class="cut-line"><span class="cut-icon">✂</span> قصّ هنا <span class="cut-icon">✂</span></div>
+  ${customerCopy}
   <scr'+'ipt>
-  const _go=()=>{window.print();setTimeout(()=>window.close(),2600)};
-  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>setTimeout(_go,80));setTimeout(_go,1200);}else{window.onload=_go;}
+  const _go=()=>{window.print();setTimeout(()=>window.close(),2800)};
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>setTimeout(_go,80));setTimeout(_go,1400);}else{window.onload=_go;}
   <\/scr'+'ipt></body></html>`);
   w.document.close();
   closeReceiptModal();
